@@ -35,13 +35,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId())
         {
             case R.id.btn_continue:
-                callLoginapi();
+
                 Intent intentLogin = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intentLogin);
                 break;
         }
     }
 
-    private void callLoginapi() {
-    }
+
 }

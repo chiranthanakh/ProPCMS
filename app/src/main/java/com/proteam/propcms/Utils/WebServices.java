@@ -8,6 +8,8 @@ import android.widget.Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Request.ProjectListModel;
+
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -41,9 +43,7 @@ public class WebServices<T> {
     private static OkHttpClient.Builder builder;
 
     public enum ApiType {
-       general,login,location,sublocation,boq,pendingindent,pendingindentsignle,psmdata,indentstatus,materialstock,
-        materialstockname,deletestockMhome,addmaterial,priview,confirmRaiseIndent,ConsList,consumptionMateriallsit,
-        consumptionDetails,boqedit,noti,send,IndividualMatlistName,listresponse,materiallist,updateresponse
+       general,login,profile,projectlist
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -124,14 +124,17 @@ public class WebServices<T> {
     }
 
 
-    public void login(String api, ApiType apiTypes, Loginmodel loginmodel)
-    {
 
+
+
+
+    public void projectlist( ApiType apiTypes, ProjectListModel projectListModel)
+    {
         apiTypeVariable = apiTypes;
         Retrofit retrofit=getRetrofitClient(BaseUrl);
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
-        call=(Call<T>)proPCms.validatelogin(loginmodel);
+        call=(Call<T>)proPCms.projectnamelist(projectListModel);
 
         call.enqueue(new Callback<T>() {
             @Override
