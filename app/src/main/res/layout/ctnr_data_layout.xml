@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_ctnr_ALl_data_view"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/eye"
+                app:tint="@color/icon_color" />
+
+            <ImageView
+                android:id="@+id/iv_ctnr_action_edit"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/icon_color" />
+            <ImageView
+                android:id="@+id/iv_ctnr_action_delete"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/delete"
+                app:tint="@color/icon_color" />
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/ch_irfm_check_data"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_ctnr_upload"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/ic_upload"
+            app:tint="@color/icon_color" />
+
+        <ImageView
+            android:id="@+id/iv_ctnr_status_modification"
+            android:layout_width="35dp"
+            android:padding="5dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="40dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/modification" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_ctn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="CTN/0009/21-22"
+            android:gravity="center"
+            android:layout_marginStart="40dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_month"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="2021-04"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_expense_type"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Direct Expenses"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_fromPc_code"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:text="SAS-ALB001"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_toPc_code"
+            android:gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="SAS-ALB002"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_transfer_cost"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="20,000.00	"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_ctnr_remarks"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Remarks list"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+
+
+    </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="1dp"
+        android:background="@color/grey_very_light" />
+
+</LinearLayout>

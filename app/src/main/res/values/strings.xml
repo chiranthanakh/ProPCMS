@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">ProPCMS</string>
+
+    <string name="copy"><font fgcolor='#000'><bold> "© Copyright 2022 </bold></font><font fgcolor='#ffffff'><bold> Pro-Team Solution Pvt Ltd </bold></font><font fgcolor='#000'><bold> All Right Reserved.</bold></font></string>
+    <string name="login"><font fgcolor='#ffffff'>Welcome To</font><font fgcolor='#FF9800'><bold> PCMS</bold></font></string>
+
+
+    <string-array name="allproject">
+        <item>Abb Internal</item>
+        <item>Customer Recon</item>
+        <item>E-WayBill</item>
+    </string-array>
+
+    <string-array name="division">
+        <item>AS-Assurance</item>
+        <item>MM Mega Mart</item>
+        <item>Fas Fixed Assets</item>
+    </string-array>
+
+    <string-array name="clients">
+        <item>ABB India</item>
+        <item>ABB Global industries</item>
+        <item>CloudTail India</item>
+    </string-array>
+
+    <string-array name="divisionHead">
+        <item>Umesh RH</item>
+        <item>Akhilesh Jain</item>
+        <item>Basavaraj Bagewadi</item>
+    </string-array>
+
+    <string-array name="company">
+        <item>Pro-Team Solutions</item>
+        <item>JACK &amp; Associates</item>
+
+    </string-array>
+</resources>

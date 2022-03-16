@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#234288</color>
+    <color name="purple_700">#3498db</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+    <color name="splash_color">#2151fb</color>
+    <color name="welcome_screen_background">#393939</color>
+    <color name="colorAccent">#ff8c00</color>
+    <color name="colorSecondaryText">#80253248</color>
+    <color name="grey">#808080</color>
+    <color name="grey_medium">#a0a0a0</color>
+    <color name="grey_light">#808080</color>
+    <color name="grey_dark">#696969</color>
+    <color name="grey_very_light">#e0e0e0</color>
+    <color name="red_color">#ff0000</color>
+    <color name="greenish_blue">#10c2bf</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="background_color">#f2f2f2</color>
+    <color name="blue_light">#88c3f5</color>
+    <color name="light_purple">#7048EC </color>
+    <color name="green">#008744</color>
+    <color name="electric_blue">#536878</color>
+    <color name="fb">#2151fb</color>
+    <color name="icon_color">#b1b1b1</color>
+    <color name="rejected">#DD3333</color>
+
+
+    <color name="black_v2">#242424</color>
+    <color name="orange_light">#ffcc80</color>
+    <color name="red_light">#e57373</color>
+    <color name="green_light">#81c784</color>
+    <color name="blue_very_light">#b3e5fc</color>
+    <color name="grey_new">#9E9E9E</color>
+    <color name="header_background">#1A2562FC</color>
+    <color name="orange_button">#e08e0b</color>
+    <color name="orange">#FF9800</color>
+
+    <color name="dark_text">#b3000000</color>
+    <color name="colorBlue">#39cefb</color>
+</resources>

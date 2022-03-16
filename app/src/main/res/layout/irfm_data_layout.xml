@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_irfm_ALl_data_view"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/eye"
+                app:tint="@color/icon_color" />
+
+            <ImageView
+                android:id="@+id/iv_irfm_action_invoice"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/ic_invoice"
+                app:tint="@color/icon_color" />
+            <ImageView
+                android:id="@+id/iv_irfm_action_view"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/ic_send"
+                app:tint="@color/icon_color" />
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/ch_irfm_check_data"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_irfm_upload"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/ic_upload"
+            app:tint="@color/icon_color" />
+
+        <ImageView
+            android:id="@+id/iv_irfm_status_modification"
+            android:layout_width="35dp"
+            android:padding="5dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="55dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/modification" />
+
+        <TextView
+            android:id="@+id/tv_irfm_pc_code"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="FAS-UDN001"
+            android:gravity="center"
+            android:layout_marginStart="45dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_invoice_no"
+            android:gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="FAS-UDN001"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_process_owner"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="	Sunil m das"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_requestFor_change"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="200dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:text="Need the Invoice date to be modified to 17th November 2021"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_group"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Udaan"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_assignment"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Fixed Assets Verification"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_region"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="South"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_place"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Bangalore"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_gstin_no"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="29AADCH8879C1Z5"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_panOf_customer"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="AADCH8879C"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_irfm_taxable_amount"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="75,000.00"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_irfm_gst_rate"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="18%"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_irfm_forMonth"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="2021-10"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_irfm_description"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+   <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="1dp"
+        android:background="@color/grey_very_light" />
+
+
+
+</LinearLayout>
