@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -69,11 +70,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // horizontalchart creating a string array for displaying days.
     String[] days = new String[]{"Sep-2021", "Oct-2021","Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String user = sharedPreferences.getString("userid", null);
+
+        if (user == null) {
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         initialize();
         setData();
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);

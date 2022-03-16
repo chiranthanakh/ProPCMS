@@ -45,17 +45,16 @@ dependencies {
     // Chart and graph library
     implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
     implementation 'com.nineoldandroids:library:2.4.0'
-
-
     // graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-
-
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.4'
 
 
-
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
 
 
