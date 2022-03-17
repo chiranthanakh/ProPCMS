@@ -85,6 +85,30 @@ public class RequestForModificationResponse {
     @Expose
     private String process_owner;
 
+    @SerializedName("request")
+    @Expose
+    private String request;
+
+    @SerializedName("request_date")
+    @Expose
+    private String request_date;
+
+    public String getRequest() {
+        return request;
+    }
+
+    public void setRequest(String request) {
+        this.request = request;
+    }
+
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
+
     public String getProcess_owner() {
         return process_owner;
     }

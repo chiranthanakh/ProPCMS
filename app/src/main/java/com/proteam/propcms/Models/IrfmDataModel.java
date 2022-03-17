@@ -4,9 +4,9 @@ public class IrfmDataModel {
 
 
     String irfmPcCode,irfmInvoiceNo,irfmProcessOwner,irfmRequestForChange,irfmGroup,irfmAssignment,irfmRegion,
-            irfmPlace,irfmGstinNo,irfmPanOfCustomer,irfmTaxableAmount,irfmGstRate,irfmForMonth,irfmDescription,processowner,id,projectid;
+            irfmPlace,irfmGstinNo,irfmPanOfCustomer,irfmTaxableAmount,irfmGstRate,irfmForMonth,irfmDescription,processowner,id,projectid,request,requestdate;
 
-    public IrfmDataModel(String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription, String processowner, String id, String projectid) {
+    public IrfmDataModel(String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription, String processowner, String id, String projectid, String request, String requestdate) {
         this.irfmPcCode = irfmPcCode;
         this.irfmInvoiceNo = irfmInvoiceNo;
         this.irfmProcessOwner = irfmProcessOwner;
@@ -24,6 +24,24 @@ public class IrfmDataModel {
         this.processowner = processowner;
         this.id = id;
         this.projectid = projectid;
+        this.request = request;
+        this.requestdate = requestdate;
+    }
+
+    public String getRequest() {
+        return request;
+    }
+
+    public void setRequest(String request) {
+        this.request = request;
+    }
+
+    public String getRequestdate() {
+        return requestdate;
+    }
+
+    public void setRequestdate(String requestdate) {
+        this.requestdate = requestdate;
     }
 
     public String getProjectid() {
