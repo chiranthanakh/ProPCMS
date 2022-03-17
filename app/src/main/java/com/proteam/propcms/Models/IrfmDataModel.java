@@ -4,9 +4,9 @@ public class IrfmDataModel {
 
 
     String irfmPcCode,irfmInvoiceNo,irfmProcessOwner,irfmRequestForChange,irfmGroup,irfmAssignment,irfmRegion,
-            irfmPlace,irfmGstinNo,irfmPanOfCustomer,irfmTaxableAmount,irfmGstRate,irfmForMonth,irfmDescription;
+            irfmPlace,irfmGstinNo,irfmPanOfCustomer,irfmTaxableAmount,irfmGstRate,irfmForMonth,irfmDescription,processowner,id,projectid;
 
-    public IrfmDataModel(String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription) {
+    public IrfmDataModel(String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription, String processowner, String id, String projectid) {
         this.irfmPcCode = irfmPcCode;
         this.irfmInvoiceNo = irfmInvoiceNo;
         this.irfmProcessOwner = irfmProcessOwner;
@@ -21,6 +21,25 @@ public class IrfmDataModel {
         this.irfmGstRate = irfmGstRate;
         this.irfmForMonth = irfmForMonth;
         this.irfmDescription = irfmDescription;
+        this.processowner = processowner;
+        this.id = id;
+        this.projectid = projectid;
+    }
+
+    public String getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(String projectid) {
+        this.projectid = projectid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIrfmPcCode() {
@@ -133,5 +152,13 @@ public class IrfmDataModel {
 
     public void setIrfmDescription(String irfmDescription) {
         this.irfmDescription = irfmDescription;
+    }
+
+    public String getProcessowner() {
+        return processowner;
+    }
+
+    public void setProcessowner(String processowner) {
+        this.processowner = processowner;
     }
 }

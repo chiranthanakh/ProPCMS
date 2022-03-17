@@ -427,30 +427,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         }
     };
 
-    private void callapproveindividualApi() {
-
-        ArrayList list = new ArrayList(map.values());
-        if (list.size()==0){
-            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
-        }else {
-
-            progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
-            if (progressDialog != null) {
-                if (!progressDialog.isShowing()) {
-
-                    progressDialog.setCancelable(false);
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.show();
-
-                    InvApproverequest invApproverequest = new InvApproverequest(list);
-                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
-                    webServices.approvecall(WebServices.ApiType.approve, invApproverequest);
-                }
-            }
-        }
-
-    }
-
 
     private void opengcadminDialog(String position) {
         final Dialog dialog = new Dialog(this);

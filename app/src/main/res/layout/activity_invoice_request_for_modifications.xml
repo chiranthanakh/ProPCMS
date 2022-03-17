@@ -147,7 +147,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_indent_preview"
+                android:id="@+id/btn_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"

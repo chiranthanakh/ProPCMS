@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -218,6 +219,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 monthDatePickerDialog.show();
                 break;
             case R.id.irfc:
+
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("https://pcmsdemo.proteam.co.in//upload/bi_docs/6868e91d7d7f14d22.pdf"));
+                startActivity(viewIntent);
+
                 break;
             case R.id.ll_irfc:
                 Intent intent_irfc= new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);

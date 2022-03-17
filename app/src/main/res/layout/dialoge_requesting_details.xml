@@ -68,7 +68,7 @@
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
-                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/sp_clients_home"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
@@ -107,11 +107,10 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:startIconTint="@color/grey_light">
 
-                                <EditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edt_home_month"
                                     android:layout_width="match_parent"
                                     android:layout_height="50dp"
-                                    android:focusable="false"
                                     android:fontFamily="@font/proxima_family"
                                     android:hint="Date"
                                     android:textColor="@color/black"
