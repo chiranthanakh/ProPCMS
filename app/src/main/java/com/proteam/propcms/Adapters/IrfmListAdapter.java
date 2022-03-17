@@ -1,5 +1,6 @@
 package com.proteam.propcms.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,17 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.proteam.propcms.Models.IrfcDataModel;
 import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Utils.OnClick;
 
 import java.util.ArrayList;
 
 public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHolder> {
 
-    private IrfmDataModel[] listdata;
+   // private IrfmDataModel[] listdata;
     private Context context;
+    private ArrayList<IrfmDataModel> listdata;
+    private OnClick mClick;
 
-    public IrfmListAdapter(IrfmDataModel[] listdata) {
-        this.listdata = listdata;
+    public IrfmListAdapter(ArrayList<IrfmDataModel> listdata,OnClick listner) {
+        this.mClick = listner;
         this.context = context;
+        this.listdata = listdata;
     }
 
     @NonNull
@@ -41,36 +46,43 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        final IrfmDataModel irfmDataModel = listdata[position];
-        holder.iv_irfm_ALl_data_view.setImageResource(listdata[position].getIrfmAlldata());
-        holder.iv_irfm_action_invoice.setImageResource(listdata[position].getIrfmImageActionInvoice());
-        holder.iv_irfm_action_view.setImageResource(listdata[position].getIrfmImageActionView());
-        holder.iv_irfm_upload.setImageResource(listdata[position].getIrfmImageUpload());
-        holder.iv_irfm_status_modification.setImageResource(listdata[position].getIrfmImageStatusModification());
+        final IrfmDataModel irfmDataModel = listdata.get(position);
+//        holder.iv_irfm_ALl_data_view.setImageResource(listdata[position].getIrfmAlldata());
+//        holder.iv_irfm_action_invoice.setImageResource(listdata[position].getIrfmImageActionInvoice());
+//        holder.iv_irfm_action_view.setImageResource(listdata[position].getIrfmImageActionView());
+//        holder.iv_irfm_upload.setImageResource(listdata[position].getIrfmImageUpload());
+//        holder.iv_irfm_status_modification.setImageResource(listdata[position].getIrfmImageStatusModification());
 
-        holder.tv_irfm_pc_code.setText(listdata[position].getIrfmPcCode());
+        holder.tv_irfm_pc_code.setText(listdata.get(position).getIrfmPcCode());
 
-        holder.tv_irfm_invoice_no.setText(listdata[position].getIrfmInvoiceNo());
-        holder.tv_irfm_process_owner.setText(listdata[position].getIrfmProcessOwner());
-        holder.tv_irfm_requestFor_change.setText(listdata[position].getIrfmRequestForChange());
-        holder.tv_irfm_group.setText(listdata[position].getIrfmGroup());
-        holder.tv_irfm_assignment.setText(listdata[position].getIrfmAssignment());
-        holder.tv_irfm_region.setText(listdata[position].getIrfmRegion());
-        holder.tv_irfm_place.setText(listdata[position].getIrfmPlace());
-        holder.tv_irfm_gstin_no.setText(listdata[position].getIrfmGstinNo());
-        holder.tv_irfm_panOf_customer.setText(listdata[position].getIrfmPanOfCustomer());
-        holder.tv_irfm_taxable_amount.setText(listdata[position].getIrfmTaxableAmount());
-        holder.tv_irfm_gst_rate.setText(listdata[position].getIrfmGstRate());
-        holder.tv_irfm_forMonth.setText(listdata[position].getIrfmForMonth());
-        holder.tv_irfm_description.setText(listdata[position].getIrfmDescription());
+        holder.tv_irfm_invoice_no.setText(listdata.get(position).getIrfmInvoiceNo());
+        holder.tv_irfm_process_owner.setText(listdata.get(position).getIrfmProcessOwner());
+        holder.tv_irfm_requestFor_change.setText(listdata.get(position).getIrfmRequestForChange());
+        holder.tv_irfm_group.setText(listdata.get(position).getIrfmGroup());
+        holder.tv_irfm_assignment.setText(listdata.get(position).getIrfmAssignment());
+        holder.tv_irfm_region.setText(listdata.get(position).getIrfmRegion());
+        holder.tv_irfm_place.setText(listdata.get(position).getIrfmPlace());
+        holder.tv_irfm_gstin_no.setText(listdata.get(position).getIrfmGstinNo());
+        holder.tv_irfm_panOf_customer.setText(listdata.get(position).getIrfmPanOfCustomer());
+        holder.tv_irfm_taxable_amount.setText(listdata.get(position).getIrfmTaxableAmount());
+        holder.tv_irfm_gst_rate.setText(listdata.get(position).getIrfmGstRate());
+        holder.tv_irfm_forMonth.setText(listdata.get(position).getIrfmForMonth());
+        holder.tv_irfm_description.setText(listdata.get(position).getIrfmDescription());
+
+        holder.iv_irfm_ALl_data_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClick.onClickitem(String.valueOf(position));
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return listdata.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,7 +95,7 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.iv_irfm_ALl_data_view = (ImageView) itemView.findViewById(R.id.iv_irfm_ALl_data_view);
-            this.iv_irfm_action_invoice = (ImageView) itemView.findViewById(R.id.iv_irfm_action_invoice);
+            //this.iv_irfm_action_invoice = (ImageView) itemView.findViewById(R.id.iv_irfm_action_invoice);
             this.iv_irfm_action_view = (ImageView) itemView.findViewById(R.id.iv_irfm_action_view);
             this.iv_irfm_upload = (ImageView) itemView.findViewById(R.id.iv_irfm_upload);
             this.iv_irfm_status_modification = (ImageView) itemView.findViewById(R.id.iv_irfm_status_modification);

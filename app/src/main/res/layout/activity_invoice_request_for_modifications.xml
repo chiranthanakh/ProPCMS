@@ -235,7 +235,7 @@
                             android:textSize="13sp" />
 
                         <TextView
-                            android:id="@+id/tv_raise_indent_total_item"
+                            android:id="@+id/tv_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

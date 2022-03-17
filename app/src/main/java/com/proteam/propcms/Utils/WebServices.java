@@ -7,7 +7,11 @@ import android.content.Context;
 import android.widget.Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Request.Updateuserrequest;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -41,9 +45,7 @@ public class WebServices<T> {
     private static OkHttpClient.Builder builder;
 
     public enum ApiType {
-       general,login,location,sublocation,boq,pendingindent,pendingindentsignle,psmdata,indentstatus,materialstock,
-        materialstockname,deletestockMhome,addmaterial,priview,confirmRaiseIndent,ConsList,consumptionMateriallsit,
-        consumptionDetails,boqedit,noti,send,IndividualMatlistName,listresponse,materiallist,updateresponse
+       general,login,profile,profileupdate,invoicemod,projectlist
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -124,7 +126,7 @@ public class WebServices<T> {
     }
 
 
-    public void login(String api, ApiType apiTypes, Loginmodel loginmodel)
+    public void login( ApiType apiTypes, Loginmodel loginmodel)
     {
 
         apiTypeVariable = apiTypes;
@@ -132,6 +134,126 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.validatelogin(loginmodel);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void profileapi( ApiType apiTypes, UserIdRequest userIdRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.profile(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void profileupdateapi( ApiType apiTypes, Updateuserrequest userIdRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.profileupdate(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void invoicemodificationapi( ApiType apiTypes)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.invoicemodify();
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void companyname(ApiType apiTypes, CompanyDetailsModel companyDetailsModel)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.companydetail(companyDetailsModel);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void projectlist( ApiType apiTypes, ProjectListModel projectListModel)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.projectnamelist(projectListModel);
 
         call.enqueue(new Callback<T>() {
             @Override

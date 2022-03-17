@@ -112,7 +112,7 @@
                         android:src="@drawable/user1" />
 
                     <TextView
-                        android:id="@+id/iv_nav_name"
+                        android:id="@+id/tv_nav_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/proxima_family"
@@ -157,6 +157,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
+                            android:id="@+id/edt_first_name"
                             android:background="@null"
                             android:fontFamily="@font/proxima_family"
                             android:inputType="text"
@@ -200,6 +201,7 @@
 
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_second_name"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:background="@null"
@@ -250,6 +252,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:background="@null"
+                            android:id="@+id/edt_email_profile"
                             android:fontFamily="@font/proxima_family"
                             android:inputType="text"
                             android:padding="0dp"
@@ -297,6 +300,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:background="@null"
+                            android:id="@+id/edt_phone"
                             android:fontFamily="@font/proxima_family"
                             android:inputType="text"
                             android:padding="0dp"
@@ -348,6 +352,7 @@
                             android:background="@null"
                             android:fontFamily="@font/proxima_family"
                             android:inputType="textPassword"
+                            android:id="@+id/edt_password"
                             android:padding="0dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey"
@@ -397,6 +402,7 @@
                             android:background="@null"
                             android:fontFamily="@font/proxima_family"
                             android:inputType="textPassword"
+                            android:id="@+id/edt_conform_pass"
                             android:padding="0dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey"
@@ -408,6 +414,7 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:id="@+id/btn_profile_submit"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="50dp"
