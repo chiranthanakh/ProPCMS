@@ -73,6 +73,30 @@ public class RequestForModificationResponse {
     @Expose
     private String upload_user_id;
 
+    @SerializedName("request_remarks")
+    @Expose
+    private String request_remarks;
+
+    @SerializedName("amount")
+    @Expose
+    private String amount;
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getRequest_remarks() {
+        return request_remarks;
+    }
+
+    public void setRequest_remarks(String request_remarks) {
+        this.request_remarks = request_remarks;
+    }
+
     public String getId() {
         return id;
     }

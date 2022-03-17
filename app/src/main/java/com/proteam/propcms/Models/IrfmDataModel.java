@@ -2,16 +2,11 @@ package com.proteam.propcms.Models;
 
 public class IrfmDataModel {
 
-    int  irfmAlldata,irfmImageActionInvoice,irfmImageActionView,irfmImageUpload,irfmImageStatusModification;
+
     String irfmPcCode,irfmInvoiceNo,irfmProcessOwner,irfmRequestForChange,irfmGroup,irfmAssignment,irfmRegion,
             irfmPlace,irfmGstinNo,irfmPanOfCustomer,irfmTaxableAmount,irfmGstRate,irfmForMonth,irfmDescription;
 
-    public IrfmDataModel(int irfmAlldata, int irfmImageActionInvoice, int irfmImageActionView, int irfmImageUpload, int irfmImageStatusModification, String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription) {
-        this.irfmAlldata = irfmAlldata;
-        this.irfmImageActionInvoice = irfmImageActionInvoice;
-        this.irfmImageActionView = irfmImageActionView;
-        this.irfmImageUpload = irfmImageUpload;
-        this.irfmImageStatusModification = irfmImageStatusModification;
+    public IrfmDataModel(String irfmPcCode, String irfmInvoiceNo, String irfmProcessOwner, String irfmRequestForChange, String irfmGroup, String irfmAssignment, String irfmRegion, String irfmPlace, String irfmGstinNo, String irfmPanOfCustomer, String irfmTaxableAmount, String irfmGstRate, String irfmForMonth, String irfmDescription) {
         this.irfmPcCode = irfmPcCode;
         this.irfmInvoiceNo = irfmInvoiceNo;
         this.irfmProcessOwner = irfmProcessOwner;
@@ -26,46 +21,6 @@ public class IrfmDataModel {
         this.irfmGstRate = irfmGstRate;
         this.irfmForMonth = irfmForMonth;
         this.irfmDescription = irfmDescription;
-    }
-
-    public int getIrfmAlldata() {
-        return irfmAlldata;
-    }
-
-    public void setIrfmAlldata(int irfmAlldata) {
-        this.irfmAlldata = irfmAlldata;
-    }
-
-    public int getIrfmImageActionInvoice() {
-        return irfmImageActionInvoice;
-    }
-
-    public void setIrfmImageActionInvoice(int irfmImageActionInvoice) {
-        this.irfmImageActionInvoice = irfmImageActionInvoice;
-    }
-
-    public int getIrfmImageActionView() {
-        return irfmImageActionView;
-    }
-
-    public void setIrfmImageActionView(int irfmImageActionView) {
-        this.irfmImageActionView = irfmImageActionView;
-    }
-
-    public int getIrfmImageUpload() {
-        return irfmImageUpload;
-    }
-
-    public void setIrfmImageUpload(int irfmImageUpload) {
-        this.irfmImageUpload = irfmImageUpload;
-    }
-
-    public int getIrfmImageStatusModification() {
-        return irfmImageStatusModification;
-    }
-
-    public void setIrfmImageStatusModification(int irfmImageStatusModification) {
-        this.irfmImageStatusModification = irfmImageStatusModification;
     }
 
     public String getIrfmPcCode() {

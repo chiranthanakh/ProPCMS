@@ -2,30 +2,17 @@ package com.proteam.propcms.Response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.proteam.propcms.Request.Loginmodel;
 
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-
-public class GenerealResponse {
-
+public class LoginResponse {
 
     @SerializedName("status")
     @Expose
     private String status;
 
-    @SerializedName("reason")
+    @SerializedName("user_id")
     @Expose
-    private String reason;
+    private String user_id;
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
 
     public String getStatus() {
         return status;
@@ -34,4 +21,14 @@ public class GenerealResponse {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
 }

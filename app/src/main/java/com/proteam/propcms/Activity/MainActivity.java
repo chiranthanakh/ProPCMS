@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile;
     PieChart pieChart;
     LinearLayout ll_crnra,ll_irfm,ll_irfc;
-
+    Button btn_logout;
     TextView irfc,tv_irfm,tv_ctnra;
     EditText edt_home_month;
     Spinner sp_division_home,sp_clients_home,sp_division_head_home,sp_company_home;
@@ -96,12 +97,177 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
 
         horizontalchart();
+    }
 
+    private void initialize()
+    {
+        ll_select_data=findViewById(R.id.ll_select_data);
+        ll_filter_data=findViewById(R.id.ll_filter_data);
+        ll_filter_data.setOnClickListener(this);
+        ll_irfc=findViewById(R.id.ll_irfc);
+        ll_irfc.setOnClickListener(this);
+        ll_crnra=findViewById(R.id.ll_crnra);
+        ll_crnra.setOnClickListener(this);
+        ll_irfm=findViewById(R.id.ll_irfm);
+        ll_irfm.setOnClickListener(this);
+        btn_logout = findViewById(R.id.btn_nav_logout);
+        btn_logout.setOnClickListener(this);
+        btn_nav_profile=findViewById(R.id.btn_nav_profile);
+        btn_nav_profile.setOnClickListener(this);
+        sp_company_home=findViewById(R.id.sp_company_home);
+        sp_division_head_home=findViewById(R.id.sp_division_head_home);
+        sp_clients_home=findViewById(R.id.sp_clients_home);
+        sp_division_home=findViewById(R.id.sp_division_home);
+        edt_home_month=findViewById(R.id.edt_home_month);
+        edt_home_month.setOnClickListener(this);
 
+        tvR = findViewById(R.id.tvR);
+        tvPython = findViewById(R.id.tvPython);
+        tvCPP = findViewById(R.id.tvCPP);
+        tvJava = findViewById(R.id.tvJava);
+        pieChart = findViewById(R.id.piechart);
+        pieChart = findViewById(R.id.piechart);
 
+        irfc=findViewById(R.id.irfc);
+        irfc.setOnClickListener(this);
+        tv_irfm=findViewById(R.id.tv_irfm);
+        tv_irfm.setOnClickListener(this);
+        tv_ctnra=findViewById(R.id.tv_ctnra);
+        tv_ctnra.setOnClickListener(this);
+        drawer_layout = findViewById(R.id.drawer_layout_main);
+        iv_nav_view=findViewById(R.id.iv_nav_view);
+        iv_nav_view.setOnClickListener(this);
+    }
+    private void setData()
+    {
+
+        // Set the percentage of language used
+        tvR.setText(Integer.toString(40));
+        tvPython.setText(Integer.toString(30));
+        tvCPP.setText(Integer.toString(5));
+        tvJava.setText(Integer.toString(25));
+
+        // Set the data and color to the pie chart
+        pieChart.addPieSlice(
+                new PieModel(
+                        "R",
+                        Integer.parseInt(tvR.getText().toString()),
+                        Color.parseColor("#FFA726")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Python",
+                        Integer.parseInt(tvPython.getText().toString()),
+                        Color.parseColor("#66BB6A")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "C++",
+                        Integer.parseInt(tvCPP.getText().toString()),
+                        Color.parseColor("#EF5350")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Java",
+                        Integer.parseInt(tvJava.getText().toString()),
+                        Color.parseColor("#29B6F6")));
+
+        // To animate the pie chart
+        pieChart.startAnimation();
     }
 
 
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.ll_filter_data:
+
+
+                if(ll_select_data.getVisibility() == View.VISIBLE){
+                    ll_select_data.setVisibility(View.GONE);
+                }else {
+                    ll_select_data.setVisibility(View.VISIBLE);
+
+                }
+
+                break;
+            case R.id.edt_home_month:
+                Calendar mcurrentDate = Calendar.getInstance();
+                String myFormat = "MMMM yyyy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+                DatePickerDialog monthDatePickerDialog = new DatePickerDialog(MainActivity.this,
+                        AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        mcurrentDate.set(Calendar.YEAR, year) ;
+                        mcurrentDate.set(Calendar.MONTH, month);
+
+                        edt_home_month.setText(sdf.format(mcurrentDate.getTime()));
+                        mDay = dayOfMonth;
+                        mMonth = month;
+                        mYear = year;
+
+                    }
+                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+                    }
+                };
+                monthDatePickerDialog.setTitle("Select Month And Year");
+                monthDatePickerDialog.show();
+                break;
+            case R.id.irfc:
+                break;
+            case R.id.ll_irfc:
+                Intent intent_irfc= new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);
+                startActivity(intent_irfc);
+                break;
+            case R.id.tv_irfm:
+            case R.id.ll_irfm:
+                Intent intent_irfm = new Intent(MainActivity.this, InvoiceRequestForModificationsActivity.class);
+                startActivity(intent_irfm);
+                break;
+            case R.id.tv_ctnra:
+            case R.id.ll_crnra:
+                Intent intent_ctnra = new Intent(MainActivity.this, CostTransferNoteRequestApprovalActivity.class);
+                startActivity(intent_ctnra);
+                break;
+            case R.id.iv_nav_view:
+                drawer_layout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.btn_nav_profile:
+                Intent intent_profile = new Intent(MainActivity.this,ProfileActivity.class);
+                startActivity(intent_profile);
+                break;
+
+            case R.id.btn_nav_logout:
+                editor.clear();
+                editor.apply();
+                editor.commit();
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+                break;
+
+        }
+    }
+
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(14);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(14);
+        }
+    };
 
     private void horizontalchart()
     {
@@ -185,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // our bar chart.
         barChart.invalidate();
     }
-
     // horizontalChart array list for first set
     private ArrayList<BarEntry> getBarEntriesOne() {
 
@@ -221,172 +386,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return barEntries;
     }
-
-
-
-
-
-    private void initialize()
-    {
-
-
-
-
-        ll_select_data=findViewById(R.id.ll_select_data);
-        ll_filter_data=findViewById(R.id.ll_filter_data);
-        ll_filter_data.setOnClickListener(this);
-        ll_irfc=findViewById(R.id.ll_irfc);
-        ll_irfc.setOnClickListener(this);
-        ll_crnra=findViewById(R.id.ll_crnra);
-        ll_crnra.setOnClickListener(this);
-        ll_irfm=findViewById(R.id.ll_irfm);
-        ll_irfm.setOnClickListener(this);
-
-        btn_nav_profile=findViewById(R.id.btn_nav_profile);
-        btn_nav_profile.setOnClickListener(this);
-        sp_company_home=findViewById(R.id.sp_company_home);
-        sp_division_head_home=findViewById(R.id.sp_division_head_home);
-        sp_clients_home=findViewById(R.id.sp_clients_home);
-        sp_division_home=findViewById(R.id.sp_division_home);
-        edt_home_month=findViewById(R.id.edt_home_month);
-        edt_home_month.setOnClickListener(this);
-
-        tvR = findViewById(R.id.tvR);
-        tvPython = findViewById(R.id.tvPython);
-        tvCPP = findViewById(R.id.tvCPP);
-        tvJava = findViewById(R.id.tvJava);
-        pieChart = findViewById(R.id.piechart);
-        pieChart = findViewById(R.id.piechart);
-
-        irfc=findViewById(R.id.irfc);
-        irfc.setOnClickListener(this);
-        tv_irfm=findViewById(R.id.tv_irfm);
-        tv_irfm.setOnClickListener(this);
-        tv_ctnra=findViewById(R.id.tv_ctnra);
-        tv_ctnra.setOnClickListener(this);
-        drawer_layout = findViewById(R.id.drawer_layout_main);
-        iv_nav_view=findViewById(R.id.iv_nav_view);
-        iv_nav_view.setOnClickListener(this);
-    }
-
-
-    
-    private void setData()
-    {
-
-        // Set the percentage of language used
-        tvR.setText(Integer.toString(40));
-        tvPython.setText(Integer.toString(30));
-        tvCPP.setText(Integer.toString(5));
-        tvJava.setText(Integer.toString(25));
-
-        // Set the data and color to the pie chart
-        pieChart.addPieSlice(
-                new PieModel(
-                        "R",
-                        Integer.parseInt(tvR.getText().toString()),
-                        Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.parseInt(tvPython.getText().toString()),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt(tvCPP.getText().toString()),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt(tvJava.getText().toString()),
-                        Color.parseColor("#29B6F6")));
-
-        // To animate the pie chart
-        pieChart.startAnimation();
-    }
-
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.ll_filter_data:
-
-
-                if(ll_select_data.getVisibility() == View.VISIBLE){
-                    ll_select_data.setVisibility(View.GONE);
-                }else {
-                    ll_select_data.setVisibility(View.VISIBLE);
-
-                }
-
-                break;
-            case R.id.edt_home_month:
-                Calendar mcurrentDate = Calendar.getInstance();
-                String myFormat = "MMMM yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-                DatePickerDialog monthDatePickerDialog = new DatePickerDialog(MainActivity.this,
-                        AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mcurrentDate.set(Calendar.YEAR, year) ;
-                        mcurrentDate.set(Calendar.MONTH, month);
-
-                        edt_home_month.setText(sdf.format(mcurrentDate.getTime()));
-                        mDay = dayOfMonth;
-                        mMonth = month;
-                        mYear = year;
-
-                    }
-                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
-                    }
-                };
-                monthDatePickerDialog.setTitle("Select Month And Year");
-                monthDatePickerDialog.show();
-                break;
-            case R.id.irfc:
-            case R.id.ll_irfc:
-                Intent intent_irfc= new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);
-                startActivity(intent_irfc);
-                break;
-            case R.id.tv_irfm:
-            case R.id.ll_irfm:
-                Intent intent_irfm = new Intent(MainActivity.this, InvoiceRequestForModificationsActivity.class);
-                startActivity(intent_irfm);
-                break;
-            case R.id.tv_ctnra:
-            case R.id.ll_crnra:
-                Intent intent_ctnra = new Intent(MainActivity.this, CostTransferNoteRequestApprovalActivity.class);
-                startActivity(intent_ctnra);
-                break;
-            case R.id.iv_nav_view:
-                drawer_layout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.btn_nav_profile:
-                Intent intent_profile = new Intent(MainActivity.this,ProfileActivity.class);
-                startActivity(intent_profile);
-                break;
-
-        }
-    }
-
-    private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
-
-        }
-
-        public void onNothingSelected(AdapterView<?> parent) {
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
-        }
-    };
 }
