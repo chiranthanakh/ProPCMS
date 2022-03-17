@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
     ProgressDialog progressDialog;
     String user;
     SharedPreferences.Editor editor;
+    ImageView iv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
 
     private void initilization() {
 
+        iv_back=findViewById(R.id.iv_back);
         edt_conform_pass = findViewById(R.id.edt_conform_pass);
         edt_password = findViewById(R.id.edt_password);
         edt_phone = findViewById(R.id.edt_phone);
@@ -64,6 +67,16 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
                 updateDetails();
             }
         });
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_back = new Intent(ProfileActivity.this,MainActivity.class);
+                startActivity(intent_back);
+                finishAffinity();
+            }
+        });
+
     }
 
     private void callprofileApi() {

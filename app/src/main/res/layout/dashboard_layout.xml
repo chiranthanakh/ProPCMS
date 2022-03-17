@@ -106,6 +106,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -177,7 +178,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
-                                    android:id="@+id/indent_status_Count_pending"
+                                    android:id="@+id/tv_irfc_count"
                                     android:layout_margin="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -215,7 +216,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
-                                    android:id="@+id/indent_status_Count_approve"
+                                    android:id="@+id/tv_irfm_count"
                                     android:layout_margin="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -253,7 +254,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
-                                    android:id="@+id/indent_status_Count_rejected"
+                                    android:id="@+id/tv_ctnr_count"
                                     android:layout_margin="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -264,6 +265,141 @@
                                     android:textColor="@color/black"
                                     android:textSize="20sp" />
                             </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#eceff1"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/proxima_nova_semi_bold"
+                                android:gravity="center_vertical"
+                                android:text="PCMS Invoice Data Status"
+                                android:textColor="@color/grey"
+                                android:textSize="18sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingBottom="8dp">
+
+                            <LinearLayout
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="20dp"
+                                android:background="?selectableItemBackground"
+                                android:id="@+id/ll_verify_BI"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/right"
+                                    app:tint="@color/icon_color" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="2"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:text="Verify Billing Instructions with Status List"
+                                    android:textColor="@color/black"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_very_BI_count"
+                                    android:layout_margin="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shape1"
+                                    android:fontFamily="@font/lato_bold"
+                                    android:text="0"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="20dp"
+                                android:background="?selectableItemBackground"
+                                android:id="@+id/ll_Verify_CTN"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/right"
+                                    app:tint="@color/icon_color" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="2"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="center"
+                                    android:text="Verify Cost Transfer Note with Status List"
+                                    android:textColor="@color/black"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_verify_Ctn_count"
+                                    android:layout_margin="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shape3"
+                                    android:fontFamily="@font/lato_bold"
+                                    android:text="2"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+
+
 
 
                         </LinearLayout>

@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mMonth,mDay,mYear;
     TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile,tv_verifyBillingInstruction,tv_verifyCostTransfer;
     PieChart pieChart;
-    LinearLayout ll_crnra,ll_irfm,ll_irfc;
+    LinearLayout ll_crnra,ll_irfm,ll_irfc,ll_verify_BI,ll_Verify_CTN;
     Button btn_logout;
     TextView irfc,tv_irfm,tv_ctnra;
     EditText edt_home_month;
@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialize()
     {
+        ll_Verify_CTN=findViewById(R.id.ll_Verify_CTN);
+        ll_Verify_CTN.setOnClickListener(this);
+        ll_verify_BI=findViewById(R.id.ll_verify_BI);
+        ll_verify_BI.setOnClickListener(this);
         tv_verifyBillingInstruction=findViewById(R.id.tv_verifyBillingInstruction);
         tv_verifyBillingInstruction.setOnClickListener(this);
         tv_verifyCostTransfer=findViewById(R.id.tv_verifyCostTransfer);
@@ -252,10 +256,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent_profile);
                 break;
             case R.id.tv_verifyBillingInstruction:
+            case R.id.ll_verify_BI:
                 Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi);
                 break;
             case R.id.tv_verifyCostTransfer:
+            case R.id.ll_Verify_CTN:
                 Intent intent_vcy = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
                 startActivity(intent_vcy);
                 break;
