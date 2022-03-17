@@ -221,6 +221,11 @@
         android:layout_margin="1dp"
         android:background="@color/grey_very_light" />
 
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_invoice"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
