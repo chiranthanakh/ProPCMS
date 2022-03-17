@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Models.CtrnDataModel;
 import com.proteam.propcms.R;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,9 +50,9 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
 
         CtrnDataModel[] ctrnDataModels = new CtrnDataModel[]{
-                new CtrnDataModel(R.drawable.eye,R.drawable.ic_edit,R.drawable.delete,R.drawable.ic_upload,R.drawable.pending,"CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
-                new CtrnDataModel(R.drawable.eye,R.drawable.ic_edit,R.drawable.delete,R.drawable.ic_upload,R.drawable.pending,"CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
-                new CtrnDataModel(R.drawable.eye,R.drawable.ic_edit,R.drawable.delete,R.drawable.ic_upload,R.drawable.pending,"CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
+                new CtrnDataModel("CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
+                new CtrnDataModel("CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
+                new CtrnDataModel("CTN/0009/21-22","2021-04","Direct Expenses","SAS-ALB001","SAS-ALB002","20,000.00","Remarks list"),
 
 
         };
@@ -127,6 +130,21 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
+
+        ImageView iv_dia_edit = dialog.findViewById(R.id.iv_dia_edit);
+        ImageView iv_dia_delete = dialog.findViewById(R.id.iv_dia_delete);
+        ImageView iv_dia_upload = dialog.findViewById(R.id.iv_dia_upload);
+        ImageView iv_dia_status = dialog.findViewById(R.id.iv_dia_status);
+
+        TextView tv_dia_ctn = dialog.findViewById(R.id.tv_dia_ctn);
+        TextView tv_dia_month = dialog.findViewById(R.id.tv_dia_month);
+        TextView tv_dia_directExpense = dialog.findViewById(R.id.tv_dia_directExpense);
+        TextView tv_dia_fromPcCode = dialog.findViewById(R.id.tv_dia_fromPcCode);
+        TextView tv_dia_TpPcCode = dialog.findViewById(R.id.tv_dia_TpPcCode);
+        TextView tv_dia_transferCost = dialog.findViewById(R.id.tv_dia_transferCost);
+        TextView tv_dia_Remarks = dialog.findViewById(R.id.tv_dia_Remarks);
+        Button btn_dia_approve = dialog.findViewById(R.id.btn_dia_approve);
+        Button btn_dia_reject = dialog.findViewById(R.id.btn_dia_reject);
 
 
 

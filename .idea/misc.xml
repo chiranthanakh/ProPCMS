@@ -4,9 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/arc_semi.xml" value="0.135" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/back_arrow.xml" value="0.135" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/back_arrow_profile.xml" value="0.135" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/card_shadow_back_login.xml" value="0.135" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_modifications.xml" value="0.22" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_login.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_profile.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_ctnr_all_details.xml" value="0.25" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_irfc_all_details.xml" value="0.2" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_requesting_details.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/irfc_data_layout.xml" value="0.22" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/irfm_data_layout.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/test.xml" value="0.25" />
       </map>
     </option>
   </component>
