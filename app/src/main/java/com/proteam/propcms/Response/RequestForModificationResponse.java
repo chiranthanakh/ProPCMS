@@ -81,6 +81,18 @@ public class RequestForModificationResponse {
     @Expose
     private String amount;
 
+    @SerializedName("process_owner")
+    @Expose
+    private String process_owner;
+
+    public String getProcess_owner() {
+        return process_owner;
+    }
+
+    public void setProcess_owner(String process_owner) {
+        this.process_owner = process_owner;
+    }
+
     public String getAmount() {
         return amount;
     }

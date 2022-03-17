@@ -79,7 +79,7 @@
                 android:paddingBottom="8dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_irfc"
+                    android:id="@+id/ll_invoice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -107,7 +107,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_irfm"
+                    android:id="@+id/ll_popups"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

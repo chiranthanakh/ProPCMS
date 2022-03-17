@@ -1,6 +1,7 @@
 package com.proteam.propcms.Utils;
 
 import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
@@ -36,6 +37,11 @@ public interface ProPCms {
 
 
     @POST("Pcms_apis/company_details")
-    Call<CompanyDetailsResponse> companydetail(CompanyDetailsModel companyDetailsModel);
+    Call<CompanyDetailsResponse> companydetail(@Body CompanyDetailsModel companyDetailsModel);
 
+    @POST("Pcms_apis/invoice_req_for_modification_approve")
+    Call<GenerealResponse> aprovallist(@Body InvApproverequest invApproverequest);
+
+    @POST("Pcms_apis/invoice_req_for_modification_reject")
+    Call<GenerealResponse> rejectList(@Body InvApproverequest invApproverequest);
 }

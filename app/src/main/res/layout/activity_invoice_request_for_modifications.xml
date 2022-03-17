@@ -148,7 +148,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_indent_preview"
+                android:id="@+id/btn_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
@@ -292,14 +292,6 @@
                             android:layout_marginStart="50dp"
                             android:gravity="center" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:text=" Documents "
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -484,6 +476,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
+            android:id="@+id/btn_approve_invoise"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -501,6 +494,7 @@
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:id="@+id/btn_reject_invoise"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
