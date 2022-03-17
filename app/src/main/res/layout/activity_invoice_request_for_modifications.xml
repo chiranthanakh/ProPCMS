@@ -194,7 +194,7 @@
                             app:tint="@color/grey" />
 
                         <EditText
-                            android:id="@+id/edt_search"
+                            android:id="@+id/btn_search_list"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -262,6 +262,7 @@
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@id/search">
 
+
                     <LinearLayout
                         android:id="@+id/list_bar"
                         android:layout_width="match_parent"
@@ -291,14 +292,6 @@
                             android:layout_marginStart="50dp"
                             android:gravity="center" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:text=" Documents "
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -455,7 +448,10 @@
                     </LinearLayout>
 
 
-
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/sc_irfm_refresh"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_irfm_Data_list"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -464,6 +460,8 @@
                         tools:listitem="@layout/irfm_data_layout"
                         android:clipToPadding="false"
                         android:layout_height="match_parent"/>
+
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
                 </LinearLayout>
 
@@ -483,6 +481,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
+            android:id="@+id/btn_approve_invoise"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -500,6 +499,7 @@
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:id="@+id/btn_reject_invoise"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"

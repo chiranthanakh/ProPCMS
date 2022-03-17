@@ -24,7 +24,7 @@ import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
 public class ProfileActivity extends AppCompatActivity implements OnResponseListener {
-    ImageView mToolbar;
+  //  ImageView mToolbar;
     EditText edt_conform_pass,edt_password,edt_phone,edt_email_profile,edt_second_name,edt_first_name;
     TextView tv_name;
     Button btn_profile_submit;
@@ -36,8 +36,8 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        mToolbar = findViewById(R.id.back_toolbar);
-        mToolbar.setOnClickListener(view -> onBackPressed());
+        /*mToolbar = findViewById(R.id.back_toolbar);
+        mToolbar.setOnClickListener(view -> onBackPressed());*/
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();

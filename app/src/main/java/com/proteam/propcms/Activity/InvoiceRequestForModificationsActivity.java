@@ -10,47 +10,58 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.proteam.propcms.Adapters.IrfcListAdapter;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
-import com.proteam.propcms.Models.IrfcDataModel;
 import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Response.GenerealResponse;
+import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.RequestForModificationListResponse;
+import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class InvoiceRequestForModificationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener {
+public class InvoiceRequestForModificationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
     ImageView mToolbar;
     EditText edt_from_irfm;
-    int mMonth, mDay, mYear;
+    int mMonth,mDay,mYear;
     Spinner sp_all_project_irfm;
-    TextView temp_btn;
+    TextView temp_btn,tv_count;
     RecyclerView rv_irfm_Data_list;
-
-    List projectList = new ArrayList();
-
     ProgressDialog progressDialog;
-
+    List projectList = new ArrayList();
+    ArrayList<IrfmDataModel> arrayList = new ArrayList<IrfmDataModel>();
+    ArrayList<IrfmDataModel> filterarraylist = new ArrayList<IrfmDataModel>();
+    private OnClick mClick;
+    Map map = new HashMap();
+    Button approve,reject,btn_search_list;
+    Map projectmap = new HashMap();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,23 +71,52 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
         initialize();
         sp_all_project_irfm.setOnItemSelectedListener(OnCatSpinnerCL);
-
-
-        IrfmDataModel[] irfmDataModels = new IrfmDataModel[]{
-                new IrfmDataModel(R.drawable.eye, R.drawable.ic_invoice, R.drawable.ic_send, R.drawable.ic_upload, R.drawable.modification, "FAS-UDN001", "PTSB/1701/21-22", "Sunil m das", "Need the Invoice date to be modified to 17th November 2021", "Udaan", "Fixed Assets Verification", "South", "Bangalore", "29AADCH8879C1Z5", "AADCH8879C", "75,000.00", "18%", "2021-10", "Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021"),
-                new IrfmDataModel(R.drawable.eye, R.drawable.ic_invoice, R.drawable.ic_send, R.drawable.ic_upload, R.drawable.modification, "FAS-BEL001", "PTSB/1700/21-22", "Sunil m das", "This invoice needs to be split into 3 invoices as per below calculation Invoice 1 - Rs. 55000 + GST ", "Brigade", "Fixed Assets Verification", "South", "Bangalore", "29AAACB7459F1ZI", "AAACB7459F", "1,25,040.00", "18%", "2021-10", "Professional Charges towards Fixed Assets Verification conducted at Brigade Utopia sites during the month of October 2021"),
-
-        };
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
-        IrfmListAdapter adapter = new IrfmListAdapter(irfmDataModels);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(InvoiceRequestForModificationsActivity.this,MainActivity.class);
+        startActivity(intent);
+        finishAffinity();
+    }
+
+    private void initialize()
+    {
+        rv_irfm_Data_list=findViewById(R.id.rv_irfm_Data_list);
+        temp_btn=findViewById(R.id.temp_btn);
+        temp_btn.setOnClickListener(this);
+        edt_from_irfm=findViewById(R.id.edt_from_irfm);
+        edt_from_irfm.setOnClickListener(this);
+        sp_all_project_irfm=findViewById(R.id.sp_all_project_irfm);
+        tv_count = findViewById(R.id.tv_count);
+        approve = findViewById(R.id.btn_approve_invoise);
+        reject = findViewById(R.id.btn_reject_invoise);
+        btn_search_list = findViewById(R.id.btn_search_list);
+        btn_search_list.setOnClickListener(this);
+        approve.setOnClickListener(this);
+        reject.setOnClickListener(this);
+
+        callmodificationApi();
+    }
+
+    private void callmodificationApi() {
+
+        progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
+                webServices.invoicemodificationapi(WebServices.ApiType.invoicemod);
+            } else {
+
+            }
+        }
+    }
 
     private void callProjectListApi() {
 
@@ -95,27 +135,31 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(InvoiceRequestForModificationsActivity.this, MainActivity.class);
-        startActivity(intent);
-        finishAffinity();
-    }
+    /*private void callcompanyApi() {
 
-    private void initialize() {
-        rv_irfm_Data_list = findViewById(R.id.rv_irfm_Data_list);
-        temp_btn = findViewById(R.id.temp_btn);
-        temp_btn.setOnClickListener(this);
-        edt_from_irfm = findViewById(R.id.edt_from_irfm);
-        edt_from_irfm.setOnClickListener(this);
-        sp_all_project_irfm = findViewById(R.id.sp_all_project_irfm);
-        callProjectListApi();
-    }
+        progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                CompanyDetailsModel companyDetailsModel = new CompanyDetailsModel("1");
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
+                webServices.companyname(WebServices.ApiType.invoicemod,companyDetailsModel);
+            } else {
+
+            }
+        }
+    }*/
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        switch (view.getId())
+        {
+
+
             case R.id.edt_from_irfm:
                 Calendar mcurrentDate = Calendar.getInstance();
                 String myFormat = "MMMM yyyy";
@@ -124,7 +168,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mcurrentDate.set(Calendar.YEAR, year);
+                        mcurrentDate.set(Calendar.YEAR, year) ;
                         mcurrentDate.set(Calendar.MONTH, month);
 
                         edt_from_irfm.setText(sdf.format(mcurrentDate.getTime()));
@@ -133,41 +177,144 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         mYear = year;
 
                     }
-                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)) {
+                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
                     @Override
                     protected void onCreate(Bundle savedInstanceState) {
                         super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                        getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
                     }
                 };
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
-                // monthDatePickerDialog.getDatePicker().setMaxDate(mcurrentDate.getTimeInMillis());
+               // monthDatePickerDialog.getDatePicker().setMaxDate(mcurrentDate.getTimeInMillis());
                 // monthDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 break;
 
             case R.id.temp_btn:
-                opengcadminDialog();
+                break;
+
+            case R.id.btn_approve_invoise:
+                callapproveApi();
+                break;
+
+            case R.id.btn_reject_invoise:
+                callRejectApi();
+                break;
+            case R.id.btn_search_list:
+                Searchlist();
                 break;
         }
     }
 
+    private void callapproveApi() {
 
-    private void opengcadminDialog() {
-        final Dialog dialog = new Dialog(this);
+        ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
 
-        dialog.setContentView(R.layout.dialog_irfm_all_details);
-        Window window = dialog.getWindow();
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.show();
+            progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
 
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
 
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+            WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
+            webServices.approvecall(WebServices.ApiType.approve, invApproverequest);
+        }
+            }
+        }
+
+    }
+
+    private void  callRejectApi() {
+
+                ArrayList list = new ArrayList(map.values());
+
+                if (list.size()==0){
+                    Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+                    if (progressDialog != null) {
+                        if (!progressDialog.isShowing()) {
+
+                            progressDialog.setCancelable(false);
+                            progressDialog.setMessage("Please wait...");
+                            progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
+                    webServices.rejectcall(WebServices.ApiType.approve,invApproverequest);
+                }
+
+            }
+        }
     }
 
     @Override
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
 
         switch (URL) {
+
+            case invoicemod:
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if(response!=null){
+                    RequestForModificationListResponse invoiceres = (RequestForModificationListResponse) response;
+                    List list = new ArrayList();
+                    list = invoiceres.getList();
+                    tv_count.setText(String.valueOf(list.size()));
+                    for (int i=0;i<list.size();i++){
+
+                       arrayList.add(new IrfmDataModel(invoiceres.getList().get(i).getPc_code(),
+                               invoiceres.getList().get(i).getInvoice_number(),
+                               invoiceres.getList().get(i).getUser_id(),
+                               invoiceres.getList().get(i).getRequest_remarks(),
+                               invoiceres.getList().get(i).getGroup_name(),
+                               invoiceres.getList().get(i).getAssignment(),
+                               invoiceres.getList().get(i).getRegion(),
+                               invoiceres.getList().get(i).getPlace(),
+                               invoiceres.getList().get(i).getGstin_no(),
+                               invoiceres.getList().get(i).getPan_no_customer(),
+                               invoiceres.getList().get(i).getAmount(),
+                               invoiceres.getList().get(i).getGst_percentage(),
+                               invoiceres.getList().get(i).getMonth(),
+                               invoiceres.getList().get(i).getDescription(),
+                               invoiceres.getList().get(i).getProcess_owner(),
+                               invoiceres.getList().get(i).getId(),
+                               invoiceres.getList().get(i).getProject_id()));
+
+                    };
+
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
+                        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerView.setAdapter(adapter);
+                        callProjectListApi();
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
 
             case projectlist:
 
@@ -186,9 +333,9 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                         for (int i = 0; i < list.size(); i++) {
 
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name());
                         }
-
 
                         ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForModificationsActivity.this, android.R.layout.simple_list_item_1, projectList);
                         sp_all_project_irfm.setAdapter(adapter);
@@ -202,8 +349,69 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                 }
                 break;
+
+            case approve:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        GenerealResponse generealResponse = (GenerealResponse) response;
+
+                        Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
         }
     }
+
+    private void Searchlist() {
+
+        //String project_id = (String) projectmap.get(sp_all_project_irfm.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList.size();i++){
+
+            String project_id = "365";
+
+            if(arrayList.get(i).getProjectid().equalsIgnoreCase(project_id)){
+
+                filterarraylist.add(new IrfmDataModel(arrayList.get(i).getIrfmPcCode(),
+                        arrayList.get(i).getIrfmInvoiceNo(),
+                        arrayList.get(i).getIrfmProcessOwner(),
+                        arrayList.get(i).getIrfmRequestForChange(),
+                        arrayList.get(i).getIrfmGroup(),
+                        arrayList.get(i).getIrfmAssignment(),
+                        arrayList.get(i).getIrfmRegion(),
+                        arrayList.get(i).getIrfmPlace(),
+                        arrayList.get(i).getIrfmGstinNo(),
+                        arrayList.get(i).getIrfmPanOfCustomer(),
+                        arrayList.get(i).getIrfmTaxableAmount(),
+                        arrayList.get(i).getIrfmGstRate(),
+                        arrayList.get(i).getIrfmForMonth(),
+                        arrayList.get(i).getIrfmDescription(),
+                        arrayList.get(i).getProcessowner(),
+                        arrayList.get(i).getId(),
+                        arrayList.get(i).getProjectid()));
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
+            IrfmListAdapter adapter = new IrfmListAdapter(filterarraylist,this);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+
+        }
+
+    }
+
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -219,4 +427,135 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         }
     };
 
+    private void callapproveindividualApi() {
+
+        ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
+                    webServices.approvecall(WebServices.ApiType.approve, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+
+    private void opengcadminDialog(String position) {
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.dialog_irfm_all_details);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        LinearLayout ll_popups = dialog.findViewById(R.id.ll_popups);
+        LinearLayout ll_invoice = dialog.findViewById(R.id.ll_invoice);
+        TextView tv_pccode = dialog.findViewById(R.id.tv_pccode);
+        TextView invoice = dialog.findViewById(R.id.tv_invoise_no);
+        TextView owner = dialog.findViewById(R.id.tv_process_owner);
+        TextView change = dialog.findViewById(R.id.tv_requesting);
+        TextView group = dialog.findViewById(R.id.tv_group);
+        TextView assign = dialog.findViewById(R.id.tv_assignment);
+        TextView region = dialog.findViewById(R.id.tv_region);
+        TextView tv_place = dialog.findViewById(R.id.tv_place);
+        TextView tv_gstin = dialog.findViewById(R.id.tv_gstin);
+        TextView tv_pan_no = dialog.findViewById(R.id.tv_pan_no);
+        TextView tv_tax = dialog.findViewById(R.id.tv_tax);
+        TextView tv_gst_rate = dialog.findViewById(R.id.tv_gst_rate);
+        TextView tv_month = dialog.findViewById(R.id.tv_month);
+        TextView tv_discription = dialog.findViewById(R.id.tv_discription);
+        Button approve = dialog.findViewById(R.id.btn_approve);
+        Button reject = dialog.findViewById(R.id.btn_reject);
+        ImageView back_toolbar = dialog.findViewById(R.id.back_toolbar);
+
+        IrfmDataModel irfmDataModel = arrayList.get(Integer.parseInt(position));
+
+        invoice.setText(irfmDataModel.getIrfmInvoiceNo());
+        owner.setText(irfmDataModel.getIrfmProcessOwner());
+        change.setText(irfmDataModel.getIrfmRequestForChange());
+        group.setText(irfmDataModel.getIrfmGroup());
+        assign.setText(irfmDataModel.getIrfmAssignment());
+        region.setText(irfmDataModel.getIrfmRegion());
+        tv_place.setText(irfmDataModel.getIrfmPlace());
+        tv_gstin.setText(irfmDataModel.getIrfmGstinNo());
+        tv_pan_no.setText(irfmDataModel.getIrfmPanOfCustomer());
+        tv_tax.setText(irfmDataModel.getIrfmTaxableAmount());
+        tv_gst_rate.setText(irfmDataModel.getIrfmGstRate());
+        tv_month.setText(irfmDataModel.getIrfmForMonth());
+        tv_discription.setText(irfmDataModel.getIrfmDescription());
+        tv_pccode.setText(irfmDataModel.getIrfmPcCode());
+
+        ll_invoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("https://pcmsdemo.proteam.co.in//upload/bi_docs/6868e91d7d7f14d22.pdf"));
+                        startActivity(viewIntent);
+            }
+        });
+        approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        back_toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        ll_popups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openrequestdialog( position);
+            }
+        });
+
+    }
+
+    private void openrequestdialog(String position) {
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.dialoge_requesting_details);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+
+    }
+
+    @Override
+    public void onClickitem(String value,int item,String id) {
+
+        if(item==1){
+            opengcadminDialog(value);
+        }else if(item==2){
+            openrequestdialog(value);
+        }else if(item==3){
+            map.put(value,id);
+        }else if(item==4){
+            map.remove(value);
+        }
+    }
 }

@@ -364,7 +364,9 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -390,6 +392,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_weight="1"
+
                         android:entries="@array/divisionHead"
                         android:layout_marginEnd="10dp"
                         android:layout_marginTop="6dp"
@@ -399,10 +402,23 @@
                         android:textColor="@color/grey"
                         app:hintText="All Division Head" />
 
-
-
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:entries="@array/company"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/spinner_background"
+                        android:fontFamily="@font/proxima_family"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/grey"
+                        app:hintText="All Company" />
                 </LinearLayout>
+
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

@@ -174,13 +174,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
 
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 }

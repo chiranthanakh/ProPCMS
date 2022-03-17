@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_vct_ALl_data_view"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/eye"
+                app:tint="@color/icon_color" />
+
+            <ImageView
+                android:id="@+id/iv_vct_action_invoice"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/icon_color" />
+            <ImageView
+                android:id="@+id/iv_vct_action_view"
+                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="?selectableItemBackground"
+                android:src="@drawable/delete"
+                app:tint="@color/icon_color" />
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/ch_vct_check_data"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="25dp"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_vct_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="5dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/doc"
+            app:tint="@color/icon_color" />
+
+        <ImageView
+            android:id="@+id/iv_vct_status_modification"
+            android:layout_width="35dp"
+            android:padding="5dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="45dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/pending" />
+
+        <TextView
+            android:id="@+id/tv_vct_ctn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="CTN/0006/21-22"
+            android:gravity="center"
+            android:layout_marginStart="45dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_month"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="2021-04"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_expenseType"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Direct Expenses"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_from_pc_code"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="120dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:text="SAS-ALB001"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_to_pc_code"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="SAS-ABF002"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_transfer_cost"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="2,000.00"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_vct_remarks"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Remarks list"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="1dp"
+        android:background="@color/grey_very_light" />
+
+</LinearLayout>
