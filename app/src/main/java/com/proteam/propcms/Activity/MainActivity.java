@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DrawerLayout drawer_layout;
     ImageView iv_nav_view;
     int mMonth,mDay,mYear;
-    TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile;
+    TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile,tv_verifyBillingInstruction,tv_verifyCostTransfer;
     PieChart pieChart;
     LinearLayout ll_crnra,ll_irfm,ll_irfc;
     Button btn_logout;
@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialize()
     {
+        tv_verifyBillingInstruction=findViewById(R.id.tv_verifyBillingInstruction);
+        tv_verifyBillingInstruction.setOnClickListener(this);
+        tv_verifyCostTransfer=findViewById(R.id.tv_verifyCostTransfer);
+        tv_verifyCostTransfer.setOnClickListener(this);
         ll_select_data=findViewById(R.id.ll_select_data);
         ll_filter_data=findViewById(R.id.ll_filter_data);
         ll_filter_data.setOnClickListener(this);
@@ -246,6 +250,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_nav_profile:
                 Intent intent_profile = new Intent(MainActivity.this,ProfileActivity.class);
                 startActivity(intent_profile);
+                break;
+            case R.id.tv_verifyBillingInstruction:
+                Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
+                startActivity(intent_vbi);
+                break;
+            case R.id.tv_verifyCostTransfer:
+                Intent intent_vcy = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
+                startActivity(intent_vcy);
                 break;
 
             case R.id.btn_nav_logout:
