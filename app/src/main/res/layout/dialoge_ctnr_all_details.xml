@@ -47,6 +47,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_ctn"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_weight="1"
@@ -96,6 +97,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/iv_dia_edit"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -124,6 +126,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/iv_dia_delete"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -152,6 +155,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/iv_dia_upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -179,6 +183,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/iv_dia_status"
                                 android:layout_width="match_parent"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
@@ -225,8 +230,8 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_month"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -259,8 +264,8 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_directExpense"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -293,8 +298,8 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_fromPcCode"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -327,8 +332,8 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_TpPcCode"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -361,8 +366,8 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_transferCost"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -395,6 +400,7 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_dia_Remarks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -416,6 +422,7 @@
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_dia_approve"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignParentEnd="true"
@@ -432,6 +439,7 @@
                         android:textColor="@color/white" />
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_dia_reject"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignParentEnd="true"

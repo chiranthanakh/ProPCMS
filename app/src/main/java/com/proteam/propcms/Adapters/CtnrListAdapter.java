@@ -38,11 +38,7 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CtrnDataModel ctrnDataModel = listdata[position];
-        holder.iv_ctnr_ALl_data_view.setImageResource(listdata[position].getCtnrAllDetails());
-        holder.iv_ctnr_action_edit.setImageResource(listdata[position].getCtnrActionEdit());
-        holder.iv_ctnr_action_delete.setImageResource(listdata[position].getCtnrActionDelete());
-        holder.iv_ctnr_upload.setImageResource(listdata[position].getCtnrUpload());
-        holder.iv_ctnr_status_modification.setImageResource(listdata[position].getCtnrStatusModification());
+
 
         holder.tv_ctnr_ctn.setText(listdata[position].getCtnrCtn());
         holder.tv_ctnr_month.setText(listdata[position].getCtnrMonth());

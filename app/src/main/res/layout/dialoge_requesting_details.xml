@@ -64,7 +64,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
@@ -73,7 +73,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_marginTop="6dp"
-                            android:layout_marginEnd="10dp"
                             android:background="@drawable/spinner_background"
                             android:entries="@array/clients"
                             android:fontFamily="@font/proxima_family"
@@ -88,14 +87,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp">
+                            android:layout_height="wrap_content">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

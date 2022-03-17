@@ -2,18 +2,13 @@ package com.proteam.propcms.Models;
 
 public class IrfcDataModel {
 
-    int  irfcAlldata,irfcImageActionInvoice,irfcImageActionView,irfcImageUpload,irfcImageStatusModification;
+
     String irfcPcCode,irfcInvoiceNo,irfcInvoiceDate,irfcGroup,irfcAssignment,irfcBillTo,irfcBillingAddress,
             irfcReferenceNumber,irfcKindAttention,irfcRegion,irfcPlace,irfcGstinNo,irfcPanOfCustomer,
             irfcTaxableAmount,irfcGstRate,irfcForMonth,irfcDescription,irfcHsnSac,irfcParticulars,irfcStateOfSupplyCode,
             irfcTransactionType,irfcInvoiceWithWhom;
 
-    public IrfcDataModel(int irfcAlldata, int irfcImageActionInvoice, int irfcImageActionView, int irfcImageUpload, int irfcImageStatusModification, String irfcPcCode, String irfcInvoiceNo, String irfcInvoiceDate, String irfcGroup, String irfcAssignment, String irfcBillTo, String irfcBillingAddress, String irfcReferenceNumber, String irfcKindAttention, String irfcRegion, String irfcPlace, String irfcGstinNo, String irfcPanOfCustomer, String irfcTaxableAmount, String irfcGstRate, String irfcForMonth, String irfcDescription, String irfcHsnSac, String irfcParticulars, String irfcStateOfSupplyCode, String irfcTransactionType, String irfcInvoiceWithWhom) {
-        this.irfcAlldata = irfcAlldata;
-        this.irfcImageActionInvoice = irfcImageActionInvoice;
-        this.irfcImageActionView = irfcImageActionView;
-        this.irfcImageUpload = irfcImageUpload;
-        this.irfcImageStatusModification = irfcImageStatusModification;
+    public IrfcDataModel(String irfcPcCode, String irfcInvoiceNo, String irfcInvoiceDate, String irfcGroup, String irfcAssignment, String irfcBillTo, String irfcBillingAddress, String irfcReferenceNumber, String irfcKindAttention, String irfcRegion, String irfcPlace, String irfcGstinNo, String irfcPanOfCustomer, String irfcTaxableAmount, String irfcGstRate, String irfcForMonth, String irfcDescription, String irfcHsnSac, String irfcParticulars, String irfcStateOfSupplyCode, String irfcTransactionType, String irfcInvoiceWithWhom) {
         this.irfcPcCode = irfcPcCode;
         this.irfcInvoiceNo = irfcInvoiceNo;
         this.irfcInvoiceDate = irfcInvoiceDate;
@@ -36,46 +31,6 @@ public class IrfcDataModel {
         this.irfcStateOfSupplyCode = irfcStateOfSupplyCode;
         this.irfcTransactionType = irfcTransactionType;
         this.irfcInvoiceWithWhom = irfcInvoiceWithWhom;
-    }
-
-    public int getIrfcAlldata() {
-        return irfcAlldata;
-    }
-
-    public void setIrfcAlldata(int irfcAlldata) {
-        this.irfcAlldata = irfcAlldata;
-    }
-
-    public int getIrfcImageActionInvoice() {
-        return irfcImageActionInvoice;
-    }
-
-    public void setIrfcImageActionInvoice(int irfcImageActionInvoice) {
-        this.irfcImageActionInvoice = irfcImageActionInvoice;
-    }
-
-    public int getIrfcImageActionView() {
-        return irfcImageActionView;
-    }
-
-    public void setIrfcImageActionView(int irfcImageActionView) {
-        this.irfcImageActionView = irfcImageActionView;
-    }
-
-    public int getIrfcImageUpload() {
-        return irfcImageUpload;
-    }
-
-    public void setIrfcImageUpload(int irfcImageUpload) {
-        this.irfcImageUpload = irfcImageUpload;
-    }
-
-    public int getIrfcImageStatusModification() {
-        return irfcImageStatusModification;
-    }
-
-    public void setIrfcImageStatusModification(int irfcImageStatusModification) {
-        this.irfcImageStatusModification = irfcImageStatusModification;
     }
 
     public String getIrfcPcCode() {

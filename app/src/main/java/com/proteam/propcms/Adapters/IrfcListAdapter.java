@@ -41,11 +41,6 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final IrfcDataModel irfcDataModel = listdata[position];
-        holder.iv_irfc_ALl_data_view.setImageResource(listdata[position].getIrfcAlldata());
-        holder.iv_irfc_action_invoice.setImageResource(listdata[position].getIrfcImageActionInvoice());
-        holder.iv_irfc_action_view.setImageResource(listdata[position].getIrfcImageActionView());
-        holder.iv_irfc_upload.setImageResource(listdata[position].getIrfcImageUpload());
-        holder.iv_irfc_status_modification.setImageResource(listdata[position].getIrfcImageStatusModification());
 
         holder.tv_irfc_pc_code.setText(listdata[position].getIrfcPcCode());
         holder.tv_irfc_invoiceNo.setText(listdata[position].getIrfcInvoiceNo());
@@ -89,11 +84,6 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.iv_irfc_ALl_data_view = (ImageView) itemView.findViewById(R.id.iv_irfc_ALl_data_view);
-            this.iv_irfc_action_invoice = (ImageView) itemView.findViewById(R.id.iv_irfc_action_invoice);
-            this.iv_irfc_action_view = (ImageView) itemView.findViewById(R.id.iv_irfc_action_view);
-            this.iv_irfc_upload = (ImageView) itemView.findViewById(R.id.iv_irfc_upload);
-            this.iv_irfc_status_modification = (ImageView) itemView.findViewById(R.id.iv_irfc_status_modification);
 
             this.tv_irfc_pc_code = (TextView) itemView.findViewById(R.id.tv_irfc_pc_code);
 
