@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +34,13 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
     String user;
     SharedPreferences.Editor editor;
     ImageView iv_back;
+    LinearLayout progressLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        initilization();
         /*mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());*/
 
@@ -45,13 +48,15 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
         editor = sharedPreferences.edit();
         user = sharedPreferences.getString("userid", null);
 
-        initilization();
+        progressLayout.setOnClickListener(v->{});
+
+
         callprofileApi();
 
     }
 
     private void initilization() {
-
+        progressLayout=findViewById(R.id.progress_layout);
         iv_back=findViewById(R.id.iv_back);
         edt_conform_pass = findViewById(R.id.edt_conform_pass);
         edt_password = findViewById(R.id.edt_password);
@@ -80,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
     }
 
     private void callprofileApi() {
+        progressLayout.setVisibility(View.VISIBLE);
 
         progressDialog=new ProgressDialog(ProfileActivity.this);
         if(progressDialog!=null)
@@ -89,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
 
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
-                progressDialog.show();
+                //progressDialog.show();
 
                 UserIdRequest userIdRequest = new UserIdRequest(user);
                 WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(ProfileActivity.this);
@@ -154,6 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
         switch (URL) {
             case profile:
+                progressLayout.setVisibility(View.GONE);
 
                 if(progressDialog!=null)
                 {

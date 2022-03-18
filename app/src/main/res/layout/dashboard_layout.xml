@@ -106,7 +106,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/cc_For_managerLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -275,6 +275,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:visibility="gone"
+                    android:id="@+id/cc_For_divisionLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"

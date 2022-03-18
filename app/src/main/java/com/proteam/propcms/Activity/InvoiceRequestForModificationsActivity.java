@@ -3,6 +3,7 @@ package com.proteam.propcms.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -66,6 +67,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     Map projectmap = new HashMap();
     ArrayList<IrfmDataModel> temp = new ArrayList();
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
         initialize();
         sp_all_project_irfm.setOnItemSelectedListener(OnCatSpinnerCL);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+               // callProjectListApi();
+                callmodificationApi();
+            }
+        });
     }
 
     @Override
@@ -98,6 +108,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         reject = findViewById(R.id.btn_reject_invoise);
         btn_search_list = findViewById(R.id.btn_search_list);
         edt_search = findViewById(R.id.edt_search_irfm);
+        swipeRefreshLayout=findViewById(R.id.swiperefresh);
         btn_search_list.setOnClickListener(this);
         approve.setOnClickListener(this);
         reject.setOnClickListener(this);
@@ -347,6 +358,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         switch (URL) {
 
             case invoicemod:
+                swipeRefreshLayout.setRefreshing(false);
                 if(progressDialog!=null)
                 {
                     if(progressDialog.isShowing())
@@ -362,6 +374,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     List list = new ArrayList();
                     list = invoiceres.getList();
                     tv_count.setText(String.valueOf(list.size()));
+                        arrayList.clear();
                     for (int i=0;i<list.size();i++){
 
                        arrayList.add(new IrfmDataModel(invoiceres.getList().get(i).getPc_code(),
@@ -405,6 +418,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 break;
 
             case projectlist:
+              //  swipeRefreshLayout.setRefreshing(false);
 
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) {

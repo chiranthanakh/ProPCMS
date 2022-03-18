@@ -1,6 +1,7 @@
 package com.proteam.propcms.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -58,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText edt_home_month;
     Spinner sp_division_home,sp_clients_home,sp_division_head_home,sp_company_home;
 
+    CardView cc_For_managerLogin,cc_For_divisionLogin;
     LinearLayout ll_select_data,ll_filter_data;
 
 
-    // horizontalchart variable for our bar chart
+    // horizontal chart variable for our bar chart
     BarChart barChart;
 
     // horizontalchart variable for our bar data set.
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String user = sharedPreferences.getString("userid", null);
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }*/
+        }
 
         initialize();
         setData();
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialize()
     {
+        cc_For_divisionLogin=findViewById(R.id.cc_For_divisionLogin);
+        cc_For_managerLogin=findViewById(R.id.cc_For_managerLogin);
         ll_Verify_CTN=findViewById(R.id.ll_Verify_CTN);
         ll_Verify_CTN.setOnClickListener(this);
         ll_verify_BI=findViewById(R.id.ll_verify_BI);
@@ -226,15 +230,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
-            case R.id.irfc:
 
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW",
-                                Uri.parse("https://pcmsdemo.proteam.co.in//upload/bi_docs/6868e91d7d7f14d22.pdf"));
-                startActivity(viewIntent);
-
-                break;
             case R.id.ll_irfc:
+            case R.id.irfc:
                 Intent intent_irfc= new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);
                 startActivity(intent_irfc);
                 break;
