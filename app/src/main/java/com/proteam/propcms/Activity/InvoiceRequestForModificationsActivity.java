@@ -83,6 +83,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
             public void onRefresh() {
                // callProjectListApi();
                 callmodificationApi();
+                edt_search.setText("");
             }
         });
     }
