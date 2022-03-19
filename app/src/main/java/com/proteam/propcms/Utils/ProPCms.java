@@ -6,6 +6,8 @@ import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
+import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProfileResponse;
@@ -44,4 +46,11 @@ public interface ProPCms {
 
     @POST("Pcms_apis/invoice_req_for_modification_reject")
     Call<GenerealResponse> rejectList(@Body InvApproverequest invApproverequest);
+
+    @POST("Pcms_apis/company_name_list")
+    Call<CompanyListResponse> companys();
+
+    @POST("Pcms_apis/division_head_list")
+    Call<DevisionHeadList> heads();
+
 }
