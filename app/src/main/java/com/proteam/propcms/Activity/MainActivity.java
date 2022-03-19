@@ -41,10 +41,14 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Response.CompanyListResponse;
 import com.proteam.propcms.Response.DevisionHeadList;
+import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
@@ -73,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CardView cc_For_managerLogin,cc_For_divisionLogin;
     LinearLayout ll_select_data,ll_filter_data;
     ProgressDialog progressDialog;
+
+    List divisionList = new ArrayList();
 
     // horizontal chart variable for our bar chart
     BarChart barChart;
@@ -166,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         iv_nav_view.setOnClickListener(this);
         //callcompanyapi();
         callDheadapi();
+        callDivisionListApi();
 
     }
 
@@ -344,12 +351,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case divisionlist:
+                //  swipeRefreshLayout.setRefreshing(false);
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+                        List list = new ArrayList();
+                        DivisionListResponse divisionListResponse = (DivisionListResponse) response;
+
+                        list = divisionListResponse.getDivision_list();
+
+                        for (int i = 0; i < list.size(); i++) {
+
+
+                            divisionList.add(divisionListResponse.getDivision_list().get(i).getDivision_name());
+                        }
+
+                        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, divisionList);
+                        sp_division_home.setAdapter(adapter);
+
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
 
         }
 
     }
 
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
+
+
+    private void callDivisionListApi() {
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                DivisionListModel divisionListModel = new DivisionListModel("21");
+                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
+                webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+            }
+        }
+
+    }
+
 
     private void callcompanyapi() {
 

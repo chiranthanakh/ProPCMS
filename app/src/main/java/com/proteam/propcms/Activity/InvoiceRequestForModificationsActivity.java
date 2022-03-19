@@ -1,10 +1,5 @@
 package com.proteam.propcms.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -29,10 +24,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
-import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Response.GenerealResponse;
@@ -45,9 +44,6 @@ import com.proteam.propcms.Utils.WebServices;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

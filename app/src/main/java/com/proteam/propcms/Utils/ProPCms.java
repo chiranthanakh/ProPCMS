@@ -1,6 +1,7 @@
 package com.proteam.propcms.Utils;
 
 import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
@@ -8,6 +9,7 @@ import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
 import com.proteam.propcms.Response.CompanyListResponse;
 import com.proteam.propcms.Response.DevisionHeadList;
+import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProfileResponse;
@@ -52,5 +54,8 @@ public interface ProPCms {
 
     @POST("Pcms_apis/division_head_list")
     Call<DevisionHeadList> heads();
+
+    @POST("Pcms_apis/division_list")
+    Call<DivisionListResponse> divisionnamelist(@Body DivisionListModel divisionListModel);
 
 }

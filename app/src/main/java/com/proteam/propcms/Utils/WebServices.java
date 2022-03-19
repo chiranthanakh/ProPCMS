@@ -8,6 +8,7 @@ import android.widget.Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
@@ -46,7 +47,7 @@ public class WebServices<T> {
     private static OkHttpClient.Builder builder;
 
     public enum ApiType {
-       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist
+       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -351,6 +352,31 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.heads();
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+
+    public void divisionlist( ApiType apiTypes, DivisionListModel divisionListModel)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.divisionnamelist(divisionListModel);
 
         call.enqueue(new Callback<T>() {
             @Override
