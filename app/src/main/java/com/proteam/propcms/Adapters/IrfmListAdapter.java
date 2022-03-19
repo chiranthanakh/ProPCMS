@@ -25,9 +25,13 @@ import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Utils.OnClick;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHolder>  {
@@ -69,7 +73,7 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
         holder.tv_irfm_pc_code.setText(listdata.get(position).getIrfmPcCode());
 
         holder.tv_irfm_invoice_no.setText(listdata.get(position).getIrfmInvoiceNo());
-        holder.tv_irfm_process_owner.setText(listdata.get(position).getProcessowner());
+        holder.tv_irfm_process_owner.setText( StringUtils.capitalize(listdata.get(position).getProcessowner().toLowerCase().trim()));
         holder.tv_irfm_requestFor_change.setText(listdata.get(position).getIrfmRequestForChange());
         holder.tv_irfm_group.setText(listdata.get(position).getIrfmGroup());
         holder.tv_irfm_assignment.setText(listdata.get(position).getIrfmAssignment());
@@ -77,10 +81,14 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
         holder.tv_irfm_place.setText(listdata.get(position).getIrfmPlace());
         holder.tv_irfm_gstin_no.setText(listdata.get(position).getIrfmGstinNo());
         holder.tv_irfm_panOf_customer.setText(listdata.get(position).getIrfmPanOfCustomer());
-        holder.tv_irfm_taxable_amount.setText(listdata.get(position).getIrfmTaxableAmount());
-        holder.tv_irfm_gst_rate.setText(listdata.get(position).getIrfmGstRate());
+        holder.tv_irfm_gst_rate.setText(listdata.get(position).getIrfmGstRate()+"%");
         holder.tv_irfm_forMonth.setText(listdata.get(position).getIrfmForMonth());
         holder.tv_irfm_description.setText(listdata.get(position).getIrfmDescription());
+
+        float amount = Float.parseFloat(listdata.get(position).getIrfmTaxableAmount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+        holder.tv_irfm_taxable_amount.setText(moneyString);
 
         holder.iv_irfm_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -33,7 +33,7 @@ public class RequestForModificationResponse {
     @Expose
     private String assignment;
 
-    @SerializedName("region")
+    @SerializedName("region_name")
     @Expose
     private String region;
 

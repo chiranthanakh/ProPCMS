@@ -156,7 +156,7 @@
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="Upload \nDocuments"
+                        android:text="View \nDocuments"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 
@@ -182,7 +182,7 @@
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="Invoice \nPending"
+                        android:text="Invoice \nModification"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 

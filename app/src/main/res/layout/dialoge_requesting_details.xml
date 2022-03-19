@@ -92,6 +92,8 @@
                                     android:layout_height="50dp"
                                     android:fontFamily="@font/proxima_family"
                                     android:hint="Status"
+                                    android:focusable="false"
+                                    android:clickable="false"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     android:textSize="14sp" />
@@ -130,6 +132,8 @@
                                     android:layout_height="50dp"
                                     android:fontFamily="@font/proxima_family"
                                     android:hint="Date"
+                                    android:focusable="false"
+                                    android:clickable="false"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     android:textSize="14sp" />
@@ -158,6 +162,8 @@
                             android:drawableTint="@color/grey"
                             android:fontFamily="@font/lato"
                             android:hint="Remarks"
+                            android:focusable="false"
+                            android:clickable="false"
                             android:maxLines="5"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey"

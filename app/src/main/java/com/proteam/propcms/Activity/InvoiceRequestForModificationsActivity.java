@@ -43,11 +43,18 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class InvoiceRequestForModificationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
@@ -66,6 +73,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     Button approve,reject,btn_search_list;
     Map projectmap = new HashMap();
     ArrayList<IrfmDataModel> temp = new ArrayList();
+    ImageView iv_clear;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -110,6 +118,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         btn_search_list = findViewById(R.id.btn_search_list);
         edt_search = findViewById(R.id.edt_search_irfm);
         swipeRefreshLayout=findViewById(R.id.swiperefresh);
+        iv_clear = findViewById(R.id.iv_clear);
+        iv_clear.setOnClickListener(this);
         btn_search_list.setOnClickListener(this);
         approve.setOnClickListener(this);
         reject.setOnClickListener(this);
@@ -283,6 +293,15 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 callapproveApi();
                 break;
 
+            case R.id.iv_clear:
+
+                edt_from_irfm.setText("");
+                ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForModificationsActivity.this, android.R.layout.simple_list_item_1, projectList);
+                sp_all_project_irfm.setAdapter(adapter);
+                Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+
+                break;
+
             case R.id.btn_reject_invoise:
                 callRejectApi();
                 break;
@@ -293,11 +312,11 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     if(!edt_from_irfm.getText().toString().isEmpty()){
                         Searchlist();
                     }else {
-                        Toast.makeText(this, "Please select month", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
                     }
 
                 }else {
-                    Toast.makeText(this, "Select project", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -308,7 +327,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
         ArrayList list = new ArrayList(map.values());
         if (list.size()==0){
-            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
         }else {
 
             progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
@@ -333,7 +352,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 ArrayList list = new ArrayList(map.values());
 
                 if (list.size()==0){
-                    Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
                 }else {
 
                     progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
@@ -523,14 +542,14 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(14);
-            adaptorclass();
+            //adaptorclass();
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(14);
 
-            adaptorclass();
+
         }
     };
 
@@ -549,7 +568,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         ArrayList list = new ArrayList();
         list.add(id);
         if (list.size()==0){
-            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
         }else {
 
             progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
@@ -605,6 +624,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         dialog.show();
 
         LinearLayout ll_popups = dialog.findViewById(R.id.ll_popups);
+        LinearLayout ll_crnra = dialog.findViewById(R.id.ll_crnra);
         LinearLayout ll_invoice = dialog.findViewById(R.id.ll_invoice);
         TextView tv_pccode = dialog.findViewById(R.id.tv_pccode);
         TextView invoice = dialog.findViewById(R.id.tv_invoise_no);
@@ -621,13 +641,14 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         TextView tv_month = dialog.findViewById(R.id.tv_month);
         TextView tv_discription = dialog.findViewById(R.id.tv_discription);
         Button approve = dialog.findViewById(R.id.btn_approve);
+
         Button reject = dialog.findViewById(R.id.btn_reject);
         ImageView back_toolbar = dialog.findViewById(R.id.back_toolbar);
 
         IrfmDataModel irfmDataModel = arrayList.get(Integer.parseInt(position));
 
         invoice.setText(irfmDataModel.getIrfmInvoiceNo());
-        owner.setText(irfmDataModel.getIrfmProcessOwner());
+        owner.setText(StringUtils.capitalize(irfmDataModel.getProcessowner().toLowerCase().trim()));
         change.setText(irfmDataModel.getIrfmRequestForChange());
         group.setText(irfmDataModel.getIrfmGroup());
         assign.setText(irfmDataModel.getIrfmAssignment());
@@ -635,11 +656,33 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         tv_place.setText(irfmDataModel.getIrfmPlace());
         tv_gstin.setText(irfmDataModel.getIrfmGstinNo());
         tv_pan_no.setText(irfmDataModel.getIrfmPanOfCustomer());
-        tv_tax.setText(irfmDataModel.getIrfmTaxableAmount());
-        tv_gst_rate.setText(irfmDataModel.getIrfmGstRate());
+
+       /* NumberFormat formatter = new DecimalFormat("#,###");
+        double myNumber = 1000000;
+        String formattedNumber = formatter.format(String.valueOf(irfmDataModel.getIrfmTaxableAmount()));*/
+
+        float amount = Float.parseFloat(irfmDataModel.getIrfmTaxableAmount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+        tv_tax.setText(moneyString);
+
+        tv_gst_rate.setText(irfmDataModel.getIrfmGstRate()+"%");
         tv_month.setText(irfmDataModel.getIrfmForMonth());
         tv_discription.setText(irfmDataModel.getIrfmDescription());
         tv_pccode.setText(irfmDataModel.getIrfmPcCode());
+
+        ll_crnra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("https://pcmsdemo.proteam.co.in//upload/bi_docs/6868e91d7d7f14d22.pdf"));
+                startActivity(viewIntent);*/
+
+                Toast.makeText(InvoiceRequestForModificationsActivity.this, "No document to view", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         ll_invoice.setOnClickListener(new View.OnClickListener() {
             @Override

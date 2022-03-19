@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -38,6 +41,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.DevisionHeadList;
+import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Utils.OnResponseListener;
+import com.proteam.propcms.Utils.WebServices;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -45,9 +54,11 @@ import org.eazegraph.lib.models.PieModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener {
     DrawerLayout drawer_layout;
     ImageView iv_nav_view;
     int mMonth,mDay,mYear;
@@ -61,20 +72,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     CardView cc_For_managerLogin,cc_For_divisionLogin;
     LinearLayout ll_select_data,ll_filter_data;
-
+    ProgressDialog progressDialog;
 
     // horizontal chart variable for our bar chart
     BarChart barChart;
-
     // horizontalchart variable for our bar data set.
     BarDataSet barDataSet1, barDataSet2;
-
     // horizontalchart array list for storing entries.
     ArrayList barEntries;
-
     // horizontalchart creating a string array for displaying days.
     String[] days = new String[]{"Sep-2021", "Oct-2021","Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
     SharedPreferences.Editor editor;
+
+
+    Map companymap = new HashMap();
+    List companyList = new ArrayList();
+    Map headmap = new HashMap();
+    List headList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,42 +164,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer_layout = findViewById(R.id.drawer_layout_main);
         iv_nav_view=findViewById(R.id.iv_nav_view);
         iv_nav_view.setOnClickListener(this);
+        //callcompanyapi();
+        callDheadapi();
+
     }
-    private void setData()
-    {
-
-        // Set the percentage of language used
-        tvR.setText(Integer.toString(40));
-        tvPython.setText(Integer.toString(30));
-        tvCPP.setText(Integer.toString(5));
-        tvJava.setText(Integer.toString(25));
-
-        // Set the data and color to the pie chart
-        pieChart.addPieSlice(
-                new PieModel(
-                        "R",
-                        Integer.parseInt(tvR.getText().toString()),
-                        Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.parseInt(tvPython.getText().toString()),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt(tvCPP.getText().toString()),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt(tvJava.getText().toString()),
-                        Color.parseColor("#29B6F6")));
-
-        // To animate the pie chart
-        pieChart.startAnimation();
-    }
-
 
 
     @Override
@@ -253,7 +235,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent_profile = new Intent(MainActivity.this,ProfileActivity.class);
                 startActivity(intent_profile);
                 break;
+
             case R.id.tv_verifyBillingInstruction:
+
+                break;
+
             case R.id.ll_verify_BI:
                 Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi);
@@ -277,6 +263,136 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+    @Override
+    public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
+
+        switch (URL) {
+            case companylist:
+
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    CompanyListResponse companyListResponse = (CompanyListResponse) response;
+                    List list = new ArrayList();
+                    list = companyListResponse.getCompany_list();
+
+                    if(response!=null){
+
+                        for (int i=0; i<list.size();i++){
+
+                            companyList.add(companyListResponse.getCompany_list().get(i).getCompany_name());
+                            companymap.put(companyListResponse.getCompany_list().get(i).getCompany_name(),companyListResponse.getCompany_list().get(i).getCompany_id());
+                        }
+                        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, companyList);
+                        sp_company_home.setAdapter(adapter);
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+            case headlist:
+
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    DevisionHeadList devisionHeadList = (DevisionHeadList) response;
+                    List list = new ArrayList();
+                    list = devisionHeadList.getHead_list();
+
+                    if(response!=null){
+
+                        for (int i=0; i<list.size();i++){
+
+                            headList.add(devisionHeadList.getHead_list().get(i).getHead_name());
+                            headmap.put(devisionHeadList.getHead_list().get(i).getHead_name(),devisionHeadList.getHead_list().get(i).getId());
+                        }
+                        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, headList);
+                        sp_division_head_home.setAdapter(adapter);
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+
+        }
+
+    }
+
+    ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
+
+    private void callcompanyapi() {
+
+        progressDialog=new ProgressDialog(MainActivity.this);
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing())
+            {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
+                webServices.companylist( WebServices.ApiType.companylist );
+            }
+            else {
+
+            }
+        }
+    }
+
+    private void callDheadapi() {
+
+        progressDialog=new ProgressDialog(MainActivity.this);
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing())
+            {
+
+               /* progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();*/
+
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
+                webServices.headlist( WebServices.ApiType.headlist );
+            }
+            else {
+
+            }
+        }
+    }
+
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -409,4 +525,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return barEntries;
     }
+
+    private void setData()
+    {
+
+        // Set the percentage of language used
+        tvR.setText(Integer.toString(40));
+        tvPython.setText(Integer.toString(30));
+        tvCPP.setText(Integer.toString(5));
+        tvJava.setText(Integer.toString(25));
+
+        // Set the data and color to the pie chart
+        pieChart.addPieSlice(
+                new PieModel(
+                        "R",
+                        Integer.parseInt(tvR.getText().toString()),
+                        Color.parseColor("#FFA726")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Python",
+                        Integer.parseInt(tvPython.getText().toString()),
+                        Color.parseColor("#66BB6A")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "C++",
+                        Integer.parseInt(tvCPP.getText().toString()),
+                        Color.parseColor("#EF5350")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Java",
+                        Integer.parseInt(tvJava.getText().toString()),
+                        Color.parseColor("#29B6F6")));
+
+        // To animate the pie chart
+        pieChart.startAnimation();
+    }
+
+
 }
