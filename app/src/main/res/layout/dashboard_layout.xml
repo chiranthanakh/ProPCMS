@@ -439,7 +439,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
+
                     android:id="@+id/ll_select_data"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -575,6 +575,21 @@
                         android:gravity="center_vertical"
                         android:textColor="@color/grey"
                         app:hintText="All Company" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_search_list_dash"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/grey_new"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Search"
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
                 </LinearLayout>

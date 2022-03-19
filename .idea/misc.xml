@@ -10,15 +10,17 @@
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/button_capsule_border.xml" value="0.151" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/card_shadow_back_login.xml" value="0.135" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/doc.xml" value="0.1315" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/drawable/reload.xml" value="0.145" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_cost_transfer_note_request_approval.xml" value="0.20092592592592592" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_cancellations.xml" value="0.13773035887487875" />
-        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_modifications.xml" value="0.17416131334760884" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_modifications.xml" value="0.25" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_login.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_profile.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_verify_billing_instructions.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/activity_verify_cost_transfer.xml" value="0.22" />
-        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dashboard_layout.xml" value="0.36310679611650487" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dashboard_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialog_irfm_all_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_ctnr_all_details.xml" value="0.25" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_edit_verifycost_transfer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Pro-Team/AndroidStudioProjects/ProPCMS/app/src/main/res/layout/dialoge_irfc_all_details.xml" value="0.2" />
