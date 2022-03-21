@@ -9,13 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.proteam.propcms.Models.IrfcDataModel;
-import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
-import com.proteam.propcms.Utils.OnClick;
-
-import java.util.ArrayList;
 
 public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTransferAdapter.ViewHolder> {
 
@@ -31,7 +26,7 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.verify_cost_transfer_layout, parent, false);
+        View listItem= layoutInflater.inflate(R.layout.division_verify_cost_transfer_layout, parent, false);
         VerifyCostTransferAdapter.ViewHolder viewHolder = new VerifyCostTransferAdapter.ViewHolder(listItem);
         return viewHolder;
     }

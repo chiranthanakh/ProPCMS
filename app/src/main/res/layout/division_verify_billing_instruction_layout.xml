@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_BI_ALl_data_view"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/eye"
+                        app:tint="@color/icon_color" />
+
+                    <ImageView
+                        android:id="@+id/iv_BI_invoice"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/ic_invoice"
+                        app:tint="@color/icon_color" />
+
+                    <ImageView
+                        android:id="@+id/iv_BI_edit"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/icon_color" />
+                    <ImageView
+                        android:id="@+id/iv_BI_delete"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/delete"
+                        app:tint="@color/icon_color" />
+                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/ch_BI_check_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="25dp"
+                    android:gravity="center" />
+
+                <ImageView
+                    android:id="@+id/iv_BI_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/doc"
+                    app:tint="@color/icon_color" />
+
+                <ImageView
+                    android:id="@+id/iv_BI_status"
+                    android:layout_width="35dp"
+                    android:padding="5dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="55dp"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/pending" />
+
+                <TextView
+                    android:id="@+id/tv_BI_pcCode"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="SAS-ALB001"
+                    android:gravity="center"
+                    android:layout_marginStart="45dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_group"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="GE ITC"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_assignment"
+                    android:gravity="center"
+                    android:layout_marginStart="25dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Commercial Helpdesk"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_billTO"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="200dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="GE India Industrial Private Limited"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_billing_address"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="300dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066."
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_Reference_number"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="PO - 100040329"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_kindAttention"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Anu Anand"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_Region"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="South"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_place"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Karnataka"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_gstIn_no"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="29AAACG4901D1Z0"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_panOf_Customer"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="AAACG4901D"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_taxableAmount"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="50,000.00	"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_GstRate"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="18%"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_for_month"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="2021-02"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_description"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="Towards fees for managing the commercial helpdesk for the month of March 2020"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_hsn_sac"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="998311"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_particulars"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Management Consultancy Services	"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_stateOf_supply"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_transaction_type"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Interstate"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_BI_view"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="View"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="1dp"
+        android:background="@color/grey_very_light" />
+
+</LinearLayout>
