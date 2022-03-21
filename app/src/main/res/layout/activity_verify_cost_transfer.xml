@@ -388,7 +388,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_width="match_parent"
                         android:paddingBottom="120dp"
-                        tools:listitem="@layout/verify_cost_transfer_layout"
+                        tools:listitem="@layout/division_verify_cost_transfer_layout"
                         android:clipToPadding="false"
                         android:layout_height="match_parent"/>
 
