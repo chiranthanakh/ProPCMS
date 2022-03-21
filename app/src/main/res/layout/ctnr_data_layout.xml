@@ -50,8 +50,9 @@
                 android:src="@drawable/delete"
                 app:tint="@color/icon_color" />
         </LinearLayout>
+
         <CheckBox
-            android:id="@+id/ch_irfm_check_data"
+            android:id="@+id/ch_ctnr_check_data"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
