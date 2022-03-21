@@ -16,6 +16,7 @@ import com.proteam.propcms.Response.ProfileResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
+import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -57,5 +58,14 @@ public interface ProPCms {
 
     @POST("Pcms_apis/division_list")
     Call<DivisionListResponse> divisionnamelist(@Body DivisionListModel divisionListModel);
+
+    @POST("Pcms_apis/cost_transfer_note_request_for_approval_list")
+    Call<ApprovalList> invoiceapprove();
+
+    @POST("Pcms_apis/cost_transfer_note_request_for_approval_approve")
+    Call<GenerealResponse> aprovalctrnlist(@Body InvApproverequest invApproverequest);
+
+    @POST("Pcms_apis/cost_transfer_note_request_for_approval_reject")
+    Call<GenerealResponse> rejectctrnList(@Body InvApproverequest invApproverequest);
 
 }

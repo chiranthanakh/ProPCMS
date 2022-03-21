@@ -4,9 +4,9 @@ public class CtrnDataModel {
 
 
 
-    private String ctnrCtn,ctnrMonth,ctnrExpenseType,ctnrFromPcCode,ctnrToPcCode,ctnrTransferCost,ctnrRemarks;
+    private String ctnrCtn,ctnrMonth,ctnrExpenseType,ctnrFromPcCode,ctnrToPcCode,ctnrTransferCost,ctnrRemarks,id;
 
-    public CtrnDataModel(String ctnrCtn, String ctnrMonth, String ctnrExpenseType, String ctnrFromPcCode, String ctnrToPcCode, String ctnrTransferCost, String ctnrRemarks) {
+    public CtrnDataModel(String ctnrCtn, String ctnrMonth, String ctnrExpenseType, String ctnrFromPcCode, String ctnrToPcCode, String ctnrTransferCost, String ctnrRemarks, String id) {
         this.ctnrCtn = ctnrCtn;
         this.ctnrMonth = ctnrMonth;
         this.ctnrExpenseType = ctnrExpenseType;
@@ -14,6 +14,7 @@ public class CtrnDataModel {
         this.ctnrToPcCode = ctnrToPcCode;
         this.ctnrTransferCost = ctnrTransferCost;
         this.ctnrRemarks = ctnrRemarks;
+        this.id = id;
     }
 
     public String getCtnrCtn() {
@@ -70,5 +71,13 @@ public class CtrnDataModel {
 
     public void setCtnrRemarks(String ctnrRemarks) {
         this.ctnrRemarks = ctnrRemarks;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
