@@ -147,22 +147,54 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_search_vct"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="3dp"
-                android:backgroundTint="@color/grey_new"
-                android:fontFamily="@font/proxima_nova_bold"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="Search"
-                android:textColor="@color/white" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_search_vct"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey_new"
+                    android:fontFamily="@font/proxima_nova_bold"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Search"
+                    android:textColor="@color/white" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="3"
+                    android:background="?selectableItemBackground"
+                    android:backgroundTint="@color/white"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:id="@+id/iv_clear_vct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:src="@drawable/reload" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
             <LinearLayout

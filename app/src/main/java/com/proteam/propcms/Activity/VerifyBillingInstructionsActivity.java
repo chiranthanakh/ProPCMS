@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +35,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
     EditText edt_from_verify_BI;
+    TextView temp_btn_Bi;
     RecyclerView rv_verify_BI_Data_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
+        temp_btn_Bi=findViewById(R.id.temp_btn_Bi);
+        temp_btn_Bi.setOnClickListener(this);
         rv_verify_BI_Data_list=findViewById(R.id.rv_verify_BI_Data_list);
         edt_from_verify_BI=findViewById(R.id.edt_from_verify_BI);
         edt_from_verify_BI.setOnClickListener(this);
@@ -103,7 +110,25 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
+            case R.id.temp_btn_Bi:
+                opengcadminDialog();
+                break;
         }
+    }
+
+
+    private void opengcadminDialog() {
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.dialoge_division_bi_verification);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.show();
+
+
+
+
+
     }
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
