@@ -330,7 +330,7 @@
                                     android:id="@+id/ch_action"
                                     android:layout_width="wrap_content"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="5dp"
+                                    android:layout_marginStart="55dp"
                                     android:gravity="center" />
 
 
