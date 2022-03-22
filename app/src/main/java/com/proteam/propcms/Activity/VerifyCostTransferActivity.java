@@ -14,17 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
-import com.proteam.propcms.Models.CtrnDataModel;
-import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
 
@@ -37,6 +33,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     Spinner sp_all_project_vct;
     RecyclerView rv_vct_Data_list;
     EditText edt_from_vct;
+    TextView temp_btn_v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +68,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void initialize()
     {
+        temp_btn_v=findViewById(R.id.temp_btn_v);
+        temp_btn_v.setOnClickListener(this);
         edt_from_vct=findViewById(R.id.edt_from_vct);
         edt_from_vct.setOnClickListener(this);
         rv_vct_Data_list=findViewById(R.id.rv_vct_Data_list);
@@ -109,6 +108,10 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
+            case R.id.temp_btn_v:
+                opengAllDataDialog();
+                break;
+
         }
     }
 
@@ -126,10 +129,10 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         }
     };
 
-    private void opengAllDataDialog(String position) {
+    private void opengAllDataDialog() {
         final Dialog dialog = new Dialog(this);
 
-        dialog.setContentView(R.layout.dialoge_verifycost_transfer);
+        dialog.setContentView(R.layout.dialoge_division_verifycost_transfer);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
@@ -149,10 +152,10 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         ImageView iv_dia_vct_status = dialog.findViewById(R.id.iv_dia_vct_status);
     }
 
-    private void openEditDialog(String position) {
+    private void openEditDialog() {
         final Dialog dialog = new Dialog(this);
 
-        dialog.setContentView(R.layout.dialoge_edit_verifycost_transfer);
+        dialog.setContentView(R.layout.dialoge_division_edit_verifycost_transfer);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();

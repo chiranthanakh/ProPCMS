@@ -7,6 +7,8 @@
     android:orientation="vertical">
 
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,16 +31,6 @@
                         android:src="@drawable/eye"
                         app:tint="@color/icon_color" />
 
-                    <ImageView
-                        android:id="@+id/iv_BI_invoice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="?selectableItemBackground"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_invoice"
-                        app:tint="@color/icon_color" />
 
                     <ImageView
                         android:id="@+id/iv_BI_edit"
@@ -67,7 +59,7 @@
                     android:id="@+id/ch_BI_check_data"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="35dp"
                     android:gravity="center" />
 
                 <ImageView
@@ -282,15 +274,6 @@
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tv_BI_view"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:gravity="center"
-                    android:text="View"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
 
             </LinearLayout>
 

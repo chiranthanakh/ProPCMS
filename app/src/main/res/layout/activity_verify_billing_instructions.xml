@@ -322,10 +322,11 @@
                             android:id="@+id/tv_action"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="40dp"
+                            android:layout_marginStart="10dp"
                             android:gravity="center" />
 
                         <TextView
+                            android:id="@+id/temp_edit"
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:gravity="center"
@@ -535,15 +536,6 @@
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:layout_marginStart="20dp"
-                            android:gravity="center"
-                            android:text="Logs"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:textSize="12sp" />
 
                     </LinearLayout>
 

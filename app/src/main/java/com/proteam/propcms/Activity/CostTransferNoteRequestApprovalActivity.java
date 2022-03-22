@@ -25,23 +25,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proteam.propcms.Adapters.CtnrListAdapter;
-import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Models.Approvalmodel;
 import com.proteam.propcms.Models.CtrnDataModel;
-import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
-import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -495,7 +490,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     private void openeditDialog(int position) {
         final Dialog dialog = new Dialog(this);
 
-        dialog.setContentView(R.layout.dialoge_edit_verifycost_transfer);
+        dialog.setContentView(R.layout.dialoge_division_edit_verifycost_transfer);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
