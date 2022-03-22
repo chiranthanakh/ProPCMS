@@ -6,9 +6,9 @@ public class IrfcDataModel {
     String irfcPcCode,irfcInvoiceNo,irfcInvoiceDate,irfcGroup,irfcAssignment,irfcBillTo,irfcBillingAddress,
             irfcReferenceNumber,irfcKindAttention,irfcRegion,irfcPlace,irfcGstinNo,irfcPanOfCustomer,
             irfcTaxableAmount,irfcGstRate,irfcForMonth,irfcDescription,irfcHsnSac,irfcParticulars,irfcStateOfSupplyCode,
-            irfcTransactionType,irfcInvoiceWithWhom;
+            irfcTransactionType,irfcInvoiceWithWhom,id;
 
-    public IrfcDataModel(String irfcPcCode, String irfcInvoiceNo, String irfcInvoiceDate, String irfcGroup, String irfcAssignment, String irfcBillTo, String irfcBillingAddress, String irfcReferenceNumber, String irfcKindAttention, String irfcRegion, String irfcPlace, String irfcGstinNo, String irfcPanOfCustomer, String irfcTaxableAmount, String irfcGstRate, String irfcForMonth, String irfcDescription, String irfcHsnSac, String irfcParticulars, String irfcStateOfSupplyCode, String irfcTransactionType, String irfcInvoiceWithWhom) {
+    public IrfcDataModel(String irfcPcCode, String irfcInvoiceNo, String irfcInvoiceDate, String irfcGroup, String irfcAssignment, String irfcBillTo, String irfcBillingAddress, String irfcReferenceNumber, String irfcKindAttention, String irfcRegion, String irfcPlace, String irfcGstinNo, String irfcPanOfCustomer, String irfcTaxableAmount, String irfcGstRate, String irfcForMonth, String irfcDescription, String irfcHsnSac, String irfcParticulars, String irfcStateOfSupplyCode, String irfcTransactionType, String irfcInvoiceWithWhom,String id) {
         this.irfcPcCode = irfcPcCode;
         this.irfcInvoiceNo = irfcInvoiceNo;
         this.irfcInvoiceDate = irfcInvoiceDate;
@@ -31,6 +31,15 @@ public class IrfcDataModel {
         this.irfcStateOfSupplyCode = irfcStateOfSupplyCode;
         this.irfcTransactionType = irfcTransactionType;
         this.irfcInvoiceWithWhom = irfcInvoiceWithWhom;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIrfcPcCode() {

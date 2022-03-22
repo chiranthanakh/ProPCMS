@@ -16,6 +16,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
@@ -70,6 +73,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     Map projectmap = new HashMap();
     ArrayList<IrfmDataModel> temp = new ArrayList();
     ImageView iv_clear;
+    CheckBox ch_action;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -106,6 +110,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         temp_btn=findViewById(R.id.temp_btn);
         temp_btn.setOnClickListener(this);
         edt_from_irfm=findViewById(R.id.edt_from_irfm);
+        ch_action=findViewById(R.id.ch_action);
         edt_from_irfm.setOnClickListener(this);
         sp_all_project_irfm=findViewById(R.id.sp_all_project_irfm);
         tv_count = findViewById(R.id.tv_count);
@@ -121,6 +126,19 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         reject.setOnClickListener(this);
 
         callmodificationApi();
+
+        ch_action.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                   adaptorclass(true);
+                }else {
+                    adaptorclass(false);
+                }
+
+            }
+        });
     }
 
     private void callmodificationApi() {
@@ -157,6 +175,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         }
 
     }
+
+
 
     /*private void callcompanyApi() {
 
@@ -204,7 +224,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     private void filter(String text) {
 
         if(text.equals("")){
-            adaptorclass();
+            adaptorclass(false);
         }else {
 
             temp.clear();
@@ -232,13 +252,11 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                             arrayList.get(i).getRequest(),
                             arrayList.get(i).getRequestdate()
                     ));
-
                 }
-
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
-            IrfmListAdapter adapter = new IrfmListAdapter(temp,this);
+            IrfmListAdapter adapter = new IrfmListAdapter(temp,this,false);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
@@ -250,7 +268,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     public void onClick(View view) {
         switch (view.getId())
         {
-
 
             case R.id.edt_from_irfm:
                 Calendar mcurrentDate = Calendar.getInstance();
@@ -291,10 +308,12 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
             case R.id.iv_clear:
 
-                edt_from_irfm.setText("");
+                /*edt_from_irfm.setText("");
                 ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForModificationsActivity.this, android.R.layout.simple_list_item_1, projectList);
                 sp_all_project_irfm.setAdapter(adapter);
-                Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();*/
+                finish();
+                startActivity(getIntent());
 
                 break;
 
@@ -308,11 +327,16 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     if(!edt_from_irfm.getText().toString().isEmpty()){
                         Searchlist();
                     }else {
-                        Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
 
                 }else {
-                    Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
                 }
 
                 break;
@@ -416,7 +440,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     };
 
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
-                        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this);
+                        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,false);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
                         recyclerView.setAdapter(adapter);
@@ -493,11 +517,11 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void Searchlist() {
 
-        //String project_id = (String) projectmap.get(sp_all_project_irfm.getSelectedItem().toString());
+        String project_id = (String) projectmap.get(sp_all_project_irfm.getSelectedItem().toString());
 
         for (int i=0;i<arrayList.size();i++){
 
-            String project_id = "365";
+           // String project_id = "365";
 
             if(arrayList.get(i).getProjectid().equalsIgnoreCase(project_id)){
 
@@ -524,7 +548,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
-            IrfmListAdapter adapter = new IrfmListAdapter(filterarraylist,this);
+            IrfmListAdapter adapter = new IrfmListAdapter(filterarraylist,this,false);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
@@ -549,10 +573,10 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         }
     };
 
-    private void adaptorclass() {
+    private void adaptorclass(Boolean check) {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
-        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this);
+        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,check);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

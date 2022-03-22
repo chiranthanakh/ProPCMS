@@ -79,7 +79,7 @@
                 android:paddingBottom="8dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_invoice"
+                    android:id="@+id/ll_crnra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_invoice"
+                        android:src="@drawable/ic_upload1"
                         app:tint="@color/icon_color" />
 
                     <TextView
@@ -100,11 +100,12 @@
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="View \nInvoice"
+                        android:text="View \nDocuments"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/ll_popups"
@@ -135,7 +136,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_crnra"
+                    android:id="@+id/ll_invoice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -147,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_upload1"
+                        android:src="@drawable/ic_invoice"
                         app:tint="@color/icon_color" />
 
                     <TextView
@@ -156,7 +157,7 @@
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="View \nDocuments"
+                        android:text="View \nInvoice"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 

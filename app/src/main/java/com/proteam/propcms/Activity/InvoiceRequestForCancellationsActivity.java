@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,31 +18,55 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Adapters.IrfcListAdapter;
 import com.proteam.propcms.Models.CtrnDataModel;
 import com.proteam.propcms.Models.IrfcDataModel;
+import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.InvApproverequest;
+import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Response.GenerealResponse;
+import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.invoicereject.RejectList;
+import com.proteam.propcms.Utils.OnClick;
+import com.proteam.propcms.Utils.OnResponseListener;
+import com.proteam.propcms.Utils.WebServices;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class InvoiceRequestForCancellationsActivity extends AppCompatActivity implements View.OnClickListener {
+public class InvoiceRequestForCancellationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
     ImageView mToolbar;
     EditText edt_from_irfc;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_irfc;
     TextView temp_btn_irfc;
+    ProgressDialog progressDialog;
+    Button btn_irfc_rejact,btn_irfc_approve;
+    List projectList = new ArrayList();
+    Map map = new HashMap();
     RecyclerView rv_irfc_Data_list;
+    ArrayList<IrfcDataModel> arrayList = new ArrayList<IrfcDataModel>();
+    Map projectmap = new HashMap();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,23 +77,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         initialize();
         sp_all_project_irfc.setOnItemSelectedListener(OnCatSpinnerCL);
 
-        IrfcDataModel[] irfcDataModels = new IrfcDataModel[]{
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-                new IrfcDataModel("CTN/0009/21-22","PTSB/1701/21-22","14-03-2022","Brigade","Fixed Assets Verification","Pro-Team Solutions","Bangalore","6763783gd7","Kind Attention","South","Bangalore","29AADCH8879C1Z5","AADCH8879C","1,25,040.00","18%","2021-10","Professional Charges towards Fixed Assets Reco Support Services for the month of October 2021","Hsn/Sac","Particulars","State Of Supply Code","Transaction Type","Invoice With Whom"),
-
-
-
-        };
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
-        IrfcListAdapter adapter = new IrfcListAdapter(irfcDataModels);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
     }
 
@@ -88,45 +96,251 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         edt_from_irfc=findViewById(R.id.edt_from_irfc);
         edt_from_irfc.setOnClickListener(this);
         sp_all_project_irfc=findViewById(R.id.sp_all_project_irfc);
+        btn_irfc_rejact = findViewById(R.id.btn_irfc_rejact);
+        btn_irfc_approve=findViewById(R.id.btn_irfc_approve);
+        btn_irfc_rejact.setOnClickListener(this);
+        btn_irfc_approve.setOnClickListener(this);
+
+        callmodificationApi();
     }
+
+
+
+    ////////////////////////////////////////////Api calling ///////////////////////////////////////////////////////
+
+    private void callmodificationApi() {
+
+        progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                UserIdRequest userIdRequest = new UserIdRequest("21");
+
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
+                webServices.invoicancelationapi(WebServices.ApiType.invoicemod,userIdRequest);
+            } else {
+
+            }
+        }
+    }
+
+    private void callapproveApi() {
+
+        ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
+                    webServices.approveirfccall(WebServices.ApiType.approve, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+    private void  callRejectApi() {
+
+        ArrayList list = new ArrayList(map.values());
+
+        if (list.size()==0){
+            Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(InvoiceRequestForCancellationsActivity.this);
+                    webServices.rejectirfccall(WebServices.ApiType.approve,invApproverequest);
+                }
+
+            }
+        }
+    }
+
+    private void callProjectListApi() {
+
+        progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+                ProjectListModel projectListModel = new ProjectListModel("21");
+                WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(InvoiceRequestForCancellationsActivity.this);
+                webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
+
+        switch(URL){
+
+            case invoicemod:
+
+                List list = new ArrayList();
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        RejectList rejectList = (RejectList) response;
+
+                        list = rejectList.getList();
+
+                        for (int i=0;i<list.size();i++){
+
+                            arrayList.add( new IrfcDataModel(rejectList.getList().get(i).getPc_code(),
+                                    rejectList.getList().get(i).getInvoice_number(),
+                                    rejectList.getList().get(i).getInvoice_date(),
+                                    rejectList.getList().get(i).getGroup_name(),
+                                    rejectList.getList().get(i).getAssignment(),
+                                    rejectList.getList().get(i).getBill_to(),
+                                    rejectList.getList().get(i).getBilling_address(),
+                                    rejectList.getList().get(i).getReference_no(),
+                                    rejectList.getList().get(i).getKind_attention(),
+                                    rejectList.getList().get(i).getRegion(),
+                                    rejectList.getList().get(i).getPlace(),
+                                    rejectList.getList().get(i).getGstin_no(),
+                                    rejectList.getList().get(i).getPan_no_customer(),
+                                    rejectList.getList().get(i).getAmount(),
+                                    rejectList.getList().get(i).getGst_percentage(),
+                                    rejectList.getList().get(i).getMonth(),
+                                    rejectList.getList().get(i).getDescription(),
+                                    rejectList.getList().get(i).getHSN_SAC(),
+                                    rejectList.getList().get(i).getParticular(),
+                                    rejectList.getList().get(i).getState_supply(),
+                                    rejectList.getList().get(i).getTransaction_type(),
+                                    rejectList.getList().get(i).getInvoice_approver_name(),
+                                    rejectList.getList().get(i).getId()));
+
+                        }
+
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
+                        IrfcListAdapter adapter = new IrfcListAdapter(arrayList,this);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerView.setAdapter(adapter);
+                        callProjectListApi();
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+            case approve:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        GenerealResponse generealResponse = (GenerealResponse) response;
+
+                        Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
+            case projectlist:
+                //  swipeRefreshLayout.setRefreshing(false);
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+                        List list1 = new ArrayList();
+                        ProjectListResponse projectListResponse = (ProjectListResponse) response;
+
+                        list1 = projectListResponse.getProject_list();
+
+                        for (int i = 0; i < list1.size(); i++) {
+
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name());
+                        }
+
+                        ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForCancellationsActivity.this, android.R.layout.simple_list_item_1, projectList);
+                        sp_all_project_irfc.setAdapter(adapter);
+
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
             case R.id.edt_from_irfc:
-                Calendar mcurrentDate = Calendar.getInstance();
-                String myFormat = "MMMM yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-                DatePickerDialog monthDatePickerDialog = new DatePickerDialog(InvoiceRequestForCancellationsActivity.this,
-                        AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mcurrentDate.set(Calendar.YEAR, year) ;
-                        mcurrentDate.set(Calendar.MONTH, month);
-
-                        edt_from_irfc.setText(sdf.format(mcurrentDate.getTime()));
-                        mDay = dayOfMonth;
-                        mMonth = month;
-                        mYear = year;
-
-                    }
-                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
-                    }
-                };
-                monthDatePickerDialog.setTitle("Select Month And Year");
-                monthDatePickerDialog.show();
-                // monthDatePickerDialog.getDatePicker().setMaxDate(mcurrentDate.getTimeInMillis());
-                // monthDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                datepicker();
                 break;
+
             case R.id.temp_btn_irfc:
                 opengcadminDialog();
                 break;
+
+            case R.id.btn_irfc_rejact:
+                callRejectApi();
+                break;
+
+            case R.id.btn_irfc_approve:
+                callapproveApi();
+                break;
         }
     }
+
+
+
     private void opengcadminDialog() {
         final Dialog dialog = new Dialog(this);
 
@@ -166,7 +380,33 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         Button btn_d_irfc_ctn_approve = dialog.findViewById(R.id.btn_d_irfc_ctn_approve);
         Button btn_d_irfc_ctn_reject = dialog.findViewById(R.id.btn_d_irfc_ctn_reject);
 
+    }
 
+    private void openrequestdialog(String position) {
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.dialoge_requesting_details);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        EditText tv_remarks = dialog.findViewById(R.id.tv_clients_home);
+        EditText edt_date_1 = dialog.findViewById(R.id.edt_date_1);
+        EditText remarks = dialog.findViewById(R.id.et_remarks);
+        ImageView back_press = dialog.findViewById(R.id.back_press);
+
+        back_press.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        IrfcDataModel irfcDataModel = arrayList.get(Integer.parseInt(position));
+
+        //tv_remarks.setText(irfmDataModel.getRequest());
+        tv_remarks.setText("Requesting for modification");
+        edt_date_1.setText(irfcDataModel.getIrfcInvoiceDate());
+        remarks.setText("Remarks");
 
     }
 
@@ -183,4 +423,51 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
             ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
+
+    private void datepicker() {
+
+        Calendar mcurrentDate = Calendar.getInstance();
+        String myFormat = "MMMM yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        DatePickerDialog monthDatePickerDialog = new DatePickerDialog(InvoiceRequestForCancellationsActivity.this,
+                AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                mcurrentDate.set(Calendar.YEAR, year) ;
+                mcurrentDate.set(Calendar.MONTH, month);
+
+                edt_from_irfc.setText(sdf.format(mcurrentDate.getTime()));
+                mDay = dayOfMonth;
+                mMonth = month;
+                mYear = year;
+
+            }
+        }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+            }
+        };
+        monthDatePickerDialog.setTitle("Select Month And Year");
+        monthDatePickerDialog.show();
+        // monthDatePickerDialog.getDatePicker().setMaxDate(mcurrentDate.getTimeInMillis());
+        // monthDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+    }
+
+
+    @Override
+    public void onClickitem(String value, int item, String id) {
+
+        if(item==1){
+            opengcadminDialog();
+        }else if(item==2){
+            openrequestdialog(value);
+        }else if(item==3){
+            map.put(value,id);
+        }else if(item==4){
+            map.remove(value);
+        }
+
+    }
 }

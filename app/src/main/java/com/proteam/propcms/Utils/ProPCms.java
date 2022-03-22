@@ -17,6 +17,8 @@ import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
+import com.proteam.propcms.Response.invoicereject.RejectItems;
+import com.proteam.propcms.Response.invoicereject.RejectList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -68,4 +70,12 @@ public interface ProPCms {
     @POST("Pcms_apis/cost_transfer_note_request_for_approval_reject")
     Call<GenerealResponse> rejectctrnList(@Body InvApproverequest invApproverequest);
 
+    @POST("Pcms_apis/invoice_request_for_cancellation_list")
+    Call<RejectList> invoicecancelation(@Body UserIdRequest userIdRequest);
+
+    @POST("Pcms_apis/invoice_request_for_cancellation_approve")
+    Call<GenerealResponse> aprovalirfclist(@Body InvApproverequest invApproverequest);
+
+    @POST("Pcms_apis/invoice_request_for_cancellation_reject")
+    Call<GenerealResponse> rejectirfcList(@Body InvApproverequest invApproverequest);
 }
