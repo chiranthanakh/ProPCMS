@@ -307,7 +307,7 @@
                         android:paddingBottom="8dp">
 
                         <TextView
-                            android:id="@+id/temp_btn"
+                            android:id="@+id/temp_btn_Bi"
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:gravity="center"

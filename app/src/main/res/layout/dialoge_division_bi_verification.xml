@@ -36,18 +36,18 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_d_irfc_pcCode"
+                android:id="@+id/tv_dia_BI_pcCode"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:gravity="start|center"
-                android:text="FAS-UDN001"
+                android:text="SAS-ALB001"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/back_toolbar"
+                android:id="@+id/BI_back_toolbar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginEnd="5dp"
@@ -77,7 +77,7 @@
                 android:paddingBottom="8dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_irfc"
+                    android:id="@+id/ll_BI"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -86,7 +86,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ic_d_irfc_viewInvoice"
+                        android:id="@+id/ic_dia_BI_viewInvoice"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -106,7 +106,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_irfm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -115,11 +114,11 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/tv_d_irfc_requestDetails"
+                        android:id="@+id/iv_dia_BI_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_send"
+                        android:src="@drawable/ic_edit"
                         app:tint="@color/icon_color" />
 
                     <TextView
@@ -135,7 +134,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_crnra"
+                    android:id="@+id/ll_BI_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -144,7 +143,36 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/iv_d_irfc_upload"
+                        android:id="@+id/tv_dia_BI_delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/delete"
+                        app:tint="@color/icon_color" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="Requesting\n Details"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_BI_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_dia_BI_upload"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -172,7 +200,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/iv_d_irfc_status"
+                        android:id="@+id/iv_dia_BI_status"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
@@ -189,6 +217,7 @@
                         android:textSize="10sp" />
 
                 </LinearLayout>
+
 
 
             </LinearLayout>
@@ -221,75 +250,6 @@
 
 
                 <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Invoice No."
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_InvoiceNo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="PTSB/1701/21-22"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Invoice Date"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_InvoiceDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Sunil m das"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -311,13 +271,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_group"
+                        android:id="@+id/tv_d_irfc_InvoiceDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Need the Invoice date to be modified to 17th November 2021..."
+                        android:text="GE ITC"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -345,13 +305,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_assignment"
+                        android:id="@+id/tv_d_irfc_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Udaan"
+                        android:text="Commercial Helpdesk"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -379,13 +339,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_billTo"
+                        android:id="@+id/tv_d_irfc_assignment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Fixed Assets Verification"
+                        android:text="GE India Industrial Private Limited"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -413,7 +373,109 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_d_irfc_billTo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066."
+                        android:textColor="@color/grey_dark"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato"
+                        android:text="Reference Number"
+                        android:textColor="@color/grey"
+                        android:textSize="13sp" />
+
+                    <TextView
                         android:id="@+id/tv_d_irfc_BillingAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="PO - 100040329"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato"
+                        android:text="Kind Attention"
+                        android:textColor="@color/grey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_d_irfc_referenceNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="Anu Anand"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato"
+                        android:text="Region"
+                        android:textColor="@color/grey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_d_irfc_kindAttention"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -442,75 +504,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/lato"
-                        android:text="Reference Number"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_referenceNo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Bangalore"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Kind Attention"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_kindAttention"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="29AADCH8879C1Z5"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Region"
+                        android:text="Place"
                         android:textColor="@color/grey"
                         android:textSize="13sp" />
 
@@ -521,41 +515,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="AADCH8879C"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Place"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_place"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="75,000.00	"
+                        android:text="Karnataka"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -583,13 +543,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_gstNo"
+                        android:id="@+id/tv_d_irfc_place"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="18%"
+                        android:text="29AAACG4901D1Z0"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -617,13 +577,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_panOfCustomer"
+                        android:id="@+id/tv_d_irfc_gstNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="2021-10"
+                        android:text="AAACG4901D"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -651,13 +611,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_taxableAmount"
+                        android:id="@+id/tv_d_irfc_panOfCustomer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="75,0000"
+                        android:text="50,000.00"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -685,13 +645,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_gstRate"
+                        android:id="@+id/tv_d_irfc_taxableAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="18%"
+                        android:text="For Month"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -719,18 +679,17 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_forMonth"
+                        android:id="@+id/tv_d_irfc_gstRate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Oct 2021"
+                        android:text="2021-02"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -754,17 +713,18 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_description"
+                        android:id="@+id/tv_d_irfc_forMonth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Description"
+                        android:text="Towards fees for managing the commercial helpdesk for the month of March 2020"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -788,13 +748,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_hsn_sac"
+                        android:id="@+id/tv_d_irfc_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="HSN | SAC"
+                        android:text="998311"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -822,13 +782,13 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tv_d_irfc_Particular"
+                        android:id="@+id/tv_d_irfc_hsn_sac"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Particular"
+                        android:text="Management Consultancy Services"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -852,6 +812,40 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/lato"
                         android:text="State of Supply &amp; Code"
+                        android:textColor="@color/grey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_d_irfc_Particular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/proxima_nova_bold"
+                        android:text="10"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato"
+                        android:text="Transaction Type"
                         android:textColor="@color/grey"
                         android:textSize="13sp" />
 
@@ -862,79 +856,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="State of Supply &amp; Code"
+                        android:text="Interstate"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Transaction Type"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_transactionType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Transaction Type"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:text="Invoice With Whom"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_d_irfc_InvoiceWithWhom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Invoice With Whome"
-                        android:textColor="@color/grey_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
 
 
             </LinearLayout>
