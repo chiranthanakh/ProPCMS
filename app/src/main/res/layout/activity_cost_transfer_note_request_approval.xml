@@ -132,7 +132,7 @@
                         app:startIconTint="@color/grey_light">
 
                         <EditText
-                            android:id="@+id/edt_from"
+                            android:id="@+id/edt_from1"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:focusable="false"
@@ -156,7 +156,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_search_ctnr"
+                    android:id="@+id/btn_ctrn_search"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
@@ -185,7 +185,7 @@
                     app:cardElevation="4dp">
 
                     <ImageView
-                        android:id="@+id/iv_clear_ctnr"
+                        android:id="@+id/iv_clear_ctrn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -227,7 +227,7 @@
                             app:tint="@color/grey" />
 
                         <EditText
-                            android:id="@+id/edt_search"
+                            android:id="@+id/edt_search2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -318,7 +318,7 @@
                             android:textSize="12sp" />
 
                         <CheckBox
-                            android:id="@+id/tv_action"
+                            android:id="@+id/ch_action_ctrn"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_marginStart="50dp"

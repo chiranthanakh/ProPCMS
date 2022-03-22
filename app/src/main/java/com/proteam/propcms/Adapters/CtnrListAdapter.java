@@ -29,12 +29,14 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
 
     //private CtrnDataModel[] listdata;
     private Context context;
+    private  Boolean check;
     private ArrayList<CtrnDataModel> listdata;
     private OnClick mClick;
     Map map = new HashMap();
 
-    public CtnrListAdapter(ArrayList<CtrnDataModel> listdata,OnClick listner) {
+    public CtnrListAdapter(ArrayList<CtrnDataModel> listdata,OnClick listner,Boolean check) {
         this.mClick = listner;
+        this.check = check;
         this.listdata = listdata;
         this.context = context;
     }
@@ -60,6 +62,12 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
         holder.tv_ctnr_toPc_code.setText(listdata.get(position).getCtnrToPcCode());
         holder.tv_ctnr_transfer_cost.setText(listdata.get(position).getCtnrTransferCost());
         holder.tv_ctnr_remarks.setText(listdata.get(position).getCtnrRemarks());
+
+        if(check){
+            holder.ch_ctnr_check_data.setChecked(true);
+        }else {
+            holder.ch_ctnr_check_data.setChecked(false);
+        }
 
         holder.iv_ctnr_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override

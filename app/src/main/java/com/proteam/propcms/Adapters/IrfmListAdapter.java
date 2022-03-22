@@ -39,13 +39,14 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
    // private IrfmDataModel[] listdata;
     private Context context;
     private ArrayList<IrfmDataModel> listdata;
+    Boolean check;
     private OnClick mClick;
     Map map = new HashMap();
-
     List list = new ArrayList();
 
-    public IrfmListAdapter(ArrayList<IrfmDataModel> listdata,OnClick listner) {
+    public IrfmListAdapter(ArrayList<IrfmDataModel> listdata,OnClick listner,Boolean check) {
         this.mClick = listner;
+        this.check= check;
         this.context = context;
         this.listdata = listdata;
     }
@@ -90,6 +91,12 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
         String moneyString = formatter.format(amount);
         holder.tv_irfm_taxable_amount.setText(moneyString);
 
+        if(check){
+            holder.ch_irfm_check_data.setChecked(true);
+        }else {
+            holder.ch_irfm_check_data.setChecked(false);
+        }
+
         holder.iv_irfm_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +132,8 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
                 }
             }
         });
+
+
 
     }
 

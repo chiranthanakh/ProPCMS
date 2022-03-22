@@ -171,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         iv_nav_view=findViewById(R.id.iv_nav_view);
         iv_nav_view.setOnClickListener(this);
         //callcompanyapi();
-     //   callDheadapi();
-        //callDivisionListApi();
+       // callDheadapi();
+       // callDivisionListApi();
 
     }
 
@@ -243,8 +243,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent_profile);
                 break;
 
-
             case R.id.tv_verifyBillingInstruction:
+
+                break;
+
             case R.id.ll_verify_BI:
                 Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi);
@@ -463,8 +465,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
+            //((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+          //  ((TextView) parent.getChildAt(0)).setTextSize(14);
         }
     };
 

@@ -11,12 +11,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Models.Approvalmodel;
 import com.proteam.propcms.Models.CtrnDataModel;
@@ -47,7 +52,7 @@ import java.util.Map;
 
 public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
     ImageView mToolbar;
-    EditText edt_from;
+    EditText edt_from,edt_search;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_ctnra;
     RecyclerView rv_ctrn_Data_list;
@@ -58,7 +63,11 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     Map map = new HashMap();
     Map projectmap = new HashMap();
     List projectList = new ArrayList();
-    Button btn_approve,btn_reject;
+    ImageView iv_clear_ctrn;
+    Button btn_approve,btn_reject,btn_ctrn_search;
+    ArrayList<CtrnDataModel> temp = new ArrayList();
+    ArrayList<CtrnDataModel> filterarraylist = new ArrayList<CtrnDataModel>();
+    CheckBox ch_action_ctrn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +92,61 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     private void initialize()
     {
         temp_btn_ctnr=findViewById(R.id.temp_btn_ctnr);
+        btn_ctrn_search = findViewById(R.id.btn_ctrn_search);
+        btn_ctrn_search.setOnClickListener(this);
         temp_btn_ctnr.setOnClickListener(this);
         btn_reject = findViewById(R.id.ctrn_reject_btn);
         btn_reject.setOnClickListener(this);
         btn_approve = findViewById(R.id.ctrn_approve_btn);
         btn_approve.setOnClickListener(this);
-        edt_from=findViewById(R.id.edt_from);
+        ch_action_ctrn = findViewById(R.id.ch_action_ctrn);
+        iv_clear_ctrn = findViewById(R.id.iv_clear_ctrn);
+        iv_clear_ctrn.setOnClickListener(this);
+        edt_from=findViewById(R.id.edt_from1);
+        edt_search=findViewById(R.id.edt_search2);
         tv_raise_indent_total_item = findViewById(R.id.tv_raise_indent_total_item);
         edt_from.setOnClickListener(this);
         sp_all_project_ctnra=findViewById(R.id.sp_all_project_ctnra);
         rv_ctrn_Data_list=findViewById(R.id.rv_ctrn_Data_list);
         callapprovalApi();
+
+        ch_action_ctrn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                    adaptorclass(true);
+                }else {
+                    adaptorclass(false);
+                }
+            }
+        });
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                filter(s.toString());
+            }
+        });
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -104,7 +155,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
             case R.id.temp_btn_ctnr:
               //  opengcadminDialog();
                 break;
-            case R.id.edt_from:
+            case R.id.edt_from1:
                 Calendar mcurrentDate = Calendar.getInstance();
                 String myFormat = "MMMM yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
@@ -141,6 +192,31 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
             case R.id.ctrn_reject_btn:
                 callRejectApi();
+                break;
+
+            case R.id.btn_ctrn_search:
+
+                if(sp_all_project_ctnra.getSelectedItem()!=null){
+
+                    if(!edt_from.getText().toString().equals("")){
+                        Searchlist();
+                    }else {
+                        // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+
+                }else {
+                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                }
+                break;
+
+            case R.id.iv_clear_ctrn:
+                finish();
+                startActivity(getIntent());
                 break;
 
 
@@ -350,7 +426,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         };
 
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
-                        CtnrListAdapter adapter = new CtnrListAdapter(arrayList2,this);
+                        CtnrListAdapter adapter = new CtnrListAdapter(arrayList2,this,false);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
                         recyclerView.setAdapter(adapter);
@@ -427,6 +503,39 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
         }
 
+    private void filter(String text) {
+
+        if(text.equals("")){
+            adaptorclass(false);
+        }else {
+           int count = arrayList2.size();
+            temp.clear();
+            for (int i=0;i<arrayList2.size();i++){
+
+                if(arrayList2.get(i).getCtnrFromPcCode().toLowerCase().contains(text.toLowerCase()) || arrayList2.get(i).getCtnrCtn().toLowerCase().contains(text.toLowerCase()) || arrayList2.get(i).getCtnrExpenseType().toLowerCase().contains(text.toLowerCase())){
+
+                    temp.add(new CtrnDataModel(arrayList2.get(i).getCtnrCtn(),
+                            arrayList2.get(i).getCtnrMonth(),
+                            arrayList2.get(i).getCtnrExpenseType(),
+                            arrayList2.get(i).getCtnrFromPcCode(),
+                            arrayList2.get(i).getCtnrToPcCode(),
+                            arrayList2.get(i).getCtnrTransferCost(),
+                            arrayList2.get(i).getCtnrRemarks(),
+                            arrayList2.get(i).getId()
+
+                    ));
+                }
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
+            CtnrListAdapter adapter = new CtnrListAdapter(temp,this,false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+        }
+
+    }
+
     private void opengcadminDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
 
@@ -467,7 +576,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         iv_dia_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openeditDialog(Integer.parseInt(position));
+                //openeditDialog(Integer.parseInt(position));
             }
         });
 
@@ -484,6 +593,15 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                 callRejectindividualApi(id );
             }
         });
+    }
+
+    private void adaptorclass(Boolean check) {
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
+        CtnrListAdapter adapter = new CtnrListAdapter(arrayList2,this, check);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -495,6 +613,37 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
+    }
+
+    private void Searchlist() {
+
+        String project_id = (String) projectmap.get(sp_all_project_ctnra.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList2.size();i++){
+
+            // String project_id = "365";
+
+            if(arrayList2.get(i).getId().equalsIgnoreCase(project_id)){
+
+                filterarraylist.add(new CtrnDataModel(arrayList2.get(i).getCtnrCtn(),
+                        arrayList2.get(i).getCtnrMonth(),
+                        arrayList2.get(i).getCtnrExpenseType(),
+                        arrayList2.get(i).getCtnrFromPcCode(),
+                        arrayList2.get(i).getCtnrToPcCode(),
+                        arrayList2.get(i).getCtnrTransferCost(),
+                        arrayList2.get(i).getCtnrRemarks(),
+                        arrayList2.get(i).getId()
+
+                ));
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
+            CtnrListAdapter adapter = new CtnrListAdapter(filterarraylist,this,false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+
+        }
     }
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
