@@ -581,7 +581,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.show();
 
-        ImageView ic_d_irfc_viewInvoice = dialog.findViewById(R.id.ic_d_irfc_viewInvoice);
+        LinearLayout ic_d_irfc_viewInvoice = dialog.findViewById(R.id.ll_irfc);
         LinearLayout ll_irfm = dialog.findViewById(R.id.ll_irfm);
         ImageView iv_d_irfc_upload = dialog.findViewById(R.id.iv_d_irfc_upload);
         ImageView iv_d_irfc_status = dialog.findViewById(R.id.iv_d_irfc_status);
