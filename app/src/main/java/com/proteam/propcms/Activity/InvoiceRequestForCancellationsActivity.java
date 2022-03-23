@@ -94,8 +94,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     {
         tv_irfc_count=findViewById(R.id.tv_irfc_count);
         rv_irfc_Data_list=findViewById(R.id.rv_irfc_Data_list);
-        temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
-        temp_btn_irfc.setOnClickListener(this);
+
         edt_from_irfc=findViewById(R.id.edt_from_irfc);
         edt_from_irfc.setOnClickListener(this);
         sp_all_project_irfc=findViewById(R.id.sp_all_project_irfc);
@@ -382,9 +381,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 datepicker();
                 break;
 
-            case R.id.temp_btn_irfc:
-               // opengcadminDialog();
-                break;
 
             case R.id.btn_irfc_rejact:
                 callRejectApi();
