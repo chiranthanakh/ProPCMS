@@ -46,11 +46,13 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class InvoiceRequestForCancellationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
@@ -151,6 +153,57 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
             }
         }
 
+    }
+
+    private void callapproveindividualApi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
+        if (list.size()==0){
+            Toast.makeText(this, "Invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
+                    webServices.approveirfccall(WebServices.ApiType.approve, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+    private void  callRejectindividualApi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
+
+        if (list.size()==0){
+            Toast.makeText(this, "invoice not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
+                    webServices.rejectirfccall(WebServices.ApiType.approve,invApproverequest);
+                }
+
+            }
+        }
     }
 
     private void  callRejectApi() {
@@ -330,7 +383,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 break;
 
             case R.id.temp_btn_irfc:
-                opengcadminDialog();
+               // opengcadminDialog();
                 break;
 
             case R.id.btn_irfc_rejact:
@@ -345,7 +398,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
 
 
-    private void opengcadminDialog() {
+    private void opengcadminDialog(int position,int id) {
         final Dialog dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.dialoge_irfc_all_details);
@@ -383,6 +436,50 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
         Button btn_d_irfc_ctn_approve = dialog.findViewById(R.id.btn_d_irfc_ctn_approve);
         Button btn_d_irfc_ctn_reject = dialog.findViewById(R.id.btn_d_irfc_ctn_reject);
+
+        tv_d_irfc_pcCode.setText(arrayList.get(position).getIrfcPcCode());
+        tv_d_irfc_InvoiceNo.setText(arrayList.get(position).getIrfcInvoiceNo());
+        tv_d_irfc_InvoiceDate.setText(arrayList.get(position).getIrfcInvoiceDate());
+        tv_d_irfc_assignment.setText(arrayList.get(position).getIrfcAssignment());
+        tv_d_irfc_billTo.setText(arrayList.get(position).getIrfcBillTo());
+        tv_d_irfc_BillingAddress.setText(arrayList.get(position).getIrfcBillingAddress());
+        tv_d_irfc_referenceNo.setText(arrayList.get(position).getIrfcReferenceNumber());
+        tv_d_irfc_kindAttention.setText(arrayList.get(position).getIrfcKindAttention());
+        tv_d_irfc_region.setText(arrayList.get(position).getIrfcRegion());
+        tv_d_irfc_place.setText(arrayList.get(position).getIrfcPlace());
+
+        tv_d_irfc_gstNo.setText(arrayList.get(position).getIrfcGstinNo());
+        tv_d_irfc_panOfCustomer.setText(arrayList.get(position).getIrfcPanOfCustomer());
+
+        float amount = Float.parseFloat(arrayList.get(position).getIrfcTaxableAmount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+
+        tv_d_irfc_taxableAmount.setText(moneyString);
+        tv_d_irfc_gstRate.setText(arrayList.get(position).getIrfcGstRate());
+        tv_d_irfc_forMonth.setText(arrayList.get(position).getIrfcForMonth());
+        tv_d_irfc_description.setText(arrayList.get(position).getIrfcDescription());
+        tv_d_irfc_hsn_sac.setText(arrayList.get(position).getIrfcHsnSac());
+        tv_d_irfc_Particular.setText(arrayList.get(position).getIrfcParticulars());
+        tv_d_irfc_stateOfSupply.setText(arrayList.get(position).getIrfcStateOfSupplyCode());
+        tv_d_irfc_transactionType.setText(arrayList.get(position).getIrfcTransactionType());
+        tv_d_irfc_InvoiceWithWhom.setText(arrayList.get(position).getIrfcInvoiceWithWhom());
+
+
+        btn_d_irfc_ctn_approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callapproveindividualApi(arrayList.get(position).getId());
+            }
+        });
+
+        btn_d_irfc_ctn_reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callRejectindividualApi(arrayList.get(position).getId());
+            }
+        });
+
 
     }
 
@@ -464,7 +561,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     public void onClickitem(String value, int item, String id) {
 
         if(item==1){
-            opengcadminDialog();
+            opengcadminDialog(Integer.parseInt(value),Integer.parseInt(id));
         }else if(item==2){
             openrequestdialog(value);
         }else if(item==3){

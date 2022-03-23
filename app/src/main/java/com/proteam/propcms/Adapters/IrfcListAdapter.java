@@ -22,9 +22,11 @@ import com.proteam.propcms.Models.IrfcDataModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Utils.OnClick;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHolder> {
@@ -69,7 +71,11 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
         holder.tv_irfc_place.setText(listdata.get(position).getIrfcPlace());
         holder.tv_irfc_gstinNo.setText(listdata.get(position).getIrfcGstinNo());
         holder.tv_irfc_panOfCustomer.setText(listdata.get(position).getIrfcPanOfCustomer());
-        holder.tv_irfc_taxableAmount.setText(listdata.get(position).getIrfcTaxableAmount());
+
+        float amount = Float.parseFloat(listdata.get(position).getIrfcTaxableAmount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+        holder.tv_irfc_taxableAmount.setText(moneyString);
         holder.tv_irfc_gstRate.setText(listdata.get(position).getIrfcGstRate());
         holder.tv_irfc_forMonth.setText(listdata.get(position).getIrfcForMonth());
         holder.tv_irfc_description.setText(listdata.get(position).getIrfcDescription());

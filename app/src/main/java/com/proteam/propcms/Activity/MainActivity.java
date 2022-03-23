@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DrawerLayout drawer_layout;
     ImageView iv_nav_view;
     int mMonth,mDay,mYear;
-    TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile,tv_verifyBillingInstruction,tv_verifyCostTransfer;
+    TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile,tv_verifyBillingInstruction,tv_verifyCostTransfer,tv_nav_username;
     PieChart pieChart;
     LinearLayout ll_crnra,ll_irfm,ll_irfc,ll_verify_BI,ll_Verify_CTN;
     Button btn_logout;
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // horizontalchart creating a string array for displaying days.
     String[] days = new String[]{"Sep-2021", "Oct-2021","Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
     SharedPreferences.Editor editor;
+    String role;
 
 
     Map companymap = new HashMap();
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String user = sharedPreferences.getString("userid", null);
+         role = sharedPreferences.getString("role",null);
 
         if (user == null) {
 
@@ -113,6 +115,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         initialize();
+
+        if(role.equalsIgnoreCase("manager")){
+            cc_For_divisionLogin.setVisibility(View.GONE);
+            tv_verifyCostTransfer.setVisibility(View.GONE);
+            tv_verifyBillingInstruction.setVisibility(View.GONE);
+            tv_nav_username.setText("Jayaram DR");
+        }else {
+            cc_For_managerLogin.setVisibility(View.GONE);
+            tv_ctnra.setVisibility(View.GONE);
+            tv_irfm.setVisibility(View.GONE);
+            irfc.setVisibility(View.GONE);
+            sp_division_head_home.setVisibility(View.GONE);
+            tv_nav_username.setText("Basavaraj");
+        }
+
         setData();
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
@@ -129,12 +146,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_Verify_CTN=findViewById(R.id.ll_Verify_CTN);
         ll_Verify_CTN.setOnClickListener(this);
         ll_verify_BI=findViewById(R.id.ll_verify_BI);
+        tv_nav_username=findViewById(R.id.tv_nav_username);
         ll_verify_BI.setOnClickListener(this);
         tv_verifyBillingInstruction=findViewById(R.id.tv_verifyBillingInstruction);
         tv_verifyBillingInstruction.setOnClickListener(this);
         tv_verifyCostTransfer=findViewById(R.id.tv_verifyCostTransfer);
         tv_verifyCostTransfer.setOnClickListener(this);
         ll_select_data=findViewById(R.id.ll_select_data);
+        ll_select_data.setVisibility(View.GONE);
         ll_filter_data=findViewById(R.id.ll_filter_data);
         ll_filter_data.setOnClickListener(this);
         ll_irfc=findViewById(R.id.ll_irfc);
@@ -245,11 +264,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             case R.id.tv_verifyBillingInstruction:
+                Intent intent_vbi1 = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
+                startActivity(intent_vbi1);
+                break;
+
             case R.id.ll_verify_BI:
                 Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi);
                 break;
+
             case R.id.tv_verifyCostTransfer:
+                Intent intent_vcy1 = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
+                startActivity(intent_vcy1);
+                break;
+
             case R.id.ll_Verify_CTN:
                 Intent intent_vcy = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
                 startActivity(intent_vcy);
@@ -463,8 +491,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
-            //((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-          //  ((TextView) parent.getChildAt(0)).setTextSize(14);
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(14);
         }
     };
 

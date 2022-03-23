@@ -274,7 +274,6 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:visibility="gone"
                     android:id="@+id/cc_For_divisionLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

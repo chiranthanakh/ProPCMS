@@ -13,6 +13,17 @@ public class LoginResponse {
     @Expose
     private String user_id;
 
+    @SerializedName("role")
+    @Expose
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getStatus() {
         return status;

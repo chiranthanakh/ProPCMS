@@ -20,8 +20,10 @@ import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Utils.OnClick;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHolder> {
@@ -60,7 +62,12 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
         holder.tv_ctnr_expense_type.setText(listdata.get(position).getCtnrExpenseType());
         holder.tv_ctnr_fromPc_code.setText(listdata.get(position).getCtnrFromPcCode());
         holder.tv_ctnr_toPc_code.setText(listdata.get(position).getCtnrToPcCode());
-        holder.tv_ctnr_transfer_cost.setText(listdata.get(position).getCtnrTransferCost());
+
+        float amount = Float.parseFloat(listdata.get(position).getCtnrTransferCost());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+
+        holder.tv_ctnr_transfer_cost.setText(moneyString);
         holder.tv_ctnr_remarks.setText(listdata.get(position).getCtnrRemarks());
 
         if(check){

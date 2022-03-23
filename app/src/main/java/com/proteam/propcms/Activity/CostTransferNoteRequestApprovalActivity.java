@@ -43,11 +43,13 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
@@ -564,7 +566,12 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         tv_dia_directExpense.setText(arrayList2.get(Integer.parseInt(position)).getCtnrExpenseType());
         tv_dia_fromPcCode.setText(arrayList2.get(Integer.parseInt(position)).getCtnrFromPcCode());
         tv_dia_ToPcCode.setText(arrayList2.get(Integer.parseInt(position)).getCtnrToPcCode());
-        tv_dia_transferCost.setText(arrayList2.get(Integer.parseInt(position)).getCtnrTransferCost());
+
+        float amount = Float.parseFloat(arrayList2.get(Integer.parseInt(position)).getCtnrTransferCost());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+
+        tv_dia_transferCost.setText(moneyString);
         tv_dia_Remarks.setText(arrayList2.get(Integer.parseInt(position)).getCtnrRemarks());
         back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
