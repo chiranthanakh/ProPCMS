@@ -310,20 +310,13 @@
                         android:layout_marginStart="20dp"
                         app:tint="@color/white" />
 
-                    <!--<TextView
-                        android:id="@+id/temp_btn_irfc"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:text="Action"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />-->
+
 
                     <CheckBox
                         android:id="@+id/tv_action"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:gravity="center" />
 
                     <TextView
@@ -349,7 +342,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="5dp"
                         android:gravity="center"
                         android:text=" PC Code "
                         android:textColor="@color/white"
