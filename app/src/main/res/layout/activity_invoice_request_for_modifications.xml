@@ -318,10 +318,11 @@
 
                                 <TextView
                                     android:id="@+id/temp_btn"
-                                    android:layout_width="100dp"
+                                    android:layout_width="80dp"
                                     android:layout_height="30dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
-                                    android:gravity="center"
+                                    android:gravity="start|center"
+                                    android:paddingLeft="20dp"
                                     android:text="Action"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
@@ -330,11 +331,12 @@
                                     android:id="@+id/ch_action"
                                     android:layout_width="wrap_content"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="55dp"
+                                    android:layout_marginStart="25dp"
                                     android:gravity="center" />
 
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="5dp"
@@ -347,7 +349,7 @@
                                 <TextView
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="25dp"
+                                    android:layout_marginStart="45dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="center"
                                     android:text=" PC Code "
@@ -375,16 +377,17 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:layout_width="200dp"
+                                    android:layout_width="300dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="50dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
-                                    android:gravity="center"
+                                    android:gravity="start|center"
                                     android:text="Requesting For Changes"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -395,6 +398,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="150dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -405,6 +409,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -415,6 +420,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -425,6 +431,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="150dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -435,6 +442,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="150dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
@@ -449,7 +457,7 @@
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
-                                    android:gravity="center"
+                                    android:gravity="end|center"
                                     android:text="Taxable Amount"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
@@ -459,7 +467,7 @@
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
-                                    android:gravity="center"
+                                    android:gravity="end|center"
                                     android:text="GST Rate"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
@@ -475,6 +483,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="300dp"
                                     android:layout_height="30dp"
                                     android:layout_marginStart="20dp"

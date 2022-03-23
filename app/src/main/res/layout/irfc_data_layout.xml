@@ -6,296 +6,607 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <LinearLayout
+<!--   <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="5dp">
 
         <LinearLayout
+            android:id="@+id/data_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/search">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_irfc_ALl_data_view"
-                android:layout_width="wrap_content"
-                android:padding="5dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:background="?selectableItemBackground"
-                android:src="@drawable/eye"
-                app:tint="@color/icon_color" />
+            <LinearLayout
+                android:id="@+id/list_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/electric_blue"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
-            <ImageView
-                android:id="@+id/iv_irfc_action_invoice"
-                android:layout_width="wrap_content"
-                android:padding="5dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:background="?selectableItemBackground"
-                android:src="@drawable/ic_invoice"
-                app:tint="@color/icon_color" />
-            <ImageView
-                android:id="@+id/iv_irfc_action_view"
-                android:layout_width="wrap_content"
-                android:padding="5dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="?selectableItemBackground"
-                android:src="@drawable/ic_send"
-                app:tint="@color/icon_color" />
-        </LinearLayout>
-        <CheckBox
-            android:id="@+id/ch_irfc_check_data"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center" />
+                <TextView
+                    android:id="@+id/temp_btn_irfc"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="Action"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <ImageView
-            android:id="@+id/iv_irfc_upload"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="5dp"
-            android:background="?selectableItemBackground"
-            android:src="@drawable/ic_upload"
-            app:tint="@color/icon_color" />
+                <CheckBox
+                    android:id="@+id/tv_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center" />
 
-        <ImageView
-            android:id="@+id/iv_irfc_status_modification"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="70dp"
-            android:background="?selectableItemBackground"
-            android:padding="5dp"
-            android:src="@drawable/pending" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:text=" Documents "
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_pc_code"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="FAS-UDN001"
-            android:gravity="center"
-            android:layout_marginStart="45dp"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="Invoice status "
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_invoiceNo"
-            android:gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="FAS-UDN001"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center"
+                    android:text=" PC Code "
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_InvoiceDate"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="14-03-2022"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center"
+                    android:text=" Invoice No. "
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_group"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Group"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="25dp"
+                    android:gravity="start|center"
+                    android:text="Invoice Date"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_assignment"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Assignment"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Group"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_billTo"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Bill To"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Assignment"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_billingAddress"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Billing Address"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="350dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Bill To"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_referenceNumber"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Reference Number"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="400dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Billing Address"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_kindAttention"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Kind Attention"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Reference Number"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_region"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Region"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/tv_irfc_place"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Place"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Kind Attention"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_gstinNo"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="GSTIN No"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/tv_irfc_panOfCustomer"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="PAN of Customer"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/tv_irfc_taxableAmount"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Taxable Amount"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Region"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_gstRate"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="GST Rate"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center"
+                    android:text="Place"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_forMonth"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="For Month"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="GSTIN No"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_description"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="300dp"
-            android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="PAN of Customer"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_hsn_Sac"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="HSN/SAC"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="end|center"
+                    android:text="Taxable Amount"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_particulars"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Particulars"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/tv_irfc_stateOf_supplyCode"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="State of Supply &amp; Code"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="end|center"
+                    android:text="GST Rate"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_transactionType"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Transaction Type"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="For Month"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_irfc_invoiceWith_whom"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Invoice With Whom"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="400dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Description"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="HSN/SAC"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="250dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center"
+                    android:text="Particulars"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="State of Supply &amp; Code"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Transaction Type"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start|center"
+                    android:text="Invoice With Whom "
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+
+
+            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_irfc_ALl_data_view"
+                        android:layout_width="35dp"
+                        android:padding="5dp"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/eye"
+                        app:tint="@color/icon_color" />
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_irfc_action_invoice"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/ic_invoice"
+                        app:tint="@color/icon_color" />
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_irfc_action_view"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?selectableItemBackground"
+                        android:src="@drawable/ic_send"
+                        app:tint="@color/icon_color" />
+                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/ch_irfc_check_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:gravity="center" />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_irfc_upload"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/ic_upload"
+                    app:tint="@color/icon_color" />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_irfc_status_modification"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:background="?selectableItemBackground"
+                    android:padding="5dp"
+                    android:src="@drawable/pending" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_pc_code"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="FAS-UDN001"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_invoiceNo"
+                    android:gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="FAS-UDN001"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_InvoiceDate"
+                    android:gravity="start|center"
+                    android:layout_marginStart="25dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="14-03-2022"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_group"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Group"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_assignment"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Assignment"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_billTo"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="350dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_height="wrap_content"
+                    android:text="MANIPAL HEALTH ENTERPRISES PRIVATE LIMITED"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_billingAddress"
+                    android:gravity="start|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="400dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="LM Wind Power Blades (India) Pvt LtdPlot No 85, KIADB Industrial Area,Dabaspet,Nelamangala TalukBangalore (Rural Dist) - 562 111	"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_referenceNumber"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Reference Number"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_kindAttention"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Kind Attention"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_region"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Region"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_place"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Place"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_gstinNo"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="GSTIN No"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_panOfCustomer"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="PAN of Customer"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_irfc_taxableAmount"
+                    android:gravity="end|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Taxable Amount"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_gstRate"
+                    android:gravity="end|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="GST Rate"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_irfc_forMonth"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="For Month"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_description"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="400dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_hsn_Sac"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="HSN/SAC"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_particulars"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="250dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_height="wrap_content"
+                    android:text="Management Consultancy Services	"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_stateOf_supplyCode"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="State of Supply &amp; Code"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_transactionType"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Transaction Type"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_irfc_invoiceWith_whom"
+                    android:gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Invoice With Whom"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+<!--
+      </LinearLayout>
+
+    </HorizontalScrollView>
+-->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

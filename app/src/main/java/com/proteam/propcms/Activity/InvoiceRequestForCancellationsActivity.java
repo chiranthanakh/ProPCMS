@@ -58,7 +58,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     EditText edt_from_irfc;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_irfc;
-    TextView temp_btn_irfc;
+    TextView temp_btn_irfc,tv_irfc_count;
     ProgressDialog progressDialog;
     Button btn_irfc_rejact,btn_irfc_approve;
     List projectList = new ArrayList();
@@ -90,6 +90,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        tv_irfc_count=findViewById(R.id.tv_irfc_count);
         rv_irfc_Data_list=findViewById(R.id.rv_irfc_Data_list);
         temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
         temp_btn_irfc.setOnClickListener(this);
@@ -213,6 +214,9 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         RejectList rejectList = (RejectList) response;
 
                         list = rejectList.getList();
+
+                        tv_irfc_count.setText(String.valueOf(list.size()));
+                        arrayList.clear();
 
                         for (int i=0;i<list.size();i++){
 

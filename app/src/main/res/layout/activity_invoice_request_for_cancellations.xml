@@ -261,7 +261,7 @@
                             android:textSize="13sp" />
 
                         <TextView
-                            android:id="@+id/tv_raise_indent_total_item"
+                            android:id="@+id/tv_irfc_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -303,10 +303,9 @@
 
                     <TextView
                         android:id="@+id/temp_btn_irfc"
-                        android:layout_width="100dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:gravity="center"
-                        android:paddingLeft="30dp"
                         android:text="Action"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -315,10 +314,11 @@
                         android:id="@+id/tv_action"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_marginStart="40dp"
+                        android:layout_marginStart="25dp"
                         android:gravity="center" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_margin="5dp"
@@ -328,6 +328,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
@@ -339,7 +340,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="10dp"
                         android:gravity="center"
                         android:text=" PC Code "
                         android:textColor="@color/white"
@@ -358,52 +359,56 @@
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="25dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Invoice Date"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Group"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Assignment"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:layout_width="150dp"
+                        android:layout_width="350dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Bill To"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:layout_width="150dp"
+                        android:visibility="gone"
+                        android:layout_width="400dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Billing Address"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Reference Number"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -412,21 +417,23 @@
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Kind Attention"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Region"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
@@ -436,19 +443,21 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="GSTIN No"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="PAN of Customer"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -457,7 +466,7 @@
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="end|center"
                         android:text="Taxable Amount"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -466,7 +475,7 @@
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="end|center"
                         android:text="GST Rate"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -481,25 +490,28 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:layout_width="300dp"
+                        android:visibility="gone"
+                        android:layout_width="400dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Description"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="HSN/SAC"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:layout_width="150dp"
+                        android:visibility="gone"
+                        android:layout_width="250dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
@@ -508,28 +520,31 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="200dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="State of Supply &amp; Code"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Transaction Type"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="20dp"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:text="Invoice With Whom "
                         android:textColor="@color/white"
                         android:textSize="12sp" />
