@@ -94,8 +94,8 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     {
         tv_irfc_count=findViewById(R.id.tv_irfc_count);
         rv_irfc_Data_list=findViewById(R.id.rv_irfc_Data_list);
-        temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
-        temp_btn_irfc.setOnClickListener(this);
+       // temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
+        //temp_btn_irfc.setOnClickListener(this);
         edt_from_irfc=findViewById(R.id.edt_from_irfc);
         edt_from_irfc.setOnClickListener(this);
         sp_all_project_irfc=findViewById(R.id.sp_all_project_irfc);
@@ -201,7 +201,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                     WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
                     webServices.rejectirfccall(WebServices.ApiType.approve,invApproverequest);
                 }
-
             }
         }
     }
@@ -287,7 +286,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                                     rejectList.getList().get(i).getGstin_no(),
                                     rejectList.getList().get(i).getPan_no_customer(),
                                     rejectList.getList().get(i).getAmount(),
-                                    rejectList.getList().get(i).getGst_percentage(),
+                                    rejectList.getList().get(i).getGst_percentage()+"%",
                                     rejectList.getList().get(i).getMonth(),
                                     rejectList.getList().get(i).getDescription(),
                                     rejectList.getList().get(i).getHSN_SAC(),
@@ -380,10 +379,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         {
             case R.id.edt_from_irfc:
                 datepicker();
-                break;
-
-            case R.id.temp_btn_irfc:
-               // opengcadminDialog();
                 break;
 
             case R.id.btn_irfc_rejact:

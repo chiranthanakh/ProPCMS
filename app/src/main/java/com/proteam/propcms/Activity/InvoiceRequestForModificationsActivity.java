@@ -86,14 +86,14 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
         initialize();
         sp_all_project_irfm.setOnItemSelectedListener(OnCatSpinnerCL);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+       /* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                // callProjectListApi();
                 callmodificationApi();
                 edt_search.setText("");
             }
-        });
+        });*/
     }
 
     @Override
@@ -116,7 +116,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         reject = findViewById(R.id.btn_reject_invoise);
         btn_search_list = findViewById(R.id.btn_search_list);
         edt_search = findViewById(R.id.edt_search_irfm);
-        swipeRefreshLayout=findViewById(R.id.swiperefresh);
+
         iv_clear = findViewById(R.id.iv_clear);
         iv_clear.setOnClickListener(this);
         btn_search_list.setOnClickListener(this);
