@@ -320,7 +320,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:buttonTint="@color/white"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="25dp"
                             android:gravity="center" />
 
                         <TextView
