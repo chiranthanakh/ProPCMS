@@ -179,7 +179,7 @@
                 app:cardElevation="4dp">
 
                 <ImageView
-                    android:id="@+id/iv_clear_irfc"
+                    android:id="@+id/iv_refresh_irfc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -221,7 +221,7 @@
                             app:tint="@color/grey" />
 
                         <EditText
-                            android:id="@+id/edt_search"
+                            android:id="@+id/edt_search_irfc"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -313,7 +313,7 @@
 
 
                     <CheckBox
-                        android:id="@+id/tv_action"
+                        android:id="@+id/ch_action_irfc"
                         android:layout_width="30dp"
                         android:buttonTint="@color/white"
                         android:layout_height="30dp"

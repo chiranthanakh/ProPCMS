@@ -86,14 +86,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
         initialize();
         sp_all_project_irfm.setOnItemSelectedListener(OnCatSpinnerCL);
-       /* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-               // callProjectListApi();
-                callmodificationApi();
-                edt_search.setText("");
-            }
-        });*/
+
     }
 
     @Override
@@ -159,7 +152,11 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void callProjectListApi() {
 
-        progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
+        ProjectListModel projectListModel = new ProjectListModel("21");
+        WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(InvoiceRequestForModificationsActivity.this);
+        webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
+
+        /*progressDialog = new ProgressDialog(InvoiceRequestForModificationsActivity.this);
 
         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
@@ -170,7 +167,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(InvoiceRequestForModificationsActivity.this);
                 webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
             }
-        }
+        }*/
 
     }
 
@@ -315,6 +312,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
             case R.id.btn_reject_invoise:
                 callRejectApi();
                 break;
+
             case R.id.btn_search_list:
 
                 if(sp_all_project_irfm.getSelectedItem()!=null){

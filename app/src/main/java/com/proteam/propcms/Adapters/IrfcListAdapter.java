@@ -35,12 +35,14 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
     private ArrayList<IrfcDataModel> listdata;
     private Context context;
     private OnClick mClick;
+    private  Boolean check;
     Map map = new HashMap();
     List list = new ArrayList();
 
-    public IrfcListAdapter(ArrayList<IrfcDataModel> listdata,OnClick listner) {
+    public IrfcListAdapter(ArrayList<IrfcDataModel> listdata,OnClick listner,Boolean check) {
         this.listdata = listdata;
         this.context = context;
+        this.check = check;
         this.mClick = listner;
     }
 
@@ -57,6 +59,10 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final IrfcDataModel irfcDataModel = listdata.get(position);
+
+        if(check){
+            holder.ch_irfc_check_data.setChecked(true);
+        }
 
         holder.tv_irfc_pc_code.setText(listdata.get(position).getIrfcPcCode());
         holder.tv_irfc_invoiceNo.setText(listdata.get(position).getIrfcInvoiceNo());
