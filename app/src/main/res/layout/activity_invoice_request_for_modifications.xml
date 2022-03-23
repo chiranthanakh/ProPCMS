@@ -316,7 +316,16 @@
                                 android:paddingTop="8dp"
                                 android:paddingBottom="8dp">
 
-                                <TextView
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="start|center"
+                                    android:background="?selectableItemBackground"
+                                    android:src="@drawable/hash"
+                                    android:layout_marginStart="20dp"
+                                    app:tint="@color/white" />
+
+                                <!--<TextView
                                     android:id="@+id/temp_btn"
                                     android:layout_width="80dp"
                                     android:layout_height="30dp"
@@ -325,13 +334,13 @@
                                     android:paddingLeft="20dp"
                                     android:text="Action"
                                     android:textColor="@color/white"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp" />-->
 
                                 <CheckBox
                                     android:id="@+id/ch_action"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="25dp"
+                                    android:layout_marginStart="10dp"
                                     android:gravity="center" />
 
 
@@ -349,7 +358,7 @@
                                 <TextView
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="45dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="center"
                                     android:text=" PC Code "
@@ -357,9 +366,9 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:layout_width="100dp"
+                                    android:layout_width="120dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="50dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="center"
                                     android:text=" Invoice No. "
@@ -367,9 +376,9 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:layout_width="100dp"
+                                    android:layout_width="150dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="65dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="center"
                                     android:text="Process Owner"
@@ -379,7 +388,7 @@
                                 <TextView
                                     android:layout_width="300dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="50dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="start|center"
                                     android:text="Requesting For Changes"
@@ -453,9 +462,9 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:layout_width="150dp"
+                                    android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="20dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="end|center"
                                     android:text="Taxable Amount"
@@ -463,9 +472,9 @@
                                     android:textSize="12sp" />
 
                                 <TextView
-                                    android:layout_width="100dp"
+                                    android:layout_width="70dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="20dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="end|center"
                                     android:text="GST Rate"
@@ -475,7 +484,7 @@
                                 <TextView
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:layout_marginStart="20dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/proxima_nova_semi_bold"
                                     android:gravity="center"
                                     android:text="For Month"
