@@ -107,8 +107,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     private void initialize()
     {
         rv_irfm_Data_list=findViewById(R.id.rv_irfm_Data_list);
-        temp_btn=findViewById(R.id.temp_btn);
-        temp_btn.setOnClickListener(this);
         edt_from_irfm=findViewById(R.id.edt_from_irfm);
         ch_action=findViewById(R.id.ch_action);
         edt_from_irfm.setOnClickListener(this);
@@ -297,9 +295,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 monthDatePickerDialog.show();
                // monthDatePickerDialog.getDatePicker().setMaxDate(mcurrentDate.getTimeInMillis());
                 // monthDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                break;
-
-            case R.id.temp_btn:
                 break;
 
             case R.id.btn_approve_invoise:

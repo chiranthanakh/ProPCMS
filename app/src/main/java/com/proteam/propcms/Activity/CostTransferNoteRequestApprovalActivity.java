@@ -58,7 +58,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     int mMonth,mDay,mYear;
     Spinner sp_all_project_ctnra;
     RecyclerView rv_ctrn_Data_list;
-    TextView temp_btn_ctnr,tv_raise_indent_total_item;
+    TextView tv_raise_indent_total_item;
     ProgressDialog progressDialog;
     ArrayList<Approvalmodel> arrayList = new ArrayList<Approvalmodel>();
     ArrayList<CtrnDataModel> arrayList2 = new ArrayList<CtrnDataModel>();
@@ -93,10 +93,10 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
     private void initialize()
     {
-        temp_btn_ctnr=findViewById(R.id.temp_btn_ctnr);
+
         btn_ctrn_search = findViewById(R.id.btn_ctrn_search);
         btn_ctrn_search.setOnClickListener(this);
-        temp_btn_ctnr.setOnClickListener(this);
+
         btn_reject = findViewById(R.id.ctrn_reject_btn);
         btn_reject.setOnClickListener(this);
         btn_approve = findViewById(R.id.ctrn_approve_btn);
@@ -154,9 +154,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.temp_btn_ctnr:
-              //  opengcadminDialog();
-                break;
+
             case R.id.edt_from1:
                 Calendar mcurrentDate = Calendar.getInstance();
                 String myFormat = "MMMM yyyy";

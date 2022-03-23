@@ -5,7 +5,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <HorizontalScrollView
+<!--   <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp">
@@ -29,7 +29,16 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp">
 
-                <TextView
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="start|center"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/hash"
+                    android:layout_marginStart="20dp"
+                    app:tint="@color/white" />
+
+                &lt;!&ndash;<TextView
                     android:id="@+id/temp_btn"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
@@ -38,11 +47,11 @@
                     android:paddingLeft="20dp"
                     android:text="Action"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp" />&ndash;&gt;
 
                 <CheckBox
                     android:id="@+id/ch_action"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
                     android:gravity="center" />
@@ -62,7 +71,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:gravity="center"
                     android:text=" PC Code "
@@ -70,9 +79,9 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:gravity="center"
                     android:text=" Invoice No. "
@@ -80,9 +89,9 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="65dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:gravity="center"
                     android:text="Process Owner"
@@ -90,11 +99,11 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:layout_width="400dp"
+                    android:layout_width="300dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:gravity="center"
+                    android:gravity="start|center"
                     android:text="Requesting For Changes"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -166,21 +175,21 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:layout_width="150dp"
+                    android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:gravity="center"
+                    android:gravity="end|center"
                     android:text="Taxable Amount"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="70dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:gravity="center"
+                    android:gravity="end|center"
                     android:text="GST Rate"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -188,7 +197,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:gravity="center"
                     android:text="For Month"
@@ -226,7 +235,7 @@
                         android:layout_width="35dp"
                         android:padding="5dp"
                         android:layout_height="35dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginEnd="5dp"
                         android:background="?selectableItemBackground"
                         android:src="@drawable/eye"
@@ -257,9 +266,8 @@
                 </LinearLayout>
                 <CheckBox
                     android:id="@+id/ch_irfm_check_data"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="45dp"
                     android:gravity="center" />
 
 
@@ -279,15 +287,15 @@
                     android:layout_height="wrap_content"
                     android:text="FAS-UDN001"
                     android:gravity="center"
-                    android:layout_marginStart="45dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_irfm_invoice_no"
                     android:gravity="center"
-                    android:layout_marginStart="25dp"
-                    android:layout_width="150dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="FAS-UDN001"
                     android:textColor="@color/black"
@@ -296,21 +304,22 @@
                 <TextView
                     android:id="@+id/tv_irfm_process_owner"
                     android:gravity="center"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_width="150dp"
                     android:inputType="textCapWords"
                     android:layout_height="wrap_content"
-                    android:text="Sunil m das"
+                    android:text="Basavaraj bagewadi"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_irfm_requestFor_change"
                     android:gravity="start|center"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_width="300dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
                     android:text="Need the Invoice date to be modified to 17th November 2021"
@@ -385,8 +394,8 @@
                 <TextView
                     android:id="@+id/tv_irfm_taxable_amount"
                     android:gravity="end|center"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="150dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="75,000.00"
                     android:textColor="@color/black"
@@ -395,8 +404,8 @@
                 <TextView
                     android:id="@+id/tv_irfm_gst_rate"
                     android:gravity="end|center"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="100dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:text="18%"
                     android:textColor="@color/black"
@@ -404,7 +413,7 @@
                 <TextView
                     android:id="@+id/tv_irfm_forMonth"
                     android:gravity="center"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="2021-10"
@@ -428,8 +437,8 @@
 <!--
         </LinearLayout>
 
-    </HorizontalScrollView>
--->
+    </HorizontalScrollView>-->
+
 
 
 

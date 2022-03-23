@@ -299,32 +299,40 @@
                         android:id="@+id/list_bar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:background="@color/electric_blue"
-                        android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp">
 
-                        <TextView
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_gravity="start|center"
+                            android:background="?selectableItemBackground"
+                            android:src="@drawable/hash"
+                            app:tint="@color/white" />
+
+                        <!--<TextView
                             android:id="@+id/temp_btn_ctnr"
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:gravity="center"
-                            android:paddingLeft="30dp"
+                            android:gravity="start|center"
+                            android:paddingLeft="20dp"
                             android:text="Action"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp" />-->
 
                         <CheckBox
                             android:id="@+id/ch_action_ctrn"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="50dp"
+                            android:layout_marginStart="15dp"
                             android:gravity="center" />
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
@@ -334,6 +342,7 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_marginStart="5dp"
@@ -344,9 +353,9 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="120dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="25dp"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:gravity="center"
                             android:text="CTN#"
@@ -356,7 +365,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="25dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:gravity="center"
                             android:text="Month"
@@ -366,7 +375,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:gravity="center"
                             android:text="Expense Type"
@@ -376,7 +385,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:gravity="center"
                             android:text="From PC code"
@@ -396,9 +405,9 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:gravity="center"
+                            android:gravity="end|center"
                             android:text="Transfer Cost"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
@@ -408,7 +417,7 @@
                             android:layout_height="30dp"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/proxima_nova_semi_bold"
-                            android:gravity="center"
+                            android:gravity="start|center"
                             android:text="Remarks"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
