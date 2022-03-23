@@ -270,7 +270,11 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
     private void callProjectListApi() {
 
-        progressDialog = new ProgressDialog(CostTransferNoteRequestApprovalActivity.this);
+        ProjectListModel projectListModel = new ProjectListModel("21");
+        WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(CostTransferNoteRequestApprovalActivity.this);
+        webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
+
+        /*progressDialog = new ProgressDialog(CostTransferNoteRequestApprovalActivity.this);
 
         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
@@ -281,7 +285,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                 WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(CostTransferNoteRequestApprovalActivity.this);
                 webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
             }
-        }
+        }*/
 
     }
 
