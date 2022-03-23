@@ -35,8 +35,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
     EditText edt_from_verify_BI;
-    TextView temp_btn_Bi,temp_edit;
     RecyclerView rv_verify_BI_Data_list;
+    ImageView temp_btn_Bi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +70,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
-        temp_edit=findViewById(R.id.temp_edit);
-        temp_edit.setOnClickListener(this);
-        temp_btn_Bi=findViewById(R.id.temp_btn_Bi);
-        temp_btn_Bi.setOnClickListener(this);
+
+     /*   temp_btn_Bi=findViewById(R.id.temp_btn_Bi);
+        temp_btn_Bi.setOnClickListener(this);*/
         rv_verify_BI_Data_list=findViewById(R.id.rv_verify_BI_Data_list);
         edt_from_verify_BI=findViewById(R.id.edt_from_verify_BI);
         edt_from_verify_BI.setOnClickListener(this);
@@ -112,12 +111,10 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
-            case R.id.temp_btn_Bi:
+     /*       case R.id.temp_btn_Bi:
                 openBIallDataDialog();
-                break;
-            case R.id.temp_edit:
-                openEditBIDialog();
-                break;
+                break;*/
+
         }
     }
 

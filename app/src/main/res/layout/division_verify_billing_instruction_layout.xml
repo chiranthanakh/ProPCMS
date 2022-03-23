@@ -6,8 +6,273 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+  <!--  <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:id="@+id/data_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/search">
+
+            <LinearLayout
+                android:id="@+id/list_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/electric_blue"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/temp_btn_Bi"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="20dp"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/viewall"
+                    app:tint="@color/white" />
+
+                <CheckBox
+                    android:id="@+id/tv_action"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:buttonTint="@color/white"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/temp_edit"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text=" Documents "
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:text="Invoice status"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:text="PC Code"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Group"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Assignment"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start|center"
+                    android:text="Bill To"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Billing Address"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start|center"
+                    android:text="Reference Number"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start|center"
+                    android:text="Kind Attention"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Region"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Place"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="GSTIN No."
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:gravity="center"
+                    android:text="PAN Of Customer"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="end|center"
+                    android:text="Taxable Amount"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="end|center"
+                    android:text="GST Rate"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="For Month"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Description"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="HSN/SAC"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Particulars"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="State Of Supply Code"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Transaction Type"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:textSize="12sp" />
 
 
+            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -22,9 +287,9 @@
 
                     <ImageView
                         android:id="@+id/iv_BI_ALl_data_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginEnd="5dp"
                         android:background="?selectableItemBackground"
                         android:padding="5dp"
@@ -33,6 +298,7 @@
 
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/iv_BI_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
@@ -44,6 +310,7 @@
                         app:tint="@color/icon_color" />
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/iv_BI_delete"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
@@ -57,23 +324,25 @@
 
                 <CheckBox
                     android:id="@+id/ch_BI_check_data"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_BI_upload"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="5dp"
-                    android:padding="5dp"
                     android:background="?selectableItemBackground"
+                    android:padding="5dp"
                     android:src="@drawable/ic_upload1"
                     app:tint="@color/icon_color" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_BI_status"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
@@ -84,29 +353,31 @@
 
                 <TextView
                     android:id="@+id/tv_BI_pcCode"
-                    android:layout_width="120dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="SAS-ALB001"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_group"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="GE ITC"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_assignment"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="Commercial Helpdesk"
                     android:textColor="@color/black"
@@ -116,18 +387,19 @@
                     android:id="@+id/tv_BI_billTO"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginBottom="20dp"
-                    android:gravity="center"
+                    android:gravity="start|center"
                     android:text="GE India Industrial Private Limited"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_billing_address"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066."
@@ -138,8 +410,8 @@
                     android:id="@+id/tv_BI_Reference_number"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start|center"
                     android:text="PO - 100040329"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -148,47 +420,51 @@
                     android:id="@+id/tv_BI_kindAttention"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start|center"
                     android:text="Anu Anand"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_Region"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="South"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_place"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="Karnataka"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_gstIn_no"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="29AAACG4901D1Z0"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_panOf_Customer"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="AAACG4901D"
                     android:textColor="@color/black"
@@ -198,8 +474,8 @@
                     android:id="@+id/tv_BI_taxableAmount"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="end|center"
                     android:text="50,000.00	"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -208,8 +484,8 @@
                     android:id="@+id/tv_BI_GstRate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="end|center"
                     android:text="18%"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -218,57 +494,63 @@
                     android:id="@+id/tv_BI_for_month"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="2021-02"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_description"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="Towards fees for managing the commercial helpdesk for the month of March 2020"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_hsn_sac"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="998311"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_particulars"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="Management Consultancy Services	"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_stateOf_supply"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="10"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_BI_transaction_type"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="Interstate"
                     android:textColor="@color/black"
@@ -277,7 +559,11 @@
 
             </LinearLayout>
 
+<!--
+        </LinearLayout>
 
+    </HorizontalScrollView>
+-->
 
 
 

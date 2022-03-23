@@ -310,7 +310,7 @@
                             android:layout_marginStart="20dp"
                             android:layout_gravity="start|center"
                             android:background="?selectableItemBackground"
-                            android:src="@drawable/hash"
+                            android:src="@drawable/viewall"
                             app:tint="@color/white" />
 
                         <!--<TextView
@@ -328,6 +328,7 @@
                             android:id="@+id/ch_action_ctrn"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:buttonTint="@color/white"
                             android:layout_marginStart="15dp"
                             android:gravity="center" />
 
