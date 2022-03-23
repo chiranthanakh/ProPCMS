@@ -393,7 +393,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         switch (URL) {
 
             case invoicemod:
-                swipeRefreshLayout.setRefreshing(false);
+
                 if(progressDialog!=null)
                 {
                     if(progressDialog.isShowing())
