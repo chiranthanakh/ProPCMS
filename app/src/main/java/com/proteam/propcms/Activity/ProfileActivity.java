@@ -25,6 +25,8 @@ import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ProfileActivity extends AppCompatActivity implements OnResponseListener {
   //  ImageView mToolbar;
     EditText edt_conform_pass,edt_password,edt_phone,edt_email_profile,edt_second_name,edt_first_name;
@@ -180,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity implements OnResponseList
                       edt_second_name.setText(profileResponse.getLast_name());
                       edt_email_profile.setText(profileResponse.getEmail());
                       edt_phone.setText(profileResponse.getPhone());
-                      tv_name.setText(profileResponse.getUsername());
+                      tv_name.setText(StringUtils.capitalize(profileResponse.getUsername()));
 
                     }else{
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
