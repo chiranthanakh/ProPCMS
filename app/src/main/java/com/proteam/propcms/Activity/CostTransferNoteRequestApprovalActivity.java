@@ -421,8 +421,8 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                             arrayList2.add( new CtrnDataModel(approvalList.getList().get(i).getCtn_no(),
                                             approvalList.getList().get(i).getMonth(),
                                             approvalList.getList().get(i).getExpense_type_name(),
-                                            approvalList.getList().get(i).getFrom_pc_code(),
-                                            approvalList.getList().get(i).getTo_pc_code(),
+                                            approvalList.getList().get(i).getFrom_pc_code_name(),
+                                            approvalList.getList().get(i).getTo_pc_code_name(),
                                             approvalList.getList().get(i).getAmount(),
                                             approvalList.getList().get(i).getRemarks(),
                                             approvalList.getList().get(i).getId())
@@ -459,6 +459,8 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         GenerealResponse generealResponse = (GenerealResponse) response;
 
                         Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
                     }
@@ -487,7 +489,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         for (int i = 0; i < list.size(); i++) {
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(CostTransferNoteRequestApprovalActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -543,6 +545,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     private void opengcadminDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
 
+        System.out.println("id print"+ id);
         dialog.setContentView(R.layout.dialoge_ctnr_all_details);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -592,14 +595,14 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         btn_dia_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callapproveindividualApi( id);
+                callapproveindividualApi(id);
             }
         });
 
         btn_dia_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callRejectindividualApi(id );
+                callRejectindividualApi(id);
             }
         });
     }

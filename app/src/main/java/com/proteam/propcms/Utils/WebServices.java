@@ -47,7 +47,7 @@ public class WebServices<T> {
     private static OkHttpClient.Builder builder;
 
     public enum ApiType {
-       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist
+       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -540,7 +540,31 @@ public class WebServices<T> {
 
     }
 
+///////////////////////////////dashboard /////////////////////////////////////////////////////
 
+    public void dashboardcount( ApiType apiTypes, UserIdRequest userIdRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.count(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
 
 }
 

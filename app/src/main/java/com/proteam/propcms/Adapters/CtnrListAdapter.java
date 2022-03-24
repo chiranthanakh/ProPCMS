@@ -79,14 +79,14 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
         holder.iv_ctnr_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickitem(String.valueOf(position),1,"0");
+                mClick.onClickitem(String.valueOf(position),1,listdata.get(position).getId());
             }
         });
 
         holder.iv_ctnr_action_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickitem(String.valueOf(position),2,"0");
+                mClick.onClickitem(String.valueOf(position),2,listdata.get(position).getId());
             }
         });
 

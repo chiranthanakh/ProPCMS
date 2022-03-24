@@ -44,7 +44,9 @@ import com.proteam.propcms.R;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PieChart pieChart;
     LinearLayout ll_crnra,ll_irfm,ll_irfc,ll_verify_BI,ll_Verify_CTN;
     Button btn_logout;
-    TextView irfc,tv_irfm,tv_ctnra;
+    TextView irfc,tv_irfm,tv_ctnra,tv_irfc_count,tv_irfm_count,tv_ctnr_count;
     EditText edt_home_month;
     Spinner sp_division_home,sp_clients_home,sp_division_head_home,sp_company_home;
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String[] days = new String[]{"Sep-2021", "Oct-2021","Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
     SharedPreferences.Editor editor;
     String role;
-
+    String user;
 
     Map companymap = new HashMap();
     List companyList = new ArrayList();
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        String user = sharedPreferences.getString("userid", null);
+         user = sharedPreferences.getString("userid", null);
          role = sharedPreferences.getString("role",null);
 
         if (user == null) {
@@ -141,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialize()
     {
+
+        tv_irfc_count = findViewById(R.id.tv_irfc_count1);
+        tv_irfm_count = findViewById(R.id.tv_irfm_count1);
+        tv_ctnr_count = findViewById(R.id.tv_ctnr_count1);
         cc_For_divisionLogin=findViewById(R.id.cc_For_divisionLogin);
         cc_For_managerLogin=findViewById(R.id.cc_For_managerLogin);
         ll_Verify_CTN=findViewById(R.id.ll_Verify_CTN);
@@ -192,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //callcompanyapi();
        // callDheadapi();
        // callDivisionListApi();
+        calldashboardcount();
 
     }
 
@@ -208,9 +215,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else {
                     ll_select_data.setVisibility(View.VISIBLE);
 
+                    callcompanyapi();
+                    callDivisionListApi();
+                    callDheadapi();
                 }
-
                 break;
+
             case R.id.edt_home_month:
                 Calendar mcurrentDate = Calendar.getInstance();
                 String myFormat = "MMMM yyyy";
@@ -301,6 +311,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
 
         switch (URL) {
+
+            case countitem:
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if(response!=null){
+
+                        Dashboardcountresponse dashboardcountresponse = (Dashboardcountresponse) response;
+
+                        tv_irfm_count.setText(dashboardcountresponse.getInvoice_req_for_modification());
+                        tv_irfc_count.setText(dashboardcountresponse.getInvoice_request_for_cancellation());
+                        tv_ctnr_count.setText(dashboardcountresponse.getCost_transfer_note_request_for_approval());
+
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
             case companylist:
 
                 if(progressDialog!=null)
@@ -420,9 +462,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
 
-    private void callDivisionListApi() {
+
+
+    private void calldashboardcount() {
+
 
         progressDialog = new ProgressDialog(MainActivity.this);
+
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                UserIdRequest userIdRequest = new UserIdRequest(user);
+                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
+                webServices.dashboardcount(WebServices.ApiType.countitem,userIdRequest);
+            }
+        }
+
+
+    }
+
+
+    private void callDivisionListApi() {
+
+        DivisionListModel divisionListModel = new DivisionListModel("21");
+        WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
+        webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+
+       /* progressDialog = new ProgressDialog(MainActivity.this);
 
         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
@@ -434,12 +503,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
                 webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
             }
-        }
+        }*/
 
     }
 
 
     private void callcompanyapi() {
+
 
         progressDialog=new ProgressDialog(MainActivity.this);
         if(progressDialog!=null)
@@ -462,15 +532,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void callDheadapi() {
 
-        progressDialog=new ProgressDialog(MainActivity.this);
+        WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
+        webServices.headlist( WebServices.ApiType.headlist );
+
+       /* progressDialog=new ProgressDialog(MainActivity.this);
         if(progressDialog!=null)
         {
             if(!progressDialog.isShowing())
             {
 
-               /* progressDialog.setCancelable(false);
+                progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
-                progressDialog.show();*/
+                progressDialog.show();
 
                 WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
                 webServices.headlist( WebServices.ApiType.headlist );
@@ -478,7 +551,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else {
 
             }
-        }
+        }*/
     }
 
 

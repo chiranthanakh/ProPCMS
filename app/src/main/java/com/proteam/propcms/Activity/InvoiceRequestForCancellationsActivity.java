@@ -383,8 +383,9 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 if (isSucces) {
                     if (response != null) {
                         GenerealResponse generealResponse = (GenerealResponse) response;
-
                         Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
                     }
@@ -413,7 +414,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         for (int i = 0; i < list1.size(); i++) {
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForCancellationsActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -481,9 +482,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         }else {
 
             temp.clear();
+
             for (int i=0;i<arrayList.size();i++){
 
-                if(arrayList.get(i).getIrfcGroup().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getIrfcInvoiceNo().toLowerCase().contains(text.toLowerCase())){
+                if(arrayList.get(i).getIrfcGroup().toLowerCase().contains(text.toLowerCase()) ||
+                        arrayList.get(i).getIrfcInvoiceNo().toLowerCase().contains(text.toLowerCase()) ||
+                        arrayList.get(i).getIrfcKindAttention().toLowerCase().contains(text.toLowerCase()) ||
+                                arrayList.get(i).getIrfcPcCode().toLowerCase().contains(text.toLowerCase())){
 
                     temp.add( new IrfcDataModel(arrayList.get(i).getIrfcPcCode(),
                             arrayList.get(i).getIrfcInvoiceNo(),
@@ -510,6 +515,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                             arrayList.get(i).getId()));
 
                 }
+                tv_irfc_count.setText(String.valueOf(temp.size()));
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
@@ -613,6 +619,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         Button btn_d_irfc_ctn_approve = dialog.findViewById(R.id.btn_d_irfc_ctn_approve);
         Button btn_d_irfc_ctn_reject = dialog.findViewById(R.id.btn_d_irfc_ctn_reject);
 
+        tv_d_irfc_group.setText(arrayList.get(position).getIrfcGroup());
         tv_d_irfc_pcCode.setText(arrayList.get(position).getIrfcPcCode());
         tv_d_irfc_InvoiceNo.setText(arrayList.get(position).getIrfcInvoiceNo());
         tv_d_irfc_InvoiceDate.setText(arrayList.get(position).getIrfcInvoiceDate());

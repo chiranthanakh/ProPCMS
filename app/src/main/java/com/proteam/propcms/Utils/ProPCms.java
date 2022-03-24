@@ -8,6 +8,7 @@ import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
 import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.GenerealResponse;
@@ -78,4 +79,7 @@ public interface ProPCms {
 
     @POST("Pcms_apis/invoice_request_for_cancellation_reject")
     Call<GenerealResponse> rejectirfcList(@Body InvApproverequest invApproverequest);
+
+    @POST("Pcms_apis/dashboard_count")
+    Call<Dashboardcountresponse> count(@Body UserIdRequest userIdRequest);
 }

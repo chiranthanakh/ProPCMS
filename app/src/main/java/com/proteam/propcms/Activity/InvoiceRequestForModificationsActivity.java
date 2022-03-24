@@ -469,7 +469,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         for (int i = 0; i < list.size(); i++) {
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForModificationsActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -497,6 +497,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         GenerealResponse generealResponse = (GenerealResponse) response;
 
                         Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
                     }
@@ -764,8 +766,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         remarks.setText(irfmDataModel.getIrfmRequestForChange());
 
     }
-
-
 
     @Override
     public void onClickitem(String value,int item,String id) {
