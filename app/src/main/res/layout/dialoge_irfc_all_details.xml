@@ -930,6 +930,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
+                        android:inputType="textCapSentences"
                         android:fontFamily="@font/proxima_nova_bold"
                         android:text="Invoice With Whome"
                         android:textColor="@color/grey_dark"

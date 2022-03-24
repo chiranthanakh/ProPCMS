@@ -1,11 +1,13 @@
 package com.proteam.propcms.Utils;
 
+import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
 import com.proteam.propcms.Response.CompanyListResponse;
 import com.proteam.propcms.Response.Dashboardcountresponse;
@@ -82,4 +84,7 @@ public interface ProPCms {
 
     @POST("Pcms_apis/dashboard_count")
     Call<Dashboardcountresponse> count(@Body UserIdRequest userIdRequest);
+
+    @POST("Pcms_apis/client_list")
+    Call<ClientList> client(@Body Clientlistrequest clientlistrequest);
 }

@@ -225,7 +225,9 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
             temp.clear();
             for (int i=0;i<arrayList.size();i++){
 
-                if(arrayList.get(i).getIrfmPcCode().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getIrfmGroup().toLowerCase().contains(text.toLowerCase())){
+                if(arrayList.get(i).getIrfmPcCode().toLowerCase().contains(text.toLowerCase()) ||
+                        arrayList.get(i).getIrfmGroup().toLowerCase().contains(text.toLowerCase()) ||
+                                arrayList.get(i).getIrfmInvoiceNo().toLowerCase().contains(text.toLowerCase())){
 
                     temp.add(new IrfmDataModel(arrayList.get(i).getIrfmPcCode(),
                             arrayList.get(i).getIrfmInvoiceNo(),
@@ -250,13 +252,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 }
             }
 
+            tv_count.setText(String.valueOf(temp.size()));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
             IrfmListAdapter adapter = new IrfmListAdapter(temp,this,false);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         }
-
     }
 
     @Override
