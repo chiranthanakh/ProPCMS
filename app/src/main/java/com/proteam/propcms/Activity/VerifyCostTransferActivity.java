@@ -68,8 +68,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void initialize()
     {
-        temp_btn_v=findViewById(R.id.temp_btn_v);
-        temp_btn_v.setOnClickListener(this);
+
         edt_from_vct=findViewById(R.id.edt_from_vct);
         edt_from_vct.setOnClickListener(this);
         rv_vct_Data_list=findViewById(R.id.rv_vct_Data_list);
@@ -108,9 +107,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
-            case R.id.temp_btn_v:
-                opengAllDataDialog();
-                break;
+
 
         }
     }
