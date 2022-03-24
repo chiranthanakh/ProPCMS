@@ -54,6 +54,8 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -515,16 +517,14 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                             arrayList.get(i).getId()));
 
                 }
-                tv_irfc_count.setText(String.valueOf(temp.size()));
             }
-
+            tv_irfc_count.setText(String.valueOf(temp.size()));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
             IrfcListAdapter adapter = new IrfcListAdapter(temp,this,false);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         }
-
     }
 
     private void Searchlist() {
@@ -646,7 +646,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         tv_d_irfc_Particular.setText(arrayList.get(position).getIrfcParticulars());
         tv_d_irfc_stateOfSupply.setText(arrayList.get(position).getIrfcStateOfSupplyCode());
         tv_d_irfc_transactionType.setText(arrayList.get(position).getIrfcTransactionType());
-        tv_d_irfc_InvoiceWithWhom.setText(arrayList.get(position).getIrfcInvoiceWithWhom());
+        tv_d_irfc_InvoiceWithWhom.setText(StringUtils.capitalize(arrayList.get(position).getIrfcInvoiceWithWhom().toLowerCase().trim()));
 
         ll_irfm.setOnClickListener(new View.OnClickListener() {
             @Override

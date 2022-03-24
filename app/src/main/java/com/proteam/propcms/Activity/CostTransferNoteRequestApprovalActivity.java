@@ -532,7 +532,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                     ));
                 }
             }
-
+            tv_raise_indent_total_item.setText(String.valueOf(temp.size()));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
             CtnrListAdapter adapter = new CtnrListAdapter(temp,this,false);
             recyclerView.setHasFixedSize(true);

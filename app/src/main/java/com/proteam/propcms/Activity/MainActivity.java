@@ -41,10 +41,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyListResponse;
 import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List companyList = new ArrayList();
     Map headmap = new HashMap();
     List headList = new ArrayList();
+    Map clientmap = new HashMap();
+    List clientList1 = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,9 +219,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else {
                     ll_select_data.setVisibility(View.VISIBLE);
 
-                    callcompanyapi();
-                    callDivisionListApi();
-                    callDheadapi();
+                   callcompanyapi();
+                   callDivisionListApi();
+                   callDheadapi();
+                    callclientapi();
                 }
                 break;
 
@@ -455,6 +460,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
 
+            case client:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+                        List listwe = new ArrayList();
+                        ClientList clientList= (ClientList) response;
+
+                        listwe = clientList.getClient_list();
+
+                        for (int i = 0; i < listwe.size(); i++) {
+
+                            clientList1.add(clientList.getClient_list().get(i).getClient_code());
+                         //clientmap.put(clientList.getClient_list().get(i).getClient_name(),clientList.getClient_list().get(i).getClient_id());
+                        }
+
+                        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, clientList1);
+                        sp_clients_home.setAdapter(adapter);
+
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+                break;
+
+
         }
 
     }
@@ -465,7 +507,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void calldashboardcount() {
-
 
         progressDialog = new ProgressDialog(MainActivity.this);
 
@@ -487,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void callDivisionListApi() {
 
-        DivisionListModel divisionListModel = new DivisionListModel("21");
+        DivisionListModel divisionListModel = new DivisionListModel(user);
         WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
         webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
 
@@ -528,6 +569,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }
+    }
+
+
+    private void callclientapi() {
+
+
+        Clientlistrequest clientlistrequest = new Clientlistrequest(user,"");
+        WebServices<ClientList> webServices = new WebServices<ClientList>(MainActivity.this);
+        webServices.ClientList( WebServices.ApiType.client,clientlistrequest );
+
+       /* progressDialog=new ProgressDialog(MainActivity.this);
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing())
+            {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
+                webServices.headlist( WebServices.ApiType.headlist );
+            }
+            else {
+
+            }
+        }*/
     }
 
     private void callDheadapi() {
