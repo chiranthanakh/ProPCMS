@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ProPCMS</string>
 
-    <string name="copy"><font fgcolor='#000'><bold> "© Copyright 2022 </bold></font><font fgcolor='#ffffff'><bold> Pro-Team Solution Pvt Ltd </bold></font><font fgcolor='#000'><bold> All Right Reserved.</bold></font></string>
+    <string name="copy"><font fgcolor='#000'><bold> "© Copyright 2022 </bold></font><font fgcolor='#FF9800'><bold> Pro-Team Solution Pvt Ltd </bold></font><font fgcolor='#000'><bold> All Right Reserved.</bold></font></string>
     <string name="login"><font fgcolor='#ffffff'>Welcome To</font><font fgcolor='#FF9800'><bold> PCMS</bold></font></string>
 
 
