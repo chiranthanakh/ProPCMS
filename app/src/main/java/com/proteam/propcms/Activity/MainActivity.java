@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CardView cc_For_managerLogin,cc_For_divisionLogin;
     LinearLayout ll_select_data,ll_filter_data;
     ProgressDialog progressDialog;
+    SwipeRefreshLayout swiperefresh;
+
 
     List divisionList = new ArrayList();
 
@@ -109,10 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
          user = sharedPreferences.getString("userid", null);
          role = sharedPreferences.getString("role",null);
+
 
         if (user == null) {
 
@@ -120,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             finish();
         }
+
 
         initialize();
 
@@ -144,11 +151,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
 
         horizontalchart();
+
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+
+
     }
 
     private void initialize()
     {
-
+        swiperefresh=findViewById(R.id.swiperefresh);
         tv_irfc_count = findViewById(R.id.tv_irfc_count1);
         tv_irfm_count = findViewById(R.id.tv_irfm_count1);
         tv_ctnr_count = findViewById(R.id.tv_ctnr_count1);
@@ -319,6 +337,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (URL) {
 
             case countitem:
+
+
+
                 if(progressDialog!=null)
                 {
                     if(progressDialog.isShowing())

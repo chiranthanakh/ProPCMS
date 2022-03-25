@@ -28,6 +28,7 @@ public class VerifyBillingInstructionModel {
         this.BItransactionType = BItransactionType;
     }
 
+
     public String getBIPcCode() {
         return BIPcCode;
     }

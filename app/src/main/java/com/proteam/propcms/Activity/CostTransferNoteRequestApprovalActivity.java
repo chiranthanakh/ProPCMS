@@ -24,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +72,8 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     ArrayList<CtrnDataModel> filterarraylist = new ArrayList<CtrnDataModel>();
     CheckBox ch_action_ctrn;
 
+    LinearLayout ll_no_data_ctnr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
     private void initialize()
     {
+        ll_no_data_ctnr=findViewById(R.id.ll_no_data_ctnr);
 
         btn_ctrn_search = findViewById(R.id.btn_ctrn_search);
         btn_ctrn_search.setOnClickListener(this);
@@ -429,11 +433,18 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                                     );
                         };
 
+                        if(arrayList2.size()==0){
+                            ll_no_data_ctnr.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_ctnr.setVisibility(View.GONE);
+
+                        }
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
                         CtnrListAdapter adapter = new CtnrListAdapter(arrayList2,this,false);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
                         recyclerView.setAdapter(adapter);
+
                         callProjectListApi();
 
                     }else{
@@ -532,12 +543,21 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                     ));
                 }
             }
-            tv_raise_indent_total_item.setText(String.valueOf(temp.size()));
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
-            CtnrListAdapter adapter = new CtnrListAdapter(temp,this,false);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+
+            if(temp.size()==0){
+                ll_no_data_ctnr.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_ctnr.setVisibility(View.GONE);
+
+            }
+
+                tv_raise_indent_total_item.setText(String.valueOf(temp.size()));
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
+                CtnrListAdapter adapter = new CtnrListAdapter(temp, this, false);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(adapter);
+
         }
 
     }
@@ -647,6 +667,13 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         arrayList2.get(i).getId()
 
                 ));
+            }
+
+            if(arrayList2.size()==0){
+                ll_no_data_ctnr.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_ctnr.setVisibility(View.GONE);
+
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
