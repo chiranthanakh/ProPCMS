@@ -74,6 +74,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     ArrayList<IrfmDataModel> temp = new ArrayList();
     ImageView iv_clear;
     CheckBox ch_action;
+    LinearLayout ll_no_data_irfm;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -99,6 +100,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        ll_no_data_irfm=findViewById(R.id.ll_no_data_irfm);
         rv_irfm_Data_list=findViewById(R.id.rv_irfm_Data_list);
         edt_from_irfm=findViewById(R.id.edt_from_irfm);
         ch_action=findViewById(R.id.ch_action);
@@ -250,6 +252,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                             arrayList.get(i).getRequestdate()
                     ));
                 }
+            }
+
+            if(temp.size()==0){
+                ll_no_data_irfm.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfm.setVisibility(View.GONE);
+
             }
 
             tv_count.setText(String.valueOf(temp.size()));
@@ -434,6 +443,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                     };
 
+                        if(arrayList.size()==0){
+                            ll_no_data_irfm.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_irfm.setVisibility(View.GONE);
+
+                        }
+
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
                         IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,false);
                         recyclerView.setHasFixedSize(true);
@@ -542,6 +558,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         arrayList.get(i).getRequest(),
                         arrayList.get(i).getRequestdate()
                         ));
+            }
+
+            if(arrayList.size()==0){
+                ll_no_data_irfm.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfm.setVisibility(View.GONE);
+
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);

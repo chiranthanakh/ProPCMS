@@ -82,6 +82,10 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     ArrayList<IrfcDataModel> filterarraylist = new ArrayList<IrfcDataModel>();
     ArrayList<IrfcDataModel> temp = new ArrayList();
 
+
+    LinearLayout ll_no_data_irfc;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +109,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        ll_no_data_irfc=findViewById(R.id.ll_no_data_irfc);
         tv_irfc_count=findViewById(R.id.tv_irfc_count);
         rv_irfc_Data_list=findViewById(R.id.rv_irfc_Data_list);
        // temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
@@ -358,6 +363,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                         }
 
+                        if(arrayList.size()==0){
+                            ll_no_data_irfc.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_irfc.setVisibility(View.GONE);
+
+                        }
+
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
                         IrfcListAdapter adapter = new IrfcListAdapter(arrayList,this,false);
                         recyclerView.setHasFixedSize(true);
@@ -518,6 +530,12 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                 }
             }
+            if(temp.size()==0){
+                ll_no_data_irfc.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfc.setVisibility(View.GONE);
+
+            }
             tv_irfc_count.setText(String.valueOf(temp.size()));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
             IrfcListAdapter adapter = new IrfcListAdapter(temp,this,false);
@@ -560,6 +578,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         arrayList.get(i).getIrfcTransactionType(),
                         arrayList.get(i).getIrfcInvoiceWithWhom(),
                         arrayList.get(i).getId()));
+            }
+
+            if(arrayList.size()==0){
+                ll_no_data_irfc.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfc.setVisibility(View.GONE);
+
             }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);

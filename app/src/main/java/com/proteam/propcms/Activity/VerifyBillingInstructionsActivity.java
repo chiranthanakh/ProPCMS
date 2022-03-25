@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,25 +19,45 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
+import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.RequestForModificationListResponse;
+import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
+import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
+import com.proteam.propcms.Utils.OnClick;
+import com.proteam.propcms.Utils.OnResponseListener;
+import com.proteam.propcms.Utils.WebServices;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener {
+public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
     ImageView mToolbar;
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
     EditText edt_from_verify_BI;
     RecyclerView rv_verify_BI_Data_list;
     ImageView temp_btn_Bi;
+    LinearLayout ll_no_data_BI;
+    ProgressDialog progressDialog;
+    TextView tv_count_vbi;
+
+    ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +67,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         initialize();
         sp_all_project_verify_bi.setOnItemSelectedListener(OnCatSpinnerCL);
 
-        VerifyBillingInstructionModel[] verifyBillingInstructionModels = new VerifyBillingInstructionModel[]{
-              new VerifyBillingInstructionModel("SAS-ALB001","GE ITC","Commercial Helpdesk","GE India Industrial Private Limited","Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066.","PO - 100040329","Anu Anand","South","Karnataka","29AAACG4901D1Z0","AAACG4901D","50,000.00","18%","2021-02","Towards fees for managing the commercial helpdesk for the month of March 2020","998311","Management Consultancy Services","10","Interstate"),
 
-
-        };
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
-        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(verifyBillingInstructionModels);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
     }
 
@@ -70,13 +81,110 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
-
-     /*   temp_btn_Bi=findViewById(R.id.temp_btn_Bi);
-        temp_btn_Bi.setOnClickListener(this);*/
+        tv_count_vbi=findViewById(R.id.tv_count_vbi);
         rv_verify_BI_Data_list=findViewById(R.id.rv_verify_BI_Data_list);
+        ll_no_data_BI=findViewById(R.id.ll_no_data_BI);
+
         edt_from_verify_BI=findViewById(R.id.edt_from_verify_BI);
         edt_from_verify_BI.setOnClickListener(this);
         sp_all_project_verify_bi=findViewById(R.id.sp_all_project_verify_bi);
+
+        callBIlistApi();
+    }
+
+
+    /////////////////////Calling API//////////////////////
+
+    private void callBIlistApi() {
+
+        progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+                UserIdRequest userIdRequest = new UserIdRequest("21");
+                WebServices<VerifyBillingInstructionResponse> webServices = new WebServices<VerifyBillingInstructionResponse>(VerifyBillingInstructionsActivity.this);
+                webServices.VerifyBIDataList(WebServices.ApiType.verifyBi,userIdRequest);
+            } else {
+
+            }
+        }
+    }
+
+    @Override
+    public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code)
+    {
+        switch (URL)
+        {
+            case verifyBi:
+
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if(response!=null){
+                        VerifyBillingInstructionListResponse verifyBillingInstructionListResponse = (VerifyBillingInstructionListResponse) response;
+                        List list = new ArrayList();
+                        list = verifyBillingInstructionListResponse.getList();
+                        tv_count_vbi.setText(String.valueOf(list.size()));
+                        arrayList.clear();
+                        for (int i=0;i<list.size();i++){
+
+                            arrayList.add(new VerifyBillingInstructionModel(
+                                    verifyBillingInstructionListResponse.getList().get(i).getPc_code(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getGroup_name(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getAssignment(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getBill_to(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getBilling_address(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getReference_no(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getKind_attention(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getRegion(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getPlace(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getGstin_no(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getPan_no_customer(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getAmount(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getGst_percentage(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getMonth(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getDescription(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getHSN_SAC(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getParticular(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getState_supply(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getTransaction_type()));
+
+                        };
+
+                        if(arrayList.size()==0){
+                            ll_no_data_BI.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_BI.setVisibility(View.GONE);
+
+                        }
+
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+                        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(arrayList,this,false);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerView.setAdapter(adapter);
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
     }
 
     @Override
@@ -118,8 +226,23 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }
     }
 
+    @Override
+    public void onClickitem(String value, int item, String id)
+    {
 
-    private void openBIallDataDialog() {
+        if(item==1){
+            openBIallDataDialog(value);
+        }else if(item==2){
+
+        }else if(item==3){
+
+        }else if(item==4){
+
+        }
+    }
+
+
+    private void openBIallDataDialog(String position) {
         final Dialog dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.dialoge_division_bi_verification);
@@ -153,6 +276,27 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         TextView tv_dia_BI_stateOfSupply = dialog.findViewById(R.id.tv_dia_BI_stateOfSupply);
         TextView tv_dia_BI_transactionType = dialog.findViewById(R.id.tv_dia_BI_transactionType);
 
+
+        VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
+        tv_dia_BI_pcCode.setText(verifyBillingInstructionModel.getBIPcCode());
+        tv_dia_BI_group.setText(verifyBillingInstructionModel.getBIgroup());
+        tv_dia_BI_assignment.setText(verifyBillingInstructionModel.getBIassigmnent());
+        tv_dia_BI_billTo.setText(verifyBillingInstructionModel.getBIbillTO());
+        tv_dia_BI_billingAddress.setText(verifyBillingInstructionModel.getBIbillingAdress());
+        tv_dia_BI_referenceNum.setText(verifyBillingInstructionModel.getBIrefrenceNumber());
+        tv_dia_BI_kindAttention.setText(verifyBillingInstructionModel.getBIkindAttention());
+        tv_dia_BI_region.setText(verifyBillingInstructionModel.getBIregion());
+        tv_dia_BI_place.setText(verifyBillingInstructionModel.getBIplace());
+        tv_dia_BI_gstinNO.setText(verifyBillingInstructionModel.getBIgstinNo());
+        tv_dia_BI_panOfCustomer.setText(verifyBillingInstructionModel.getBIpanOfCustomer());
+        tv_dia_BI_taxableAmount.setText(verifyBillingInstructionModel.getBItaxableAmount());
+        tv_dia_BI_gstRate.setText(verifyBillingInstructionModel.getBIgstRate());
+        tv_dia_BI_forMonth.setText(verifyBillingInstructionModel.getBIforMonth());
+        tv_dia_BI_description.setText(verifyBillingInstructionModel.getBIdescription());
+        tv_dia_BI_hsnSac.setText(verifyBillingInstructionModel.getBIhsnSac());
+        tv_dia_BI_particulars.setText(verifyBillingInstructionModel.getBIparticulars());
+        tv_dia_BI_stateOfSupply.setText(verifyBillingInstructionModel.getBIstateOfSupplyCode());
+        tv_dia_BI_transactionType.setText(verifyBillingInstructionModel.getBItransactionType());
         BI_back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,6 +367,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
+
 
 
 }

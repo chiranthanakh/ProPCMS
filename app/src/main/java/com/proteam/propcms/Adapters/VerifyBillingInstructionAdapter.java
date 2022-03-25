@@ -1,25 +1,37 @@
 package com.proteam.propcms.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Utils.OnClick;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<VerifyBillingInstructionAdapter.ViewHolder>{
 
-    private VerifyBillingInstructionModel[] listdata;
+    private ArrayList<VerifyBillingInstructionModel> listdata;
     private Context context;
+    List list = new ArrayList();
+    Boolean check;
+    private OnClick mClick;
 
-    public VerifyBillingInstructionAdapter(VerifyBillingInstructionModel[] listdata) {
+    public VerifyBillingInstructionAdapter(ArrayList<VerifyBillingInstructionModel> listdata, OnClick listner, Boolean check) {
 
+        this.mClick = listner;
+        this.check= check;
         this.context = context;
         this.listdata = listdata;
     }
@@ -34,36 +46,35 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VerifyBillingInstructionAdapter.ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull VerifyBillingInstructionAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
-        final VerifyBillingInstructionModel verifyBillingInstructionModel = listdata[position];
+        final VerifyBillingInstructionModel verifyBillingInstructionModel = listdata.get(position);
 
-        holder.tv_BI_pcCode.setText(listdata[position].getBIPcCode());
-        holder.tv_BI_group.setText(listdata[position].getBIgroup());
-        holder.tv_BI_assignment.setText(listdata[position].getBIassigmnent());
-        holder.tv_BI_billTO.setText(listdata[position].getBIbillTO());
-        holder.tv_BI_billing_address.setText(listdata[position].getBIbillingAdress());
-        holder.tv_BI_Reference_number.setText(listdata[position].getBIrefrenceNumber());
-        holder.tv_BI_kindAttention.setText(listdata[position].getBIkindAttention());
-        holder.tv_BI_Region.setText(listdata[position].getBIregion());
-        holder.tv_BI_place.setText(listdata[position].getBIplace());
-        holder.tv_BI_gstIn_no.setText(listdata[position].getBIgstinNo());
-        holder.tv_BI_panOf_Customer.setText(listdata[position].getBIpanOfCustomer());
-        holder.tv_BI_taxableAmount.setText(listdata[position].getBItaxableAmount());
-        holder.tv_BI_GstRate.setText(listdata[position].getBIgstRate());
-        holder.tv_BI_for_month.setText(listdata[position].getBIforMonth());
-        holder.tv_BI_description.setText(listdata[position].getBIdescription());
-        holder.tv_BI_hsn_sac.setText(listdata[position].getBIhsnSac());
-        holder.tv_BI_particulars.setText(listdata[position].getBIparticulars());
-        holder.tv_BI_stateOf_supply.setText(listdata[position].getBIstateOfSupplyCode());
-        holder.tv_BI_transaction_type.setText(listdata[position].getBItransactionType());
+        holder.tv_BI_pcCode.setText(listdata.get(position).getBIPcCode());
+
+        holder.tv_BI_billTO.setText(listdata.get(position).getBIbillTO());
+
+        holder.tv_BI_Reference_number.setText(listdata.get(position).getBIrefrenceNumber());
+        holder.tv_BI_kindAttention.setText(listdata.get(position).getBIkindAttention());
+
+        holder.tv_BI_taxableAmount.setText(listdata.get(position).getBItaxableAmount());
+        holder.tv_BI_GstRate.setText(listdata.get(position).getBIgstRate());
+        holder.tv_BI_for_month.setText(listdata.get(position).getBIforMonth());
+
+        holder.iv_BI_ALl_data_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClick.onClickitem(String.valueOf(position),1,"0");
+            }
+        });
+
 
 
     }
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return listdata.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,8 +82,12 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
                 tv_BI_kindAttention,tv_BI_Region,tv_BI_place,tv_BI_gstIn_no,tv_BI_panOf_Customer,tv_BI_taxableAmount,
                 tv_BI_GstRate,tv_BI_for_month,tv_BI_description,tv_BI_hsn_sac,tv_BI_particulars,tv_BI_stateOf_supply,
                 tv_BI_transaction_type;
+
+        public ImageView iv_BI_ALl_data_view;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            iv_BI_ALl_data_view=(ImageView) itemView.findViewById(R.id.iv_BI_ALl_data_view);
 
             this.tv_BI_pcCode = (TextView) itemView.findViewById(R.id.tv_BI_pcCode);
             this.tv_BI_group = (TextView) itemView.findViewById(R.id.tv_BI_group);

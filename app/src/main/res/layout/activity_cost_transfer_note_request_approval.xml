@@ -437,12 +437,45 @@
 
                 </LinearLayout>
 
+
+
             </HorizontalScrollView>
+
+
+
 
 
         </LinearLayout>
 
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_no_data_ctnr"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
+        <ImageView
+            android:src="@drawable/ic_empty"
+            android:layout_width="80dp"
+            android:layout_gravity="center"
+            android:layout_height="80dp"
+            app:tint="@color/icon_color" />
+        <TextView
+            android:text="No Available Data"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/proxima_family"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
@@ -484,14 +517,6 @@
             android:text="CTN Reject"
             android:textColor="@color/white" />
     </LinearLayout>
-    <!-- <RelativeLayout
-         android:id="@+id/rlProgress"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
-         <ProgressBar
-             android:layout_centerInParent="true"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"/>
-     </RelativeLayout>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

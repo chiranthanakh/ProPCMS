@@ -19,6 +19,7 @@ import com.proteam.propcms.Response.ProfileResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
+import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 import com.proteam.propcms.Response.invoicereject.RejectItems;
 import com.proteam.propcms.Response.invoicereject.RejectList;
@@ -87,4 +88,8 @@ public interface ProPCms {
 
     @POST("Pcms_apis/client_list")
     Call<ClientList> client(@Body Clientlistrequest clientlistrequest);
+
+
+    @POST("Pcms_apis/verification_getBIListDivisionwise")
+    Call<VerifyBillingInstructionListResponse> VerifyBIList(@Body UserIdRequest userIdRequest);
 }

@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:gravity="start|center"
-                android:text="SAS-ALB001"
+                android:text="SAS-ALB001text"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -248,7 +248,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="GE ITC"
+                        android:text="Group"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -282,7 +282,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Commercial Helpdesk"
+                        android:text="Assig Commercial Helpdesk"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -316,7 +316,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="GE India Industrial Private Limited"
+                        android:text="Bill GE India Industrial Private Limited"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -350,7 +350,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066."
+                        android:text="Add Plot.No.122, EPIP, Hoodi Village, Whitefield Road, Bangalore - 560 066."
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -384,7 +384,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="PO - 100040329"
+                        android:text="Ref PO - 100040329"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -418,7 +418,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Anu Anand"
+                        android:text="Name Anu Anand"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -452,7 +452,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="South"
+                        android:text="Region South"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -486,7 +486,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Karnataka"
+                        android:text="Place Karnataka"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -520,7 +520,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="29AAACG4901D1Z0"
+                        android:text="Gs 29AAACG4901D1Z0"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -554,7 +554,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="AAACG4901D"
+                        android:text="Pan AAACG4901D"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -588,7 +588,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="50,000.00"
+                        android:text="Am 50,000.00"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -622,7 +622,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="18%"
+                        android:text="Gst 18%"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -656,7 +656,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="2021-02"
+                        android:text="Month 2021-02"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -690,7 +690,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Towards fees for managing the commercial helpdesk for the month of March 2020"
+                        android:text="Des Towards fees for managing the commercial helpdesk for the month of March 2020"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -725,7 +725,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="998311"
+                        android:text="Hsn 998311"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -759,7 +759,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Management Consultancy Services"
+                        android:text="Part Management Consultancy Services"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -793,7 +793,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="10"
+                        android:text="State 10"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
@@ -827,7 +827,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/proxima_nova_bold"
-                        android:text="Interstate"
+                        android:text="Tran Interstate"
                         android:textColor="@color/grey_dark"
                         android:textSize="13sp" />
 
