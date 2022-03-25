@@ -32,7 +32,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.proteam.propcms.Adapters.IrfcListAdapter;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
+import com.proteam.propcms.Models.IrfcDataModel;
 import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.InvApproverequest;
@@ -51,6 +53,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +65,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     EditText edt_from_irfm,edt_search;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_irfm;
-    TextView temp_btn,tv_count;
+    TextView temp_btn,tv_count,sort_pccode,sort_invoice;
     RecyclerView rv_irfm_Data_list;
     ProgressDialog progressDialog;
     List projectList = new ArrayList();
@@ -99,6 +103,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        sort_pccode  = findViewById(R.id.sort_pccode);
+        sort_invoice = findViewById(R.id.sort_invoice);
         rv_irfm_Data_list=findViewById(R.id.rv_irfm_Data_list);
         edt_from_irfm=findViewById(R.id.edt_from_irfm);
         ch_action=findViewById(R.id.ch_action);
@@ -128,6 +134,20 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     adaptorclass(false);
                 }
 
+            }
+        });
+
+        sort_invoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sort(2);
+            }
+        });
+
+        sort_pccode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sort(1);
             }
         });
     }
@@ -511,6 +531,32 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                 break;
         }
     }
+
+    private void sort(int id) {
+
+        Collections.sort(arrayList, new Comparator<IrfmDataModel>() {
+            @Override
+            public int compare(IrfmDataModel item1, IrfmDataModel item2) {
+
+                if(id==1){
+                    return item1.getIrfmPcCode().compareToIgnoreCase(item2.getIrfmPcCode());
+
+                }else {
+                    return item1.getIrfmInvoiceNo().compareToIgnoreCase(item2.getIrfmInvoiceNo());
+
+                }
+            }
+        });
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
+        IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+    }
+
+
 
     private void Searchlist() {
 

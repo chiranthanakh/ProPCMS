@@ -347,6 +347,7 @@
                             android:visibility="gone" />
 
                         <TextView
+                            android:id="@+id/sort_pccode"
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="10dp"
@@ -359,6 +360,7 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/sort_invoice"
                             android:layout_width="120dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="10dp"

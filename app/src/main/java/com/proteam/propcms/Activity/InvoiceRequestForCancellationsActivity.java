@@ -155,7 +155,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         tv_invoiceno_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sort();
+                sort(1);
             }
 
         });
@@ -163,7 +163,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         tv_pc_code_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                sort(2);
             }
         });
 
@@ -452,7 +452,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                         for (int i = 0; i < list1.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
                         }
 
@@ -524,12 +524,17 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         }
     }
 
-    private void sort() {
+    private void sort(int id) {
 
         Collections.sort(arrayList, new Comparator<IrfcDataModel>() {
             @Override
             public int compare(IrfcDataModel item1, IrfcDataModel item2) {
-                return item1.getIrfcPcCode().compareToIgnoreCase(item2.getIrfcPcCode());
+                if(id==1){
+                    return item1.getIrfcPcCode().compareToIgnoreCase(item2.getIrfcPcCode());
+                }else{
+                    return item1.getIrfcPcCode().compareToIgnoreCase(item2.getIrfcPcCode());
+                }
+
 
             }
         });
@@ -594,13 +599,15 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void Searchlist() {
 
-        String project_id = (String) projectmap.get(sp_all_project_irfc.getSelectedItem().toString());
+        String vddj = sp_all_project_irfc.getSelectedItem().toString();
+
+        String project_id = String.valueOf(projectmap.get(sp_all_project_irfc.getSelectedItem().toString()));
 
         for (int i=0;i<arrayList.size();i++){
 
             // String project_id = "365";
 
-            if(arrayList.get(i).getId().equalsIgnoreCase(project_id)){
+            if(arrayList.get(i).getIrfcPcCode().equalsIgnoreCase(project_id)){
 
                 filterarraylist.add( new IrfcDataModel(arrayList.get(i).getIrfcPcCode(),
                         arrayList.get(i).getIrfcInvoiceNo(),
@@ -627,14 +634,12 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         arrayList.get(i).getId()));
             }
 
-
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
-            IrfcListAdapter adapter = new IrfcListAdapter(filterarraylist,this,false);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
-
         }
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
+        IrfcListAdapter adapter = new IrfcListAdapter(filterarraylist,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     private void adaptorclass(boolean b) {
