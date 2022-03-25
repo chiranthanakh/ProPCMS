@@ -11,7 +11,10 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -60,6 +63,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -70,7 +75,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     EditText edt_from_irfc,edt_search_irfc;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_irfc;
-    TextView temp_btn_irfc,tv_irfc_count;
+    TextView temp_btn_irfc,tv_irfc_count,tv_pc_code_sort,tv_invoiceno_sort;
     ProgressDialog progressDialog;
     Button btn_irfc_rejact,btn_irfc_approve,btn_search_Irfc;
     List projectList = new ArrayList();
@@ -81,6 +86,8 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     Map projectmap = new HashMap();
     ArrayList<IrfcDataModel> filterarraylist = new ArrayList<IrfcDataModel>();
     ArrayList<IrfcDataModel> temp = new ArrayList();
+    SharedPreferences.Editor editor;
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +95,11 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         setContentView(R.layout.activity_invoice_request_for_cancellations);
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
+
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        user = sharedPreferences.getString("userid", null);
 
         initialize();
         sp_all_project_irfc.setOnItemSelectedListener(OnCatSpinnerCL);
@@ -105,6 +117,8 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        tv_invoiceno_sort=findViewById(R.id.tv_invoiceno_sort);
+        tv_pc_code_sort=findViewById(R.id.tv_pc_code_sort);
         tv_irfc_count=findViewById(R.id.tv_irfc_count);
         rv_irfc_Data_list=findViewById(R.id.rv_irfc_Data_list);
        // temp_btn_irfc=findViewById(R.id.temp_btn_irfc);
@@ -134,6 +148,21 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 }else {
                     adaptorclass(false);
                 }
+
+            }
+        });
+
+        tv_invoiceno_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sort();
+            }
+
+        });
+
+        tv_pc_code_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });
@@ -177,7 +206,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
 
-                UserIdRequest userIdRequest = new UserIdRequest("21");
+                UserIdRequest userIdRequest = new UserIdRequest(user);
 
                 WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForCancellationsActivity.this);
                 webServices.invoicancelationapi(WebServices.ApiType.invoicemod,userIdRequest);
@@ -288,7 +317,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void callProjectListApi() {
 
-        ProjectListModel projectListModel = new ProjectListModel("21");
+        ProjectListModel projectListModel = new ProjectListModel(user);
         WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(InvoiceRequestForCancellationsActivity.this);
         webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
 
@@ -313,6 +342,14 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
         switch(URL){
 
+            case general:
+                break;
+            case login:
+                break;
+            case profile:
+                break;
+            case profileupdate:
+                break;
             case invoicemod:
 
                 List list = new ArrayList();
@@ -431,6 +468,16 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                 }
                 break;
+            case companylist:
+                break;
+            case headlist:
+                break;
+            case divisionlist:
+                break;
+            case countitem:
+                break;
+            case client:
+                break;
         }
     }
 
@@ -475,6 +522,24 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                 break;
         }
+    }
+
+    private void sort() {
+
+        Collections.sort(arrayList, new Comparator<IrfcDataModel>() {
+            @Override
+            public int compare(IrfcDataModel item1, IrfcDataModel item2) {
+                return item1.getIrfcPcCode().compareToIgnoreCase(item2.getIrfcPcCode());
+
+            }
+        });
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
+        IrfcListAdapter adapter = new IrfcListAdapter(arrayList,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
     }
 
     private void filter(String text) {
@@ -561,6 +626,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         arrayList.get(i).getIrfcInvoiceWithWhom(),
                         arrayList.get(i).getId()));
             }
+
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
             IrfcListAdapter adapter = new IrfcListAdapter(filterarraylist,this,false);
@@ -658,26 +724,32 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         btn_d_irfc_ctn_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callapproveindividualApi(arrayList.get(position).getId());
-                dialog.dismiss();
+                //callapproveindividualApi(arrayList.get(position).getId());
+                openapproveDialog2(arrayList.get(position).getId());
+                //dialog.dismiss();
             }
         });
 
         ic_d_irfc_viewInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String invoice=arrayList.get(position).getIrfcInvoiceNo().replace("/","_");
+
                 Intent viewIntent =
                         new Intent("android.intent.action.VIEW",
-                                Uri.parse("https://pcmsdemo.proteam.co.in//upload/bi_docs/6868e91d7d7f14d22.pdf"));
+                                Uri.parse("https://pcmsdemo.proteam.co.in/upload/dsc_invoices/"+invoice+".pdf"));
                 startActivity(viewIntent);
+
+                System.out.println("url:  == https://pcmsdemo.proteam.co.in/upload/dsc_invoices/"+arrayList.get(position).getIrfcInvoiceNo()+".pdf");
             }
         });
 
         btn_d_irfc_ctn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callRejectindividualApi(arrayList.get(position).getId());
-                dialog.dismiss();
+                openrejectDialog2(arrayList.get(position).getId());
+               // dialog.dismiss();
             }
         });
 
@@ -687,6 +759,56 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 dialog.dismiss();
             }
         });
+    }
+
+    public void openapproveDialog2(String it) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceRequestForCancellationsActivity.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Approve?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callapproveindividualApi(it);
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+            }
+        });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+    }
+
+    public void openrejectDialog2(String it) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceRequestForCancellationsActivity.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Approve?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callapproveindividualApi(it);
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
     }
 
     private void openrequestdialog(String position) {

@@ -341,19 +341,26 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_pc_code_sort"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/sort"
+                        android:drawableTint="@color/white"
                         android:text=" PC Code "
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_invoiceno_sort"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
+                        android:drawableRight="@drawable/sort"
+                        android:drawableTint="@color/white"
                         android:text=" Invoice No. "
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -364,6 +371,8 @@
                         android:layout_marginStart="10dp"
                         android:gravity="start|center"
                         android:text="Invoice Date"
+                        android:drawableRight="@drawable/sort"
+                        android:drawableTint="@color/white"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
