@@ -1,24 +1,38 @@
 package com.proteam.propcms.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Utils.OnClick;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTransferAdapter.ViewHolder> {
 
-    private VerifyCostTransferModel[] listdata;
+    private ArrayList<VerifyCostTransferModel> listdata;
+    List list = new ArrayList();
     private Context context;
+    Boolean check;
+    private OnClick mClick;
 
-    public VerifyCostTransferAdapter(VerifyCostTransferModel[] listdata) {
+    public VerifyCostTransferAdapter(ArrayList<VerifyCostTransferModel> listdata, OnClick listner, Boolean check) {
 
+        this.mClick = listner;
+        this.check= check;
         this.context = context;
         this.listdata = listdata;
     }
@@ -32,30 +46,44 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        final VerifyCostTransferModel verifyCostTransferModel = listdata[position];
+        final VerifyCostTransferModel verifyCostTransferModel = listdata.get(position);
 
-        holder.tv_vct_ctn.setText(listdata[position].getVctCtn());
-        holder.tv_vct_month.setText(listdata[position].getVctMonth());
-        holder.tv_vct_expenseType.setText(listdata[position].getVctExpenseType());
-        holder.tv_vct_from_pc_code.setText(listdata[position].getVctFromPcCode());
-        holder.tv_vct_to_pc_code.setText(listdata[position].getVctToPcCode());
-        holder.tv_vct_transfer_cost.setText(listdata[position].getVctTransferCost());
-        holder.tv_vct_remarks.setText(listdata[position].getVctRemarks());
+        holder.tv_vct_ctn.setText(listdata.get(position).getVctCtn());
+        holder.tv_vct_month.setText(listdata.get(position).getVctmonth());
+        holder.tv_vct_expenseType.setText(listdata.get(position).getVctexpenseTypeName());
+        holder.tv_vct_from_pc_code.setText(listdata.get(position).getVctfromPcCodeName());
+        holder.tv_vct_to_pc_code.setText(listdata.get(position).getVcttoPcCodeName());
+
+        float amount = Float.parseFloat(listdata.get(position).getVctamount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+
+        holder.tv_vct_transfer_cost.setText(moneyString);
+        holder.tv_vct_remarks.setText(listdata.get(position).getVctremarks());
+
+        holder.iv_vct_ALl_data_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClick.onClickitem(String.valueOf(position),1,"0");
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return listdata.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_vct_ctn,tv_vct_month,tv_vct_expenseType,tv_vct_from_pc_code,tv_vct_to_pc_code,tv_vct_transfer_cost
                 ,tv_vct_remarks;
+        public ImageView iv_vct_ALl_data_view;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            iv_vct_ALl_data_view=(ImageView)itemView.findViewById(R.id.iv_vct_ALl_data_view);
             this.tv_vct_ctn = (TextView) itemView.findViewById(R.id.tv_vct_ctn);
             this.tv_vct_month = (TextView) itemView.findViewById(R.id.tv_vct_month);
             this.tv_vct_expenseType = (TextView) itemView.findViewById(R.id.tv_vct_expenseType);

@@ -1,6 +1,7 @@
 package com.proteam.propcms.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,9 +33,12 @@ import com.proteam.propcms.Models.IrfmDataModel;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
@@ -44,7 +49,9 @@ import com.proteam.propcms.Utils.WebServices;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
     ImageView mToolbar;
@@ -56,6 +63,11 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     LinearLayout ll_no_data_BI;
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
+    AppCompatButton btn_verifySubmitBI;
+
+    Map projectmap = new HashMap();
+    List projectList = new ArrayList();
+    Map map = new HashMap();
 
     ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
     @Override
@@ -81,6 +93,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
+        btn_verifySubmitBI=findViewById(R.id.btn_verifySubmitBI);
+        btn_verifySubmitBI.setOnClickListener(this);
         tv_count_vbi=findViewById(R.id.tv_count_vbi);
         rv_verify_BI_Data_list=findViewById(R.id.rv_verify_BI_Data_list);
         ll_no_data_BI=findViewById(R.id.ll_no_data_BI);
@@ -89,7 +103,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         edt_from_verify_BI.setOnClickListener(this);
         sp_all_project_verify_bi=findViewById(R.id.sp_all_project_verify_bi);
 
+        callProjectListApi();
         callBIlistApi();
+
     }
 
 
@@ -104,7 +120,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
-                UserIdRequest userIdRequest = new UserIdRequest("21");
+                UserIdRequest userIdRequest = new UserIdRequest("14");
                 WebServices<VerifyBillingInstructionResponse> webServices = new WebServices<VerifyBillingInstructionResponse>(VerifyBillingInstructionsActivity.this);
                 webServices.VerifyBIDataList(WebServices.ApiType.verifyBi,userIdRequest);
             } else {
@@ -113,11 +129,115 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }
     }
 
+    private void callProjectListApi() {
+
+        ProjectListModel projectListModel = new ProjectListModel("14");
+        WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(VerifyBillingInstructionsActivity.this);
+        webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
+
+        progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+
+        /*if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+                ProjectListModel projectListModel = new ProjectListModel("21");
+                WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(InvoiceRequestForCancellationsActivity.this);
+                webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
+            }
+        }*/
+
+    }
+
+    private void callsubmitBIapi() {
+
+        ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "Item not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
+                    webServices.verifyandSubmitBI(WebServices.ApiType.submitBI, invApproverequest);
+                }
+            }
+        }
+
+    }
+
     @Override
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code)
     {
         switch (URL)
         {
+
+            case submitBI:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        GenerealResponse generealResponse = (GenerealResponse) response;
+
+                        Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
+            case projectlist:
+                //  swipeRefreshLayout.setRefreshing(false);
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+                        List list1 = new ArrayList();
+                        ProjectListResponse projectListResponse = (ProjectListResponse) response;
+
+                        list1 = projectListResponse.getProject_list();
+
+                        for (int i = 0; i < list1.size(); i++) {
+
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
+                        }
+
+                        ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, projectList);
+                        sp_all_project_verify_bi.setAdapter(adapter);
+
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
             case verifyBi:
 
                 if(progressDialog!=null)
@@ -157,7 +277,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                                     verifyBillingInstructionListResponse.getList().get(i).getHSN_SAC(),
                                     verifyBillingInstructionListResponse.getList().get(i).getParticular(),
                                     verifyBillingInstructionListResponse.getList().get(i).getState_supply(),
-                                    verifyBillingInstructionListResponse.getList().get(i).getTransaction_type()));
+                                    verifyBillingInstructionListResponse.getList().get(i).getTransaction_type(),
+                                    verifyBillingInstructionListResponse.getList().get(i).getId()));
 
                         };
 
@@ -219,32 +340,33 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
-     /*       case R.id.temp_btn_Bi:
-                openBIallDataDialog();
-                break;*/
+            case R.id.btn_verifySubmitBI:
+                callsubmitBIapi();
+                break;
 
         }
     }
 
     @Override
-    public void onClickitem(String value, int item, String id)
+    public void onClickitem(String position, int item, String id)
     {
 
         if(item==1){
-            openBIallDataDialog(value);
+            openBIallDataDialog(position,id);
         }else if(item==2){
-
+            map.put(position,id);
         }else if(item==3){
-
+            map.remove(position);
         }else if(item==4){
 
         }
     }
 
 
-    private void openBIallDataDialog(String position) {
+    private void openBIallDataDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
 
+        System.out.println("id print"+ id);
         dialog.setContentView(R.layout.dialoge_division_bi_verification);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -275,7 +397,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         TextView tv_dia_BI_particulars = dialog.findViewById(R.id.tv_dia_BI_particulars);
         TextView tv_dia_BI_stateOfSupply = dialog.findViewById(R.id.tv_dia_BI_stateOfSupply);
         TextView tv_dia_BI_transactionType = dialog.findViewById(R.id.tv_dia_BI_transactionType);
-
+        AppCompatButton btn_dia_BI_submitBI=dialog.findViewById(R.id.btn_dia_BI_submitBI);
 
         VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
         tv_dia_BI_pcCode.setText(verifyBillingInstructionModel.getBIPcCode());
@@ -297,6 +419,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         tv_dia_BI_particulars.setText(verifyBillingInstructionModel.getBIparticulars());
         tv_dia_BI_stateOfSupply.setText(verifyBillingInstructionModel.getBIstateOfSupplyCode());
         tv_dia_BI_transactionType.setText(verifyBillingInstructionModel.getBItransactionType());
+
         BI_back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -311,6 +434,12 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             }
         });
 
+        btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //  callsubmitBIapi(id);
+            }
+        });
 
     }
 

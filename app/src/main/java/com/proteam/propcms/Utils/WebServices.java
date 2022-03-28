@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
@@ -49,7 +50,7 @@ public class WebServices<T> {
 
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
-        ,verifyBi
+        ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -568,6 +569,30 @@ public class WebServices<T> {
 
     }
 
+    public void dashboardcountDivision( ApiType apiTypes, UserIdRequest userIdRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.countDivision(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
     public void ClientList( ApiType apiTypes, Clientlistrequest clientlistrequest)
     {
         apiTypeVariable = apiTypes;
@@ -600,6 +625,80 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.VerifyBIList(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+
+
+    public void VerifyVCTDataList( ApiType apiTypes, UserIdRequest userIdRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.VerifyvctList(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void dashboardFilter( ApiType apiTypes, DashboardFilterDetailsRequest dashboardFilterDetailsRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.dashboardfilterdetail(dashboardFilterDetailsRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void verifyandSubmitBI( ApiType apiTypes, InvApproverequest invApproverequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.sbumitBI(invApproverequest);
 
         call.enqueue(new Callback<T>() {
             @Override

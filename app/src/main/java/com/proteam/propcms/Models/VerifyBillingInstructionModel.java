@@ -4,9 +4,9 @@ public class VerifyBillingInstructionModel {
 
     String BIPcCode,BIgroup,BIassigmnent,BIbillTO,BIbillingAdress,BIrefrenceNumber,BIkindAttention,BIregion,BIplace
             ,BIgstinNo,BIpanOfCustomer,BItaxableAmount,BIgstRate,BIforMonth,BIdescription,BIhsnSac,BIparticulars,
-            BIstateOfSupplyCode,BItransactionType;
+            BIstateOfSupplyCode,BItransactionType,id;
 
-    public VerifyBillingInstructionModel(String BIPcCode, String BIgroup, String BIassigmnent, String BIbillTO, String BIbillingAdress, String BIrefrenceNumber, String BIkindAttention, String BIregion, String BIplace, String BIgstinNo, String BIpanOfCustomer, String BItaxableAmount, String BIgstRate, String BIforMonth, String BIdescription, String BIhsnSac, String BIparticulars, String BIstateOfSupplyCode, String BItransactionType) {
+    public VerifyBillingInstructionModel(String BIPcCode, String BIgroup, String BIassigmnent, String BIbillTO, String BIbillingAdress, String BIrefrenceNumber, String BIkindAttention, String BIregion, String BIplace, String BIgstinNo, String BIpanOfCustomer, String BItaxableAmount, String BIgstRate, String BIforMonth, String BIdescription, String BIhsnSac, String BIparticulars, String BIstateOfSupplyCode, String BItransactionType, String id) {
         this.BIPcCode = BIPcCode;
         this.BIgroup = BIgroup;
         this.BIassigmnent = BIassigmnent;
@@ -26,8 +26,8 @@ public class VerifyBillingInstructionModel {
         this.BIparticulars = BIparticulars;
         this.BIstateOfSupplyCode = BIstateOfSupplyCode;
         this.BItransactionType = BItransactionType;
+        this.id = id;
     }
-
 
     public String getBIPcCode() {
         return BIPcCode;
@@ -179,5 +179,13 @@ public class VerifyBillingInstructionModel {
 
     public void setBItransactionType(String BItransactionType) {
         this.BItransactionType = BItransactionType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -352,13 +352,13 @@
                                     android:textSize="10sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_very_BI_count"
+                                    android:id="@+id/tv_division_BI_count"
                                     android:layout_margin="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/shape1"
                                     android:fontFamily="@font/lato_bold"
-                                    android:text="0"
+                                    android:text=""
                                     android:gravity="center"
                                     android:textColor="@color/black"
                                     android:textSize="20sp" />
@@ -392,14 +392,14 @@
                                     android:textSize="10sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_verify_Ctn_count"
-                                    android:layout_margin="5dp"
+                                    android:id="@+id/tv_division_vct_count"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
                                     android:background="@drawable/shape3"
                                     android:fontFamily="@font/lato_bold"
-                                    android:text="2"
                                     android:gravity="center"
+                                    android:text=""
                                     android:textColor="@color/black"
                                     android:textSize="20sp" />
                             </LinearLayout>
@@ -610,6 +610,7 @@
                         android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tv_filterDetails_revenue"
                             android:layout_marginBottom="5dp"
                             android:layout_marginTop="10dp"
                             android:paddingLeft="5dp"
@@ -617,7 +618,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:text="1.57 M"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -642,6 +643,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tv_filterDetails_outStanding"
                             android:paddingLeft="5dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
@@ -649,7 +651,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:text="1.57 M"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -680,6 +682,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tv_filterDetails_PcCode"
                             android:layout_marginBottom="5dp"
                             android:layout_marginTop="10dp"
                             android:paddingLeft="5dp"
@@ -687,7 +690,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:text="1.57 M"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -713,6 +716,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tv_filterDetails_collection"
                             android:paddingLeft="5dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
@@ -720,7 +724,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/proxima_nova_bold"
-                            android:text="1.57 M"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>

@@ -597,6 +597,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         String moneyString = formatter.format(amount);
 
         tv_dia_transferCost.setText(moneyString);
+
         tv_dia_Remarks.setText(arrayList2.get(Integer.parseInt(position)).getCtnrRemarks());
         back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
