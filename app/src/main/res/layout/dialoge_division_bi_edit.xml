@@ -156,6 +156,51 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/lato"
+                        android:text="Bill To"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/grey_dark"
+                            app:boxStrokeColor="@color/grey"
+                            app:boxStrokeWidth="0.5dp"
+                            app:boxStrokeWidthFocused="0.9dp"
+                            app:hintTextColor="@color/grey_dark"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:startIconTint="@color/grey_light">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/ed_Bi_edit_billTo"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:fontFamily="@font/proxima_family"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="12sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,11 +255,13 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
 
+
+
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
@@ -222,7 +269,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/lato"
-                            android:text="Bill To"
+                            android:text="Assignment"
                             android:textColor="@color/grey"
                             android:textSize="12sp" />
 
@@ -246,7 +293,7 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
                                     android:layout_height="45dp"
-                                    android:id="@+id/ed_Bi_edit_billTo"
+                                    android:id="@+id/ed_Bi_edit_assignment"
                                     android:fontFamily="@font/proxima_family"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
@@ -266,53 +313,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/lato"
-                        android:text="Assignment"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColorHint="@color/grey_dark"
-                            app:boxStrokeColor="@color/grey"
-                            app:boxStrokeWidth="0.5dp"
-                            app:boxStrokeWidthFocused="0.9dp"
-                            app:hintTextColor="@color/grey_dark"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:startIconTint="@color/grey_light">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:id="@+id/ed_Bi_edit_assignment"
-                                android:fontFamily="@font/proxima_family"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/grey"
-                                android:textSize="12sp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -355,6 +356,37 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/lato"
+                        android:text="Region"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="6dp"
+                        android:id="@+id/sp_Bi_edit_region"
+                        android:background="@drawable/spinner_background"
+                        android:entries="@array/allproject"
+                        android:fontFamily="@font/proxima_family"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/grey"
+                        app:hintText="Region" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -394,35 +426,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/lato"
-                        android:text="Region"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="6dp"
-                        android:id="@+id/sp_Bi_edit_region"
-                        android:background="@drawable/spinner_background"
-                        android:entries="@array/allproject"
-                        android:fontFamily="@font/proxima_family"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/grey"
-                        app:hintText="Region" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
