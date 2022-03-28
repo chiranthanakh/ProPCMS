@@ -1,8 +1,8 @@
 package com.proteam.propcms.Utils;
 
-import com.proteam.propcms.Request.BillingUpdaterequest;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
+import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
@@ -11,6 +11,8 @@ import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
 import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.DashboardCountDivisionResponse;
+import com.proteam.propcms.Response.DashboardFilterDetailsResponse;
 import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
@@ -21,6 +23,7 @@ import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
+import com.proteam.propcms.Response.VerifyCostTransferListResponse;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 import com.proteam.propcms.Response.invoicereject.RejectItems;
 import com.proteam.propcms.Response.invoicereject.RejectList;
@@ -94,6 +97,17 @@ public interface ProPCms {
     @POST("Pcms_apis/verification_getBIListDivisionwise")
     Call<VerifyBillingInstructionListResponse> VerifyBIList(@Body UserIdRequest userIdRequest);
 
-    @POST("Pcms_apis/verify_billing_instructions_with_status_list_update")
-    Call<GenerealResponse> billupdate(@Body BillingUpdaterequest billingUpdaterequest);
+    @POST("Pcms_apis/verify_cost_transfer_note_with_status_list")
+    Call<VerifyCostTransferListResponse> VerifyvctList(@Body UserIdRequest userIdRequest);
+
+
+    @POST("Pcms_apis/user_dashboard_count")
+    Call<DashboardCountDivisionResponse> countDivision(@Body UserIdRequest userIdRequest);
+
+    @POST("Pcms_apis/dashboard_filter_details")
+    Call<DashboardFilterDetailsResponse> dashboardfilterdetail(@Body DashboardFilterDetailsRequest dashboardFilterDetailsRequest);
+
+
+    @POST("Pcms_apis/verify_billing_instructions_with_status_list_submit")
+    Call<GenerealResponse> sbumitBI(@Body InvApproverequest invApproverequest);
 }

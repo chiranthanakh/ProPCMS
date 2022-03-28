@@ -43,12 +43,15 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.Clientlistrequest;
+import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyListResponse;
+import com.proteam.propcms.Response.DashboardCountDivisionResponse;
+import com.proteam.propcms.Response.DashboardFilterDetailsResponse;
 import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PieChart pieChart;
     LinearLayout ll_crnra,ll_irfm,ll_irfc,ll_verify_BI,ll_Verify_CTN;
     Button btn_logout;
-    TextView irfc,tv_irfm,tv_ctnra,tv_irfc_count,tv_irfm_count,tv_ctnr_count;
+    TextView irfc,tv_irfm,tv_ctnra,tv_irfc_count,tv_irfm_count,tv_ctnr_count,tv_division_BI_count,tv_division_vct_count;
     EditText edt_home_month;
     Spinner sp_division_home,sp_clients_home,sp_division_head_home,sp_company_home;
 
@@ -84,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ll_select_data,ll_filter_data;
     ProgressDialog progressDialog;
     SwipeRefreshLayout swiperefresh;
+
+    TextView tv_filterDetails_revenue,tv_filterDetails_outStanding,tv_filterDetails_PcCode,tv_filterDetails_collection;
 
 
     List divisionList = new ArrayList();
@@ -166,6 +171,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialize()
     {
+        tv_filterDetails_revenue=findViewById(R.id.tv_filterDetails_revenue);
+        tv_filterDetails_outStanding=findViewById(R.id.tv_filterDetails_outStanding);
+        tv_filterDetails_PcCode=findViewById(R.id.tv_filterDetails_PcCode);
+        tv_filterDetails_collection=findViewById(R.id.tv_filterDetails_collection);
+
+        tv_division_vct_count=findViewById(R.id.tv_division_vct_count);
+        tv_division_BI_count=findViewById(R.id.tv_division_BI_count);
         swiperefresh=findViewById(R.id.swiperefresh);
         tv_irfc_count = findViewById(R.id.tv_irfc_count1);
         tv_irfm_count = findViewById(R.id.tv_irfm_count1);
@@ -222,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // callDheadapi();
        // callDivisionListApi();
         calldashboardcount();
+        callDashboardFilterDetails();
+
 
     }
 
@@ -337,8 +351,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (URL) {
 
             case countitem:
-
-
 
                 if(progressDialog!=null)
                 {
@@ -519,12 +531,98 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
 
+            case divisioncountdashboard:
+
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if(response!=null){
+
+                        DashboardCountDivisionResponse dashboardCountDivisionResponse = (DashboardCountDivisionResponse) response;
+
+                        tv_division_BI_count.setText(dashboardCountDivisionResponse.getVerify_billing_instructions_with_status_list());
+                        tv_division_vct_count.setText(dashboardCountDivisionResponse.getVerify_cost_transfer_note_with_status());
+
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
+            case dashboardfilterdetails:
+
+                if(progressDialog!=null)
+                {
+                    if(progressDialog.isShowing())
+                    {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if(response!=null){
+
+                        DashboardFilterDetailsResponse dashboardFilterDetailsResponse = (DashboardFilterDetailsResponse) response;
+
+                        tv_filterDetails_revenue.setText(dashboardFilterDetailsResponse.getTotal_revenue());
+                        tv_filterDetails_outStanding.setText(dashboardFilterDetailsResponse.getTotal_outstanding());
+                        tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
+                        tv_filterDetails_collection.setText(dashboardFilterDetailsResponse.getTotal_collection());
+
+
+                    }else{
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
         }
 
     }
 
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
+
+    private void callDashboardFilterDetails() {
+
+        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14","2021-07","","","");
+        WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
+        webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails,dashboardFilterDetailsRequest);
+
+       /* progressDialog = new ProgressDialog(MainActivity.this);
+
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                DivisionListModel divisionListModel = new DivisionListModel("21");
+                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
+                webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+            }
+        }*/
+
+    }
 
 
 
@@ -537,15 +635,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
-
                 UserIdRequest userIdRequest = new UserIdRequest(user);
-                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
-                webServices.dashboardcount(WebServices.ApiType.countitem,userIdRequest);
+                if(role.equalsIgnoreCase("manager")){
+                    WebServices<Dashboardcountresponse> webServices = new WebServices<Dashboardcountresponse>(MainActivity.this);
+                    webServices.dashboardcount(WebServices.ApiType.countitem,userIdRequest);
+
+                }else {
+
+                    WebServices<DashboardCountDivisionResponse> webServices = new WebServices<DashboardCountDivisionResponse>(MainActivity.this);
+                    webServices.dashboardcountDivision(WebServices.ApiType.divisioncountdashboard,userIdRequest);
+
+                }
+
             }
         }
 
 
     }
+
+
+
 
 
     private void callDivisionListApi() {
@@ -651,13 +760,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
 
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(14);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 

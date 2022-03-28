@@ -2,16 +2,19 @@ package com.proteam.propcms.Models;
 
 public class VerifyCostTransferModel {
 
-    String vctCtn,vctMonth,vctExpenseType,vctFromPcCode,vctToPcCode,vctTransferCost,vctRemarks;
+    String  vctCtn,vctmonth,vctexpenseTypeName,vctfromPcCodeName,vcttoPcCodeName,vctamount,vctremarks,id,vctuserId,vctuploadUserId;
 
-    public VerifyCostTransferModel(String vctCtn, String vctMonth, String vctExpenseType, String vctFromPcCode, String vctToPcCode, String vctTransferCost, String vctRemarks) {
+    public VerifyCostTransferModel(String vctCtn, String vctmonth, String vctexpenseTypeName, String vctfromPcCodeName, String vcttoPcCodeName, String vctamount, String vctremarks, String id, String vctuserId, String vctuploadUserId) {
         this.vctCtn = vctCtn;
-        this.vctMonth = vctMonth;
-        this.vctExpenseType = vctExpenseType;
-        this.vctFromPcCode = vctFromPcCode;
-        this.vctToPcCode = vctToPcCode;
-        this.vctTransferCost = vctTransferCost;
-        this.vctRemarks = vctRemarks;
+        this.vctmonth = vctmonth;
+        this.vctexpenseTypeName = vctexpenseTypeName;
+        this.vctfromPcCodeName = vctfromPcCodeName;
+        this.vcttoPcCodeName = vcttoPcCodeName;
+        this.vctamount = vctamount;
+        this.vctremarks = vctremarks;
+        this.id = id;
+        this.vctuserId = vctuserId;
+        this.vctuploadUserId = vctuploadUserId;
     }
 
     public String getVctCtn() {
@@ -22,51 +25,75 @@ public class VerifyCostTransferModel {
         this.vctCtn = vctCtn;
     }
 
-    public String getVctMonth() {
-        return vctMonth;
+    public String getVctmonth() {
+        return vctmonth;
     }
 
-    public void setVctMonth(String vctMonth) {
-        this.vctMonth = vctMonth;
+    public void setVctmonth(String vctmonth) {
+        this.vctmonth = vctmonth;
     }
 
-    public String getVctExpenseType() {
-        return vctExpenseType;
+    public String getVctexpenseTypeName() {
+        return vctexpenseTypeName;
     }
 
-    public void setVctExpenseType(String vctExpenseType) {
-        this.vctExpenseType = vctExpenseType;
+    public void setVctexpenseTypeName(String vctexpenseTypeName) {
+        this.vctexpenseTypeName = vctexpenseTypeName;
     }
 
-    public String getVctFromPcCode() {
-        return vctFromPcCode;
+    public String getVctfromPcCodeName() {
+        return vctfromPcCodeName;
     }
 
-    public void setVctFromPcCode(String vctFromPcCode) {
-        this.vctFromPcCode = vctFromPcCode;
+    public void setVctfromPcCodeName(String vctfromPcCodeName) {
+        this.vctfromPcCodeName = vctfromPcCodeName;
     }
 
-    public String getVctToPcCode() {
-        return vctToPcCode;
+    public String getVcttoPcCodeName() {
+        return vcttoPcCodeName;
     }
 
-    public void setVctToPcCode(String vctToPcCode) {
-        this.vctToPcCode = vctToPcCode;
+    public void setVcttoPcCodeName(String vcttoPcCodeName) {
+        this.vcttoPcCodeName = vcttoPcCodeName;
     }
 
-    public String getVctTransferCost() {
-        return vctTransferCost;
+    public String getVctamount() {
+        return vctamount;
     }
 
-    public void setVctTransferCost(String vctTransferCost) {
-        this.vctTransferCost = vctTransferCost;
+    public void setVctamount(String vctamount) {
+        this.vctamount = vctamount;
     }
 
-    public String getVctRemarks() {
-        return vctRemarks;
+    public String getVctremarks() {
+        return vctremarks;
     }
 
-    public void setVctRemarks(String vctRemarks) {
-        this.vctRemarks = vctRemarks;
+    public void setVctremarks(String vctremarks) {
+        this.vctremarks = vctremarks;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getVctuserId() {
+        return vctuserId;
+    }
+
+    public void setVctuserId(String vctuserId) {
+        this.vctuserId = vctuserId;
+    }
+
+    public String getVctuploadUserId() {
+        return vctuploadUserId;
+    }
+
+    public void setVctuploadUserId(String vctuploadUserId) {
+        this.vctuploadUserId = vctuploadUserId;
     }
 }
