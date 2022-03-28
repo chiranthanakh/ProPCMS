@@ -490,7 +490,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                         for (int i = 0; i < list.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
                         }
 
@@ -566,7 +566,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
            // String project_id = "365";
 
-            if(arrayList.get(i).getProjectid().equalsIgnoreCase(project_id)){
+            if(arrayList.get(i).getIrfmPcCode().equalsIgnoreCase(project_id)){
 
                 filterarraylist.add(new IrfmDataModel(arrayList.get(i).getIrfmPcCode(),
                         arrayList.get(i).getIrfmInvoiceNo(),

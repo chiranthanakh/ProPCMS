@@ -449,7 +449,6 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
                     }else{
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
-
                     }
 
                 }else{
@@ -499,9 +498,10 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
                         for (int i = 0; i < list.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name(),projectListResponse.getProject_list().get(i).getProject_id());
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
-                        }
+
+                   }
 
                         ArrayAdapter adapter = new ArrayAdapter(CostTransferNoteRequestApprovalActivity.this, android.R.layout.simple_list_item_1, projectList);
                         sp_all_project_ctnra.setAdapter(adapter);

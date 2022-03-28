@@ -4,9 +4,11 @@ public class VerifyBillingInstructionModel {
 
     String BIPcCode,BIgroup,BIassigmnent,BIbillTO,BIbillingAdress,BIrefrenceNumber,BIkindAttention,BIregion,BIplace
             ,BIgstinNo,BIpanOfCustomer,BItaxableAmount,BIgstRate,BIforMonth,BIdescription,BIhsnSac,BIparticulars,
-            BIstateOfSupplyCode,BItransactionType;
+            BIstateOfSupplyCode,BItransactionType,invoicedate,id,companyid,productid,invoicenumber,devisionid,totalamount,gstmonth;
 
-    public VerifyBillingInstructionModel(String BIPcCode, String BIgroup, String BIassigmnent, String BIbillTO, String BIbillingAdress, String BIrefrenceNumber, String BIkindAttention, String BIregion, String BIplace, String BIgstinNo, String BIpanOfCustomer, String BItaxableAmount, String BIgstRate, String BIforMonth, String BIdescription, String BIhsnSac, String BIparticulars, String BIstateOfSupplyCode, String BItransactionType) {
+    public VerifyBillingInstructionModel(String invoicedate,String BIPcCode, String BIgroup, String BIassigmnent, String BIbillTO, String BIbillingAdress, String BIrefrenceNumber, String BIkindAttention, String BIregion, String BIplace, String BIgstinNo, String BIpanOfCustomer, String BItaxableAmount, String BIgstRate, String BIforMonth, String BIdescription, String BIhsnSac, String BIparticulars, String BIstateOfSupplyCode, String BItransactionType,String id,
+                                         String companyid, String productid, String invoicenumber,String devisionid,String totalamount,String gstmonth) {
+        this.invoicedate = invoicedate;
         this.BIPcCode = BIPcCode;
         this.BIgroup = BIgroup;
         this.BIassigmnent = BIassigmnent;
@@ -26,8 +28,78 @@ public class VerifyBillingInstructionModel {
         this.BIparticulars = BIparticulars;
         this.BIstateOfSupplyCode = BIstateOfSupplyCode;
         this.BItransactionType = BItransactionType;
+        this.id = id;
+        this.companyid = companyid;
+        this.productid = productid;
+        this.invoicenumber = invoicenumber;
+        this.devisionid = devisionid;
+        this.totalamount = totalamount;
+        this.gstmonth = gstmonth;
     }
 
+    public String getGstmonth() {
+        return gstmonth;
+    }
+
+    public void setGstmonth(String gstmonth) {
+        this.gstmonth = gstmonth;
+    }
+
+    public String getTotalamount() {
+        return totalamount;
+    }
+
+    public void setTotalamount(String totalamount) {
+        this.totalamount = totalamount;
+    }
+
+    public String getDevisionid() {
+        return devisionid;
+    }
+
+    public void setDevisionid(String devisionid) {
+        this.devisionid = devisionid;
+    }
+
+    public String getInvoicenumber() {
+        return invoicenumber;
+    }
+
+    public void setInvoicenumber(String invoicenumber) {
+        this.invoicenumber = invoicenumber;
+    }
+
+    public String getProductid() {
+        return productid;
+    }
+
+    public void setProductid(String productid) {
+        this.productid = productid;
+    }
+
+    public String getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(String companyid) {
+        this.companyid = companyid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getInvoicedate() {
+        return invoicedate;
+    }
+
+    public void setInvoicedate(String invoicedate) {
+        this.invoicedate = invoicedate;
+    }
 
     public String getBIPcCode() {
         return BIPcCode;

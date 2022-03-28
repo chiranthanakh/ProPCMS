@@ -7,6 +7,7 @@ import android.content.Context;
 import android.widget.Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.proteam.propcms.Request.BillingUpdaterequest;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.DivisionListModel;
@@ -48,7 +49,7 @@ public class WebServices<T> {
     private static OkHttpClient.Builder builder;
 
     public enum ApiType {
-       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
+       general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client,update
         ,verifyBi
     }
 
@@ -600,6 +601,30 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.VerifyBIList(userIdRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void Updatebilling( ApiType apiTypes, BillingUpdaterequest billingUpdaterequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.billupdate(billingUpdaterequest);
 
         call.enqueue(new Callback<T>() {
             @Override

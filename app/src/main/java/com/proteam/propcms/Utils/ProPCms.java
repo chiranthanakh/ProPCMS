@@ -1,5 +1,6 @@
 package com.proteam.propcms.Utils;
 
+import com.proteam.propcms.Request.BillingUpdaterequest;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.DivisionListModel;
@@ -92,4 +93,7 @@ public interface ProPCms {
 
     @POST("Pcms_apis/verification_getBIListDivisionwise")
     Call<VerifyBillingInstructionListResponse> VerifyBIList(@Body UserIdRequest userIdRequest);
+
+    @POST("Pcms_apis/verify_billing_instructions_with_status_list_update")
+    Call<GenerealResponse> billupdate(@Body BillingUpdaterequest billingUpdaterequest);
 }
