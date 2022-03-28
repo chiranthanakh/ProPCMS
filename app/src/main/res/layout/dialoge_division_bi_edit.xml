@@ -80,7 +80,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -213,7 +212,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -254,8 +252,6 @@
                             </com.google.android.material.textfield.TextInputLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
-
-
 
                     <LinearLayout
                         android:layout_marginStart="5dp"
@@ -439,7 +435,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -537,7 +532,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginEnd="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -636,7 +630,6 @@
 
                 <LinearLayout
                     android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -733,7 +726,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -831,7 +823,6 @@
 
                 <LinearLayout
                     android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
