@@ -97,7 +97,7 @@
                         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                             android:id="@+id/sp_Bi_edit_ProjectCode"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             android:layout_marginTop="6dp"
                             android:background="@drawable/spinner_background"
                             android:entries="@array/allproject"
@@ -145,11 +145,11 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/ed_Bi_edit_invoiceDate"
                                     android:layout_width="match_parent"
-                                    android:layout_height="50dp"
+                                    android:layout_height="45dp"
                                     android:fontFamily="@font/proxima_family"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
-                                    android:textSize="14sp" />
+                                    android:textSize="12sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
@@ -201,11 +201,11 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
                                     android:id="@+id/ed_Bi_edit_group"
-                                    android:layout_height="50dp"
+                                    android:layout_height="45dp"
                                     android:fontFamily="@font/proxima_family"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
-                                    android:textSize="14sp" />
+                                    android:textSize="12sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
@@ -245,12 +245,12 @@
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
-                                    android:layout_height="50dp"
+                                    android:layout_height="45dp"
                                     android:id="@+id/ed_Bi_edit_billTo"
                                     android:fontFamily="@font/proxima_family"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
-                                    android:textSize="14sp" />
+                                    android:textSize="12sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
@@ -300,12 +300,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_assignment"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -345,12 +345,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_referenceNo"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -468,12 +468,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_kindAttention"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -511,13 +511,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:focusable="false"
                                 android:id="@+id/ed_Bi_edit_gstinNo"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -566,12 +566,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_panOfCustomer"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -610,12 +610,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_place"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -664,12 +664,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_forMonth"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -707,12 +707,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_supplyCode"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -761,12 +761,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_transactionType"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -804,13 +804,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:inputType="numberDecimal"
                                 android:id="@+id/ed_Bi_edit_amount"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -858,12 +858,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_gstPercentage"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -901,12 +901,12 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:id="@+id/ed_Bi_edit_hsnSac"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -948,13 +948,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:maxLines="4"
                                 android:id="@+id/ed_Bi_edit_particulars"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -993,13 +993,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="60dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/ed_Bi_edit_billingAddress"
                                 android:maxLines="4"
                                 android:fontFamily="@font/proxima_family"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -1040,13 +1040,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="60dp"
+                                android:layout_height="70dp"
                                 android:id="@+id/ed_Bi_edit_description"
                                 android:fontFamily="@font/proxima_family"
                                 android:maxLines="4"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
