@@ -316,7 +316,7 @@
                             app:tint="@color/white" />
 
                         <CheckBox
-                            android:id="@+id/tv_action"
+                            android:id="@+id/ch_BI"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:buttonTint="@color/white"

@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,11 +42,13 @@ import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Request.VctDeleteRequest;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
+import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
 import com.proteam.propcms.Utils.OnClick;
@@ -59,7 +65,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
-    ImageView mToolbar;
+    ImageView mToolbar,iv_clear_BI;
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
     EditText edt_from_verify_BI;
@@ -68,6 +74,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
     AppCompatButton btn_verifySubmitBI;
+    CheckBox ch_BI;
+    Context context=this;
 
     Map projectmap = new HashMap();
     List projectList = new ArrayList();
@@ -101,6 +109,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
+        ch_BI=findViewById(R.id.ch_BI);
+        iv_clear_BI=findViewById(R.id.iv_clear_BI);
+        iv_clear_BI.setOnClickListener(this);
         btn_verifySubmitBI=findViewById(R.id.btn_verifySubmitBI);
         btn_verifySubmitBI.setOnClickListener(this);
         tv_count_vbi=findViewById(R.id.tv_count_vbi);
@@ -113,10 +124,56 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
         callProjectListApi();
         callBIlistApi();
+
+        ch_BI.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                    adaptorclass(true);
+                }else {
+                    adaptorclass(false);
+                }
+
+            }
+        });
+    }
+
+    private void adaptorclass(Boolean check) {
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(arrayList,this,check);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
 
     /////////////////////Calling API//////////////////////
+
+
+    private void callDialogueDeleteBIapi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
+
+        progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                VctDeleteRequest vctDeleteRequest = new VctDeleteRequest(id);
+                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
+                webServices.DeleteBI(WebServices.ApiType.DeleteBI, vctDeleteRequest);
+            }
+        }
+
+
+    }
 
     private void callProjectListApi() {
 
@@ -234,6 +291,29 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     {
         switch (URL)
         {
+            case DeleteBI:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        VctDeleteResponse vctDeleteResponse = (VctDeleteResponse) response;
+
+                        //  Toast.makeText(this, vctDeleteResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, vctDeleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
             case submitBI:
 
                 if (progressDialog != null) {
@@ -464,6 +544,10 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             case R.id.btn_verifySubmitBI:
                 callsubmitBIapi();
                 break;
+            case R.id.iv_clear_BI:
+                finish();
+                startActivity(getIntent());
+                break;
 
         }
     }
@@ -493,6 +577,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         dialog.show();
 
         LinearLayout ll_edit2 = dialog.findViewById(R.id.ll_edit2);
+        LinearLayout ll_BI_delete = dialog.findViewById(R.id.ll_BI_delete);
         ImageView BI_back_toolbar = dialog.findViewById(R.id.BI_back_toolbar);
         ImageView iv_dia_BI_edit = dialog.findViewById(R.id.iv_dia_BI_edit);
         ImageView tv_dia_BI_delete = dialog.findViewById(R.id.tv_dia_BI_delete);
@@ -564,6 +649,13 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 callDialogeSubmitBIapi(id);
             }
         });
+        ll_BI_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openDialogReject(id);
+            }
+        });
     }
 
     private void openEditBIDialog(String position) {
@@ -579,7 +671,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         List regions= new ArrayList();
         regions.add("East");regions.add("West");regions.add("North");regions.add("South");
 
-        Button btn_dia_BI_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
+        Button btn_dia_BI_update = dialog.findViewById(R.id.btn_dia_BI_update);
         ImageView BI_edit_back_toolbar =dialog.findViewById(R.id.BI_edit_back_toolbar);
         Spinner sp_Bi_edit_ProjectCode = dialog.findViewById(R.id.sp_Bi_edit_ProjectCode);
         Spinner sp_Bi_edit_division = dialog.findViewById(R.id.sp_Bi_edit_division);
@@ -655,7 +747,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
        //int posregion = adapter2.getPosition(verifyBillingInstructionModel.getBIregion().trim());
        sp_Bi_edit_region.setPrompt(verifyBillingInstructionModel.getBIregion().trim());
 
-        btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {
+        btn_dia_BI_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -748,5 +840,28 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     };
 
 
+    public void openDialogReject(String re) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Delete?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
+                callDialogueDeleteBIapi(re);
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+    }
 }

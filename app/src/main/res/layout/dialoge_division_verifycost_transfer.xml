@@ -86,7 +86,7 @@
                         android:paddingBottom="8dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_irfc"
+                            android:id="@+id/ll_ctn_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -115,7 +115,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_irfm"
+                            android:id="@+id/ll_vct_delete"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -421,7 +421,7 @@
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_dia_verify_submit"
+                        android:id="@+id/btn_dia_verify_submit_ctn"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignParentEnd="true"

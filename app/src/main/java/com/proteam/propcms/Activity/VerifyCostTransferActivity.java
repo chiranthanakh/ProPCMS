@@ -1,6 +1,7 @@
 package com.proteam.propcms.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +9,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +19,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,9 +34,13 @@ import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
+import com.proteam.propcms.Request.VctDeleteRequest;
+import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifCostTransferResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
@@ -48,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VerifyCostTransferActivity extends AppCompatActivity implements View.OnClickListener , OnResponseListener, OnClick {
-    ImageView mToolbar;
+    ImageView mToolbar,iv_clear_vct;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_vct;
     RecyclerView rv_vct_Data_list;
@@ -57,9 +66,14 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     ProgressDialog progressDialog;
     LinearLayout ll_no_data_VCT;
+    AppCompatButton btn_verifySubmitCTN;
+    CheckBox ch_ctn;
+    Context context=this;
 
     Map projectmap = new HashMap();
     List projectList = new ArrayList();
+
+    Map map = new HashMap();
 
 
 
@@ -86,6 +100,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void initialize()
     {
+        ch_ctn=findViewById(R.id.ch_ctn);
+        iv_clear_vct=findViewById(R.id.iv_clear_vct);
+        iv_clear_vct.setOnClickListener(this);
+        btn_verifySubmitCTN=findViewById(R.id.btn_verifySubmitCTN);
+        btn_verifySubmitCTN.setOnClickListener(this);
         ll_no_data_VCT=findViewById(R.id.ll_no_data_VCT);
         tv_count_vct=findViewById(R.id.tv_count_vct);
         edt_from_vct=findViewById(R.id.edt_from_vct);
@@ -94,6 +113,29 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_all_project_vct=findViewById(R.id.sp_all_project_vct);
         callProjectListApi();
         callVCTlistApi();
+
+        ch_ctn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                    adaptorclass(true);
+                }else {
+                    adaptorclass(false);
+                }
+
+            }
+        });
+
+    }
+
+    private void adaptorclass(Boolean check) {
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
+        VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(arrayList,this,check);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -193,25 +235,145 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                 }
                 break;
+
+            case SubmitCTN:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        GenerealResponse generealResponse = (GenerealResponse) response;
+
+                        Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
+            case deletectndata:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        VctDeleteResponse vctDeleteResponse = (VctDeleteResponse) response;
+
+                      //  Toast.makeText(this, vctDeleteResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, vctDeleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
         }
     }
 
 
     @Override
-    public void onClickitem(String value, int item, String id)
+    public void onClickitem(String position, int item, String id)
     {
         if(item==1){
-            opengAllDataDialog(value);
+            opengAllDataDialog(position,id);
         }else if(item==2){
-
+            map.put(position,id);
         }else if(item==3){
-
+            map.remove(position);
         }else if(item==4){
 
         }
     }
 
     /////////////////////Calling API//////////////////////
+
+
+    private void callSubmitCTNapi() {
+
+        ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "Item not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+                    webServices.verifyandSubmitCTN(WebServices.ApiType.SubmitCTN, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+    private void callDialogeSubmitCTNapi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
+        if (list.size()==0){
+            Toast.makeText(this, "Item not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+                    webServices.verifyandSubmitCTN(WebServices.ApiType.SubmitCTN, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+    private void callDialogueDeleteCTNapi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
+
+
+            progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    VctDeleteRequest vctDeleteRequest = new VctDeleteRequest(id);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+                    webServices.DeleteCtn(WebServices.ApiType.deletectndata, vctDeleteRequest);
+                }
+            }
+
+
+    }
 
     private void callVCTlistApi() {
 
@@ -285,6 +447,14 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 monthDatePickerDialog.show();
                 break;
 
+            case R.id.btn_verifySubmitCTN:
+                callSubmitCTNapi();
+                break;
+            case R.id.iv_clear_vct:
+                finish();
+                startActivity(getIntent());
+                break;
+
 
         }
     }
@@ -303,14 +473,16 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         }
     };
 
-    private void opengAllDataDialog(String position) {
+    private void opengAllDataDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
-
+        System.out.println("id print"+ id);
         dialog.setContentView(R.layout.dialoge_division_verifycost_transfer);
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
+        LinearLayout ll_ctn_edit = dialog.findViewById(R.id.ll_ctn_edit);
+        LinearLayout ll_vct_delete=dialog.findViewById(R.id.ll_vct_delete);
         TextView tv_dia_vct_ctn = dialog.findViewById(R.id.tv_dia_vct_ctn);
         TextView tv_dia_vct_month = dialog.findViewById(R.id.tv_dia_vct_month);
         TextView tv_dia_vct_directExpense = dialog.findViewById(R.id.tv_dia_vct_directExpense);
@@ -324,6 +496,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         ImageView iv_dia_vct_delete = dialog.findViewById(R.id.iv_dia_vct_delete);
         ImageView iv_dia_vct_upload = dialog.findViewById(R.id.iv_dia_vct_upload);
         ImageView iv_dia_vct_status = dialog.findViewById(R.id.iv_dia_vct_status);
+        AppCompatButton btn_dia_verify_submit_ctn = dialog.findViewById(R.id.btn_dia_verify_submit_ctn);
 
         VerifyCostTransferModel verifyCostTransferModel = arrayList.get(Integer.parseInt(position));
 
@@ -342,23 +515,85 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
             }
         });
 
+        ll_ctn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEditDialog(position);
+            }
+        });
+
+        btn_dia_verify_submit_ctn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callDialogeSubmitCTNapi(id);
+            }
+        });
+        ll_vct_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //  callDialogueDeleteCTNapi(id);
+                openDialogReject(id);
+            }
+        });
+
     }
 
-    private void openEditDialog() {
+    private void openEditDialog(String position) {
         final Dialog dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.dialoge_division_edit_verifycost_transfer);
         Window window = dialog.getWindow();
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.show();
+        ImageView back_toolbar_ctn =dialog.findViewById(R.id.back_toolbar_ctn);
 
         TextView edt_edit_ctn = dialog.findViewById(R.id.edt_edit_ctn);
         TextView edt_edit_month = dialog.findViewById(R.id.edt_edit_month);
-        TextView sp_edit_fromPcCode = dialog.findViewById(R.id.sp_edit_fromPcCode);
-        TextView sp_edit_ToPcCode = dialog.findViewById(R.id.sp_edit_ToPcCode);
-        TextView sp_edit_expenseType = dialog.findViewById(R.id.sp_edit_expenseType);
+        Spinner sp_edit_fromPcCode = dialog.findViewById(R.id.sp_edit_fromPcCode);
+        Spinner sp_edit_ToPcCode = dialog.findViewById(R.id.sp_edit_ToPcCode);
+        Spinner sp_edit_expenseType = dialog.findViewById(R.id.sp_edit_expenseType);
         TextView edt_edit_transferCost = dialog.findViewById(R.id.edt_edit_transferCost);
         TextView edt_edit_remarks = dialog.findViewById(R.id.edt_edit_remarks);
+
+        VerifyCostTransferModel verifyCostTransferModel = arrayList.get(Integer.parseInt(position));
+
+        edt_edit_ctn.setText(verifyCostTransferModel.getVctCtn());
+        edt_edit_month.setText(verifyCostTransferModel.getVctmonth());
+        edt_edit_transferCost.setText(verifyCostTransferModel.getVctamount());
+        edt_edit_remarks.setText(verifyCostTransferModel.getVctremarks());
+
+        back_toolbar_ctn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+    public void openDialogReject(String re) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Delete?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callDialogueDeleteCTNapi(re);
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
 
     }
 

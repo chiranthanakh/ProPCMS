@@ -56,6 +56,11 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
     {
         final VerifyBillingInstructionModel verifyBillingInstructionModel = listdata.get(position);
 
+        if(check){
+            holder.ch_BI_check_data.setChecked(true);
+        }
+
+
         holder.tv_BI_pcCode.setText(listdata.get(position).getBIPcCode());
 
         holder.tv_BI_billTO.setText(listdata.get(position).getBIbillTO());
@@ -83,7 +88,7 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
         holder.iv_BI_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickitem(String.valueOf(position),1,"0");
+                mClick.onClickitem(String.valueOf(position),1,listdata.get(position).getId());
             }
         });
 

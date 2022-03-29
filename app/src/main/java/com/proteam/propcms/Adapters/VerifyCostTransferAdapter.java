@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,8 +20,10 @@ import com.proteam.propcms.Utils.OnClick;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTransferAdapter.ViewHolder> {
 
@@ -28,6 +32,7 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
     private Context context;
     Boolean check;
     private OnClick mClick;
+    Map map = new HashMap();
 
     public VerifyCostTransferAdapter(ArrayList<VerifyCostTransferModel> listdata, OnClick listner, Boolean check) {
 
@@ -50,6 +55,10 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
 
         final VerifyCostTransferModel verifyCostTransferModel = listdata.get(position);
 
+        if(check){
+            holder.ch_vct_check_data.setChecked(true);
+        }
+
         holder.tv_vct_ctn.setText(listdata.get(position).getVctCtn());
         holder.tv_vct_month.setText(listdata.get(position).getVctmonth());
         holder.tv_vct_expenseType.setText(listdata.get(position).getVctexpenseTypeName());
@@ -63,10 +72,29 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
         holder.tv_vct_transfer_cost.setText(moneyString);
         holder.tv_vct_remarks.setText(listdata.get(position).getVctremarks());
 
+        if(check){
+            holder.ch_vct_check_data.setChecked(true);
+        }else {
+            holder.ch_vct_check_data.setChecked(false);
+        }
+
         holder.iv_vct_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickitem(String.valueOf(position),1,"0");
+                mClick.onClickitem(String.valueOf(position),1,listdata.get(position).getId());
+            }
+        });
+
+        holder.ch_vct_check_data.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    map.put(position,listdata.get(position).getId());
+                    mClick.onClickitem(String.valueOf(position),2,listdata.get(position).getId());
+                }else {
+                    map.remove(position);
+                    mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
+                }
             }
         });
 
@@ -81,9 +109,11 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
         public TextView tv_vct_ctn,tv_vct_month,tv_vct_expenseType,tv_vct_from_pc_code,tv_vct_to_pc_code,tv_vct_transfer_cost
                 ,tv_vct_remarks;
         public ImageView iv_vct_ALl_data_view;
+        public CheckBox ch_vct_check_data;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_vct_ALl_data_view=(ImageView)itemView.findViewById(R.id.iv_vct_ALl_data_view);
+            this.ch_vct_check_data=itemView.findViewById(R.id.ch_vct_check_data);
             this.tv_vct_ctn = (TextView) itemView.findViewById(R.id.tv_vct_ctn);
             this.tv_vct_month = (TextView) itemView.findViewById(R.id.tv_vct_month);
             this.tv_vct_expenseType = (TextView) itemView.findViewById(R.id.tv_vct_expenseType);

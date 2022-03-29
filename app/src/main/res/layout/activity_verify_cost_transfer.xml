@@ -315,7 +315,7 @@
                             app:tint="@color/white" />
 
                         <CheckBox
-                            android:id="@+id/tv_action"
+                            android:id="@+id/ch_ctn"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="25dp"
@@ -466,6 +466,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_verifySubmitCTN"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
