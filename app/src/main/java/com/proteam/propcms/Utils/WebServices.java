@@ -12,6 +12,7 @@ import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
+import com.proteam.propcms.Request.ExpenseRequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
@@ -825,6 +826,30 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.vctupdate(vctUpdateRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void ExpensetypeList( ApiType apiTypes, ExpenseRequest expenseRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.ExpenseList(expenseRequest);
 
         call.enqueue(new Callback<T>() {
             @Override

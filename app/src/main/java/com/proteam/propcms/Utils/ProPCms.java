@@ -5,6 +5,7 @@ import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.CompanyDetailsModel;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
+import com.proteam.propcms.Request.ExpenseRequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
@@ -19,6 +20,7 @@ import com.proteam.propcms.Response.DashboardFilterDetailsResponse;
 import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
+import com.proteam.propcms.Response.ExpenseResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProfileResponse;
@@ -131,4 +133,7 @@ public interface ProPCms {
 
     @POST("Pcms_apis/verify_cost_transfer_note_with_status_update")
     Call<VctDeleteResponse> vctupdate(@Body VctUpdateRequest vctUpdateRequest);
+
+    @POST("Pcms_apis/expense_type_list")
+    Call<ExpenseResponse> ExpenseList(@Body ExpenseRequest expenseRequest);
 }
