@@ -9,10 +9,9 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,13 +39,11 @@ import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
-import com.proteam.propcms.Request.VctDeleteRequest;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
-import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
 import com.proteam.propcms.Utils.OnClick;
@@ -65,7 +60,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
-    ImageView mToolbar,iv_clear_BI;
+    ImageView mToolbar;
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
     EditText edt_from_verify_BI;
@@ -74,16 +69,18 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
     AppCompatButton btn_verifySubmitBI;
-    CheckBox ch_BI;
-    Context context=this;
+    String region,devisionid,productid;
 
     Map projectmap = new HashMap();
+    Map pccodemap = new HashMap();
+    Map pccodemapreverse = new HashMap();
     List projectList = new ArrayList();
     Map map = new HashMap();
 
     List pccode = new ArrayList();
     List divisionList = new ArrayList();
     Map divisionmap = new HashMap();
+    Map divisionreverse = new HashMap();
 
     ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
     @Override
@@ -109,9 +106,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
-        ch_BI=findViewById(R.id.ch_BI);
-        iv_clear_BI=findViewById(R.id.iv_clear_BI);
-        iv_clear_BI.setOnClickListener(this);
         btn_verifySubmitBI=findViewById(R.id.btn_verifySubmitBI);
         btn_verifySubmitBI.setOnClickListener(this);
         tv_count_vbi=findViewById(R.id.tv_count_vbi);
@@ -124,56 +118,10 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
         callProjectListApi();
         callBIlistApi();
-
-        ch_BI.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                if(b){
-                    adaptorclass(true);
-                }else {
-                    adaptorclass(false);
-                }
-
-            }
-        });
-    }
-
-    private void adaptorclass(Boolean check) {
-
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
-        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(arrayList,this,check);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
     }
 
 
     /////////////////////Calling API//////////////////////
-
-
-    private void callDialogueDeleteBIapi(String id) {
-
-        ArrayList list = new ArrayList();
-        list.add(id);
-
-        progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
-        if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                VctDeleteRequest vctDeleteRequest = new VctDeleteRequest(id);
-                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
-                webServices.DeleteBI(WebServices.ApiType.DeleteBI, vctDeleteRequest);
-            }
-        }
-
-
-    }
 
     private void callProjectListApi() {
 
@@ -266,10 +214,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void calldevisionapi() {
 
-            //DivisionListModel divisionListModel = new DivisionListModel("14");
-           // WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
-           // webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
-
         progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
 
         if (progressDialog != null) {
@@ -278,7 +222,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
 
-                DivisionListModel divisionListModel = new DivisionListModel("21");
+                DivisionListModel divisionListModel = new DivisionListModel("14");
                 WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
                 webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
             }
@@ -291,29 +235,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     {
         switch (URL)
         {
-            case DeleteBI:
-
-                if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-                if (isSucces) {
-                    if (response != null) {
-                        VctDeleteResponse vctDeleteResponse = (VctDeleteResponse) response;
-
-                        //  Toast.makeText(this, vctDeleteResponse.getStatus(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(this, vctDeleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
-                        startActivity(getIntent());
-                    } else {
-                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
-
-                }
-                break;
             case submitBI:
 
                 if (progressDialog != null) {
@@ -357,6 +278,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
+                            pccode.add(projectListResponse.getProject_list().get(i).getPc_code());
+                            pccodemap.put(projectListResponse.getProject_list().get(i).getPc_code(),projectListResponse.getProject_list().get(i).getProject_id());
+                            pccodemapreverse.put(projectListResponse.getProject_list().get(i).getProject_id(),projectListResponse.getProject_list().get(i).getPc_code());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -392,8 +316,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                         arrayList.clear();
                         for (int i=0;i<list.size();i++){
 
-                            pccode.add(verifyBillingInstructionListResponse.getList().get(i).getPc_code());
-
                             arrayList.add(new VerifyBillingInstructionModel(
                                     verifyBillingInstructionListResponse.getList().get(i).getInvoice_date(),
                                     verifyBillingInstructionListResponse.getList().get(i).getPc_code(),
@@ -426,6 +348,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                         if(arrayList.size()==0){
                             ll_no_data_BI.setVisibility(View.VISIBLE);
+
                         }else {
                             ll_no_data_BI.setVisibility(View.GONE);
 
@@ -469,6 +392,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                             divisionList.add(divisionListResponse.getDivision_list().get(i).getDivision_name());
                             divisionmap.put(divisionListResponse.getDivision_list().get(i).getDivision_name(),divisionListResponse.getDivision_list().get(i).getDivision_id());
+                            divisionreverse.put(divisionListResponse.getDivision_list().get(i).getDivision_id(),divisionListResponse.getDivision_list().get(i).getDivision_name());
                         }
 
 
@@ -541,12 +465,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 monthDatePickerDialog.setTitle("Select Month And Year");
                 monthDatePickerDialog.show();
                 break;
+
             case R.id.btn_verifySubmitBI:
                 callsubmitBIapi();
-                break;
-            case R.id.iv_clear_BI:
-                finish();
-                startActivity(getIntent());
                 break;
 
         }
@@ -577,7 +498,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         dialog.show();
 
         LinearLayout ll_edit2 = dialog.findViewById(R.id.ll_edit2);
-        LinearLayout ll_BI_delete = dialog.findViewById(R.id.ll_BI_delete);
         ImageView BI_back_toolbar = dialog.findViewById(R.id.BI_back_toolbar);
         ImageView iv_dia_BI_edit = dialog.findViewById(R.id.iv_dia_BI_edit);
         ImageView tv_dia_BI_delete = dialog.findViewById(R.id.tv_dia_BI_delete);
@@ -649,13 +569,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 callDialogeSubmitBIapi(id);
             }
         });
-        ll_BI_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                openDialogReject(id);
-            }
-        });
     }
 
     private void openEditBIDialog(String position) {
@@ -671,7 +584,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         List regions= new ArrayList();
         regions.add("East");regions.add("West");regions.add("North");regions.add("South");
 
-        Button btn_dia_BI_update = dialog.findViewById(R.id.btn_dia_BI_update);
+        Button btn_dia_BI_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
         ImageView BI_edit_back_toolbar =dialog.findViewById(R.id.BI_edit_back_toolbar);
         Spinner sp_Bi_edit_ProjectCode = dialog.findViewById(R.id.sp_Bi_edit_ProjectCode);
         Spinner sp_Bi_edit_division = dialog.findViewById(R.id.sp_Bi_edit_division);
@@ -683,25 +596,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 dialog.dismiss();
             }
         });
-
-        ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, pccode);
-        sp_Bi_edit_ProjectCode.setAdapter(adapter);
-
-        sp_Bi_edit_ProjectCode.post(new Runnable() {
-            public void run() {
-                sp_Bi_edit_ProjectCode.setSelection(0);
-            }
-        });
-
-        //sp_Bi_edit_ProjectCode.setSelection(1);
-        sp_Bi_edit_ProjectCode.setSelection(0,true);
-        ArrayAdapter adapter2 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, regions);
-        sp_Bi_edit_region.setAdapter(adapter2);
-        sp_Bi_edit_region.setSelection(0);
-
-        ArrayAdapter adapter3 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, divisionList);
-        sp_Bi_edit_division.setAdapter(adapter3);
-
 
 
         EditText ed_Bi_edit_invoiceDate = dialog.findViewById(R.id.ed_Bi_edit_invoiceDate);
@@ -725,7 +619,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
 
         VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
-
         ed_Bi_edit_invoiceDate.setText(verifyBillingInstructionModel.getInvoicedate());
         ed_Bi_edit_group.setText(verifyBillingInstructionModel.getBIgroup());
         ed_Bi_edit_billTo.setText(verifyBillingInstructionModel.getBIbillTO());
@@ -745,10 +638,27 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ed_Bi_edit_billingAddress.setText(verifyBillingInstructionModel.getBIbillingAdress());
         ed_Bi_edit_description.setText(verifyBillingInstructionModel.getBIdescription());
 
+        productid = String.valueOf(pccodemapreverse.get(verifyBillingInstructionModel.getProductid()));
+        region = verifyBillingInstructionModel.getBIregion();
+        devisionid = verifyBillingInstructionModel.getDevisionid();
        //int posregion = adapter2.getPosition(verifyBillingInstructionModel.getBIregion().trim());
        sp_Bi_edit_region.setPrompt(verifyBillingInstructionModel.getBIregion().trim());
 
-        btn_dia_BI_update.setOnClickListener(new View.OnClickListener() {
+        ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, pccode);
+        sp_Bi_edit_ProjectCode.setAdapter(adapter);
+        sp_Bi_edit_ProjectCode.setOnItemSelectedListener(OnCatSpinnerCL1);
+
+
+        ArrayAdapter adapter2 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, regions);
+        sp_Bi_edit_region.setAdapter(adapter2);
+        sp_Bi_edit_region.setOnItemSelectedListener(OnCatSpinnerCL2);
+
+        ArrayAdapter adapter3 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, divisionList);
+        sp_Bi_edit_division.setAdapter(adapter3);
+        sp_Bi_edit_division.setOnItemSelectedListener(OnCatSpinnerCL3);
+
+
+        btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -784,15 +694,15 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                             BillingUpdaterequest billingUpdaterequest = new BillingUpdaterequest(
                                     "14", verifyBillingInstructionModel.getId(),
                                     verifyBillingInstructionModel.getCompanyid(),
-                                    verifyBillingInstructionModel.getProductid(),
+                                    productid,
                                     verifyBillingInstructionModel.getInvoicenumber(),
-                                    verifyBillingInstructionModel.getDevisionid(),
+                                    devisionid,
                                     ed_Bi_edit_group.getText().toString(),
                                     ed_Bi_edit_assignment.getText().toString(),
                                     ed_Bi_edit_billTo.getText().toString(),
                                     ed_Bi_edit_billingAddress.getText().toString(),
                                     ed_Bi_edit_referenceNo.getText().toString(),
-                                    "2",
+                                    region,
                                     ed_Bi_edit_kindAttention.getText().toString(),
                                     ed_Bi_edit_gstinNo.getText().toString(),
                                     ed_Bi_edit_panOfCustomer.getText().toString(),
@@ -810,7 +720,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                                     ed_Bi_edit_supplyCode.getText().toString(),
                                     ed_Bi_edit_transactionType.getText().toString());
 
-
                             WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
                             webServices.Updatebilling(WebServices.ApiType.update,billingUpdaterequest);
                         }
@@ -823,6 +732,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
             }
         });
+
+
     }
 
 
@@ -831,38 +742,57 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(12);
-
         }
-
         public void onNothingSelected(AdapterView<?> parent) {
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL1 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-    public void openDialogReject(String re) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Alert");
-        builder.setMessage("Are You Sure Want to Delete?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setText(productid);
+        }
+    };
 
-                callDialogueDeleteBIapi(re);
-                dialog.cancel();
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL2 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
 
-
+            if(region.equals("1")){
+                ((TextView) parent.getChildAt(0)).setText("East");
+            }else if(region.equals("2")){
+                ((TextView) parent.getChildAt(0)).setText("West");
+            }else if(region.equals("3")){
+                ((TextView) parent.getChildAt(0)).setText("North");
+            }else if(region.equals("4")){
+                ((TextView) parent.getChildAt(0)).setText("South");
             }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+        }
+    };
 
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL3 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setText(String.valueOf(divisionreverse.get(devisionid)));
+        }
+    };
 
-            }
-        });
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-
-    }
 }
