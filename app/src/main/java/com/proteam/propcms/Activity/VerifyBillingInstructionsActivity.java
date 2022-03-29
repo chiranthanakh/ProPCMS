@@ -49,11 +49,13 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
@@ -140,6 +142,32 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     private void callsubmitBIapi() {
 
         ArrayList list = new ArrayList(map.values());
+        if (list.size()==0){
+            Toast.makeText(this, "Item not selected ", Toast.LENGTH_SHORT).show();
+        }else {
+
+            progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+
+                    InvApproverequest invApproverequest = new InvApproverequest(list);
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
+                    webServices.verifyandSubmitBI(WebServices.ApiType.submitBI, invApproverequest);
+                }
+            }
+        }
+
+    }
+
+
+    private void callDialogeSubmitBIapi(String id) {
+
+        ArrayList list = new ArrayList();
+        list.add(id);
         if (list.size()==0){
             Toast.makeText(this, "Item not selected ", Toast.LENGTH_SHORT).show();
         }else {
@@ -491,6 +519,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         TextView tv_dia_BI_stateOfSupply = dialog.findViewById(R.id.tv_dia_BI_stateOfSupply);
         TextView tv_dia_BI_transactionType = dialog.findViewById(R.id.tv_dia_BI_transactionType);
 
+        AppCompatButton btn_dia_BI_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
+
 
         VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
         tv_dia_BI_pcCode.setText(verifyBillingInstructionModel.getBIPcCode());
@@ -504,6 +534,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         tv_dia_BI_place.setText(verifyBillingInstructionModel.getBIplace());
         tv_dia_BI_gstinNO.setText(verifyBillingInstructionModel.getBIgstinNo());
         tv_dia_BI_panOfCustomer.setText(verifyBillingInstructionModel.getBIpanOfCustomer());
+
+
         tv_dia_BI_taxableAmount.setText(verifyBillingInstructionModel.getBItaxableAmount());
         tv_dia_BI_gstRate.setText(verifyBillingInstructionModel.getBIgstRate());
         tv_dia_BI_forMonth.setText(verifyBillingInstructionModel.getBIforMonth());
@@ -523,6 +555,13 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             @Override
             public void onClick(View view) {
                 openEditBIDialog(position);
+            }
+        });
+
+        btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callDialogeSubmitBIapi(id);
             }
         });
     }
@@ -546,6 +585,12 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         Spinner sp_Bi_edit_division = dialog.findViewById(R.id.sp_Bi_edit_division);
         Spinner sp_Bi_edit_region = dialog.findViewById(R.id.sp_Bi_edit_region);
 
+        BI_edit_back_toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
         ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, pccode);
         sp_Bi_edit_ProjectCode.setAdapter(adapter);

@@ -252,4 +252,5 @@ public class VerifyBillingInstructionModel {
     public void setBItransactionType(String BItransactionType) {
         this.BItransactionType = BItransactionType;
     }
+
 }
