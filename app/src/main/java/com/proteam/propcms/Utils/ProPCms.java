@@ -10,6 +10,7 @@ import com.proteam.propcms.Request.Loginmodel;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
+import com.proteam.propcms.Request.VctUpdateRequest;
 import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyDetailsResponse;
 import com.proteam.propcms.Response.CompanyListResponse;
@@ -126,4 +127,8 @@ public interface ProPCms {
 
     @POST("Pcms_apis/verify_billing_instructions_with_status_list_delete")
     Call<VctDeleteResponse> DeleteBIdata(@Body VctDeleteRequest vctDeleteRequest);
+
+
+    @POST("Pcms_apis/verify_cost_transfer_note_with_status_update")
+    Call<VctDeleteResponse> vctupdate(@Body VctUpdateRequest vctUpdateRequest);
 }

@@ -18,6 +18,7 @@ import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
+import com.proteam.propcms.Request.VctUpdateRequest;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +54,7 @@ public class WebServices<T> {
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
         ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI,update,SubmitCTN,deletectndata,DeleteBI
+        ,updatevct
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -798,6 +800,31 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.DeleteBIdata(vctDeleteRequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+
+    public void UpdateVct( ApiType apiTypes, VctUpdateRequest vctUpdateRequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.vctupdate(vctUpdateRequest);
 
         call.enqueue(new Callback<T>() {
             @Override

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -34,10 +35,13 @@ import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
+import com.proteam.propcms.Request.BillingUpdaterequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
+import com.proteam.propcms.Request.VctUpdateRequest;
+import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.VctDeleteResponse;
@@ -538,6 +542,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     }
 
+    private void updateVctData()
+    {
+
+    }
+
     private void openEditDialog(String position) {
         final Dialog dialog = new Dialog(this);
 
@@ -554,6 +563,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         Spinner sp_edit_expenseType = dialog.findViewById(R.id.sp_edit_expenseType);
         TextView edt_edit_transferCost = dialog.findViewById(R.id.edt_edit_transferCost);
         TextView edt_edit_remarks = dialog.findViewById(R.id.edt_edit_remarks);
+        Button btn_dia_vct_update = dialog.findViewById(R.id.btn_dia_vct_update);
 
         VerifyCostTransferModel verifyCostTransferModel = arrayList.get(Integer.parseInt(position));
 
@@ -562,6 +572,49 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         edt_edit_transferCost.setText(verifyCostTransferModel.getVctamount());
         edt_edit_remarks.setText(verifyCostTransferModel.getVctremarks());
 
+        btn_dia_vct_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!edt_edit_ctn.getText().toString().isEmpty() &&
+                        !edt_edit_month.getText().toString().isEmpty() &&
+                        !edt_edit_transferCost.getText().toString().isEmpty() &&
+                        !edt_edit_remarks.getText().toString().isEmpty()
+
+                ){
+
+                    progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+
+                    if (progressDialog != null) {
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.setCancelable(false);
+                            progressDialog.setMessage("Please wait...");
+                            progressDialog.show();
+
+                            VctUpdateRequest  vctUpdateRequest = new VctUpdateRequest(
+                                    verifyCostTransferModel.getId(),
+                                    verifyCostTransferModel.getVctCtn(),
+                                    verifyCostTransferModel.getVctmonth(),
+                                    verifyCostTransferModel.getVctamount(),
+                                     "1",
+                                     "1",
+                                     "1",
+                                     "2");
+
+
+
+
+                            WebServices<VctDeleteResponse> webServices = new WebServices<VctDeleteResponse>(VerifyCostTransferActivity.this);
+                            webServices.UpdateVct(WebServices.ApiType.updatevct,vctUpdateRequest);
+                        }
+                    }
+
+
+                }else {
+                    Toast.makeText(VerifyCostTransferActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         back_toolbar_ctn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

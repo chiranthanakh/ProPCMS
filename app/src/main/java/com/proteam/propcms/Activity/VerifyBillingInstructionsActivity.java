@@ -725,6 +725,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
 
         VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
+
         ed_Bi_edit_invoiceDate.setText(verifyBillingInstructionModel.getInvoicedate());
         ed_Bi_edit_group.setText(verifyBillingInstructionModel.getBIgroup());
         ed_Bi_edit_billTo.setText(verifyBillingInstructionModel.getBIbillTO());
