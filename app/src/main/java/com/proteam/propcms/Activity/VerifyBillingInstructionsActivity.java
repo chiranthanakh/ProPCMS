@@ -69,7 +69,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
     AppCompatButton btn_verifySubmitBI;
-    String region,devisionid,productid;
+    String region,devisionid,productid,productname;
 
     Map projectmap = new HashMap();
     Map pccodemap = new HashMap();
@@ -214,7 +214,11 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void calldevisionapi() {
 
-        progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
+        DivisionListModel divisionListModel = new DivisionListModel("14");
+        WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
+        webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+
+        /*progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
 
         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
@@ -226,7 +230,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
                 webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
             }
-        }
+        }*/
 
     }
 
@@ -559,6 +563,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ll_edit2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                calldevisionapi();
                 openEditBIDialog(position);
             }
         });
@@ -579,7 +584,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.show();
 
-        calldevisionapi();
 
         List regions= new ArrayList();
         regions.add("East");regions.add("West");regions.add("North");regions.add("South");
@@ -638,16 +642,14 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ed_Bi_edit_billingAddress.setText(verifyBillingInstructionModel.getBIbillingAdress());
         ed_Bi_edit_description.setText(verifyBillingInstructionModel.getBIdescription());
 
-        productid = String.valueOf(pccodemapreverse.get(verifyBillingInstructionModel.getProductid()));
+        productid = verifyBillingInstructionModel.getProductid();
+        productname = String.valueOf(pccodemapreverse.get(verifyBillingInstructionModel.getProductid()));
         region = verifyBillingInstructionModel.getBIregion();
         devisionid = verifyBillingInstructionModel.getDevisionid();
-       //int posregion = adapter2.getPosition(verifyBillingInstructionModel.getBIregion().trim());
-       sp_Bi_edit_region.setPrompt(verifyBillingInstructionModel.getBIregion().trim());
 
         ArrayAdapter adapter = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, pccode);
         sp_Bi_edit_ProjectCode.setAdapter(adapter);
         sp_Bi_edit_ProjectCode.setOnItemSelectedListener(OnCatSpinnerCL1);
-
 
         ArrayAdapter adapter2 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, regions);
         sp_Bi_edit_region.setAdapter(adapter2);
@@ -656,6 +658,49 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ArrayAdapter adapter3 = new ArrayAdapter(VerifyBillingInstructionsActivity.this, android.R.layout.simple_list_item_1, divisionList);
         sp_Bi_edit_division.setAdapter(adapter3);
         sp_Bi_edit_division.setOnItemSelectedListener(OnCatSpinnerCL3);
+
+        sp_Bi_edit_ProjectCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sp_Bi_edit_region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(sp_Bi_edit_region.getSelectedItem().toString().equals("East")){
+                    region = "1";
+                }else if(region.equals("West")){
+                    region = "2";
+                }else if(region.equals("North")){
+                    region = "3";
+                }else if(region.equals("South")){
+                    region = "4";                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sp_Bi_edit_ProjectCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {

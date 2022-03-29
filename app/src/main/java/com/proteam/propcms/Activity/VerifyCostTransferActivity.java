@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -36,12 +37,14 @@ import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.BillingUpdaterequest;
+import com.proteam.propcms.Request.ExpenseRequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
 import com.proteam.propcms.Request.VctUpdateRequest;
 import com.proteam.propcms.Response.DivisionListResponse;
+import com.proteam.propcms.Response.ExpenseResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.VctDeleteResponse;
@@ -73,12 +76,17 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     AppCompatButton btn_verifySubmitCTN;
     CheckBox ch_ctn;
     Context context=this;
+    String from_pc,to_pc,expense_list;
 
     Map projectmap = new HashMap();
     List projectList = new ArrayList();
-
+    List pccodelist = new ArrayList();
+    Map pccodemap = new HashMap();
+    List expenselist = new ArrayList();
+    Map expensemap = new HashMap();
     Map map = new HashMap();
-
+    SharedPreferences.Editor editor;
+    String user;
 
 
     ArrayList<VerifyCostTransferModel> arrayList = new ArrayList<VerifyCostTransferModel>();
@@ -88,6 +96,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_verify_cost_transfer);
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        user = sharedPreferences.getString("userid", null);
+
 
         initialize();
         sp_all_project_vct.setOnItemSelectedListener(OnCatSpinnerCL);
@@ -167,6 +180,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
+                            pccodelist.add(projectListResponse.getProject_list().get(i).getPc_code());
+                            pccodemap.put(projectListResponse.getProject_list().get(i).getPc_code(),projectListResponse.getProject_list().get(i).getProject_id());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(VerifyCostTransferActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -286,6 +301,58 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                 }
                 break;
+
+            case updatevct:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+                        VctDeleteResponse vctDeleteResponse = (VctDeleteResponse) response;
+
+                        //  Toast.makeText(this, vctDeleteResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, vctDeleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+            case expense:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+                        List ex = new ArrayList();
+                        ExpenseResponse expenseResponse = (ExpenseResponse) response;
+                        ex = expenseResponse.getExpense_type_list();
+
+                        for (int i=0;i<ex.size();i++){
+
+                            expenselist.add(expenseResponse.getExpense_type_list().get(i).getExpense_type_name());
+                            expensemap.put(expenseResponse.getExpense_type_list().get(i).getExpense_type_name(),expenseResponse.getExpense_type_list().get(i).getExpense_type_id());
+
+                        }
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
         }
     }
 
@@ -375,6 +442,26 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                     webServices.DeleteCtn(WebServices.ApiType.deletectndata, vctDeleteRequest);
                 }
             }
+
+
+    }
+
+    private void callExpensetypeList() {
+
+
+        progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+                ExpenseRequest expenseRequest = new ExpenseRequest("12",user);
+                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+                webServices.ExpensetypeList(WebServices.ApiType.expense, expenseRequest);
+            }
+        }
 
 
     }
@@ -504,6 +591,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
         VerifyCostTransferModel verifyCostTransferModel = arrayList.get(Integer.parseInt(position));
 
+        from_pc = verifyCostTransferModel.getVctfromPcCodeName();
+        to_pc = verifyCostTransferModel.getVcttoPcCodeName();
+        expense_list = verifyCostTransferModel.getVctexpenseTypeName();
+
+
         tv_dia_vct_ctn.setText(verifyCostTransferModel.getVctCtn());
         tv_dia_vct_month.setText(verifyCostTransferModel.getVctmonth());
         tv_dia_vct_directExpense.setText(verifyCostTransferModel.getVctexpenseTypeName());
@@ -522,6 +614,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         ll_ctn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                callExpensetypeList();
                 openEditDialog(position);
             }
         });
@@ -542,10 +636,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     }
 
-    private void updateVctData()
-    {
 
-    }
 
     private void openEditDialog(String position) {
         final Dialog dialog = new Dialog(this);
@@ -572,6 +663,54 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         edt_edit_transferCost.setText(verifyCostTransferModel.getVctamount());
         edt_edit_remarks.setText(verifyCostTransferModel.getVctremarks());
 
+        ArrayAdapter adapter = new ArrayAdapter(VerifyCostTransferActivity.this, android.R.layout.simple_list_item_1, pccodelist);
+        sp_edit_fromPcCode.setAdapter(adapter);
+        sp_edit_fromPcCode.setOnItemSelectedListener(OnCatSpinnerCL1);
+
+        ArrayAdapter adapter1 = new ArrayAdapter(VerifyCostTransferActivity.this, android.R.layout.simple_list_item_1, pccodelist);
+        sp_edit_ToPcCode.setAdapter(adapter1);
+        sp_edit_ToPcCode.setOnItemSelectedListener(OnCatSpinnerCL2);
+
+        ArrayAdapter adapter2 = new ArrayAdapter(VerifyCostTransferActivity.this, android.R.layout.simple_list_item_1, expenselist);
+        sp_edit_expenseType.setAdapter(adapter2);
+        sp_edit_expenseType.setOnItemSelectedListener(OnCatSpinnerCL3);
+
+        sp_edit_fromPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                from_pc = sp_edit_fromPcCode.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sp_edit_ToPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                to_pc = sp_edit_ToPcCode.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sp_edit_expenseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                expense_list = String.valueOf(expensemap.get(sp_edit_expenseType.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         btn_dia_vct_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -592,17 +731,14 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                             progressDialog.show();
 
                             VctUpdateRequest  vctUpdateRequest = new VctUpdateRequest(
+                                    user,
                                     verifyCostTransferModel.getId(),
-                                    verifyCostTransferModel.getVctCtn(),
                                     verifyCostTransferModel.getVctmonth(),
-                                    verifyCostTransferModel.getVctamount(),
-                                     "1",
-                                     "1",
-                                     "1",
-                                     "2");
-
-
-
+                                    String.valueOf(pccodemap.get(from_pc)),
+                                    String.valueOf(pccodemap.get(to_pc)),
+                                    expense_list,
+                                    edt_edit_transferCost.getText().toString().trim() ,
+                                    edt_edit_remarks.getText().toString().trim());
 
                             WebServices<VctDeleteResponse> webServices = new WebServices<VctDeleteResponse>(VerifyCostTransferActivity.this);
                             webServices.UpdateVct(WebServices.ApiType.updatevct,vctUpdateRequest);
@@ -635,21 +771,57 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                 callDialogueDeleteCTNapi(re);
                 dialog.cancel();
-
-
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-
-
             }
         });
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
-
     }
 
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL1 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setText(from_pc);
+        }
+    };
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL2 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setText(to_pc);
+        }
+    };
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL3 = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setText(expense_list);
+        }
+    };
 
 
 }
