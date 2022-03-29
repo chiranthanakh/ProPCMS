@@ -83,7 +83,7 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
         holder.iv_BI_ALl_data_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClick.onClickitem(String.valueOf(position),1,"0");
+                mClick.onClickitem(String.valueOf(position),1,listdata.get(position).getId());
             }
         });
 
