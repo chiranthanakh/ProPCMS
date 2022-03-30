@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/drawable-v24/reload.xml" value="0.133" />
+        <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/drawable-v24/shapetop_bar.xml" value="0.1115" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/drawable/reload.xml" value="0.133" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/drawable/sort.xml" value="0.162" />
+        <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/drawable/spinner_background.xml" value="0.1015" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_cost_transfer_note_request_approval.xml" value="0.25" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_cancellations.xml" value="0.25" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_invoice_request_for_modifications.xml" value="0.22" />
@@ -13,12 +15,14 @@
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_verify_billing_instructions.xml" value="0.25" />
+        <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/activity_verify_cost_transfer.xml" value="0.19947916666666668" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/ctnr_data_layout.xml" value="0.2" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dashboard_layout.xml" value="0.16" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialog_irfm_all_details.xml" value="0.22" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_ctnr_all_details.xml" value="0.33" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_division_bi_edit.xml" value="0.18" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_division_bi_verification.xml" value="0.17083333333333334" />
+        <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_division_edit_verifycost_transfer.xml" value="0.18" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_edit_verifycost_transfer.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_irfc_all_details.xml" value="0.2" />
         <entry key="..\:/Users/Personal/Desktop/proProjects/ProPCMS/app/src/main/res/layout/dialoge_requesting_details.xml" value="0.16354166666666667" />
