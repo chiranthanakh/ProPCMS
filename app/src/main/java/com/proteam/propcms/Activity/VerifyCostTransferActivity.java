@@ -821,8 +821,6 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                     ((TextView) adapterView.getChildAt(0)).setTextSize(12);
                     ((TextView) adapterView.getChildAt(0)).setText(from_pc);
                 }
-
-
             }
 
             @Override
