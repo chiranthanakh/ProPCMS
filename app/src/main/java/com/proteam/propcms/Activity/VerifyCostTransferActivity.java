@@ -61,11 +61,13 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class VerifyCostTransferActivity extends AppCompatActivity implements View.OnClickListener , OnResponseListener, OnClick {
@@ -157,6 +159,12 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void adaptorclass(Boolean check) {
 
+        if(arrayList.size()==0){
+            ll_no_data_VCT.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_VCT.setVisibility(View.GONE);
+
+        }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
         VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(arrayList,this,check);
         recyclerView.setHasFixedSize(true);
@@ -733,7 +741,12 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         tv_dia_vct_directExpense.setText(verifyCostTransferModel.getVctexpenseTypeName());
         tv_dia_vct_fromPcCode.setText(verifyCostTransferModel.getVctfromPcCodeName());
         tv_dia_vct_TpPcCode.setText(verifyCostTransferModel.getVcttoPcCodeName());
-        tv_dia_vct_transferCost.setText(verifyCostTransferModel.getVctamount());
+
+        float amount = Float.parseFloat(arrayList.get(Integer.parseInt(position)).getVctamount());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String moneyString = formatter.format(amount);
+
+        tv_dia_vct_transferCost.setText(moneyString);
         tv_dia_vct_Remarks.setText(verifyCostTransferModel.getVctremarks());
 
         back_toolbar_vct.setOnClickListener(new View.OnClickListener() {
@@ -755,19 +768,19 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         btn_dia_verify_submit_ctn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callDialogeSubmitCTNapi(id);
+
+                openDialogSubmitBI(id);
             }
         });
         ll_vct_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  callDialogueDeleteCTNapi(id);
+
                 openDialogReject(id);
             }
         });
 
     }
-
 
 
     private void openEditDialog(String position) {
@@ -956,6 +969,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
             ((TextView) parent.getChildAt(0)).setText(from_pc);
         }
     };
+
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL2 = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
@@ -969,6 +983,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
             ((TextView) parent.getChildAt(0)).setText(to_pc);
         }
     };
+
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL3 = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
@@ -998,5 +1013,29 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         }
     };
 
+    public void openDialogSubmitBI(String vct) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Submit CTN's ?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callDialogeSubmitCTNapi(vct);
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+    }
 
 }

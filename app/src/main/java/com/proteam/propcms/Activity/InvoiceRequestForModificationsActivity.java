@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -758,17 +759,20 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         });
         approve.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                callapproveindividualApi(irfmDataModel.getId());
-                dialog.dismiss();
+            public void onClick(View view)
+            {
+                openDialogeApprove(irfmDataModel.getId());
+
+               // dialog.dismiss();
             }
         });
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                callRejectindividualApi(irfmDataModel.getId());
-                dialog.dismiss();
+                openDialogeReject(irfmDataModel.getId());
+
+               // dialog.dismiss();
             }
         });
         back_toolbar.setOnClickListener(new View.OnClickListener() {
@@ -827,5 +831,56 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         }else if(item==4){
             map.remove(value);
         }
+    }
+
+    public void openDialogeApprove(String re) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceRequestForModificationsActivity.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Approve?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callapproveindividualApi(re);
+
+                dialog.cancel();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+            }
+        });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+    }
+
+    public void openDialogeReject(String re) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceRequestForModificationsActivity.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Reject?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callRejectindividualApi(re);
+                dialog.dismiss();
+
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
     }
 }

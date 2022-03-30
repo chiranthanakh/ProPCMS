@@ -729,7 +729,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         btn_d_irfc_ctn_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //callapproveindividualApi(arrayList.get(position).getId());
+
                 openapproveDialog2(arrayList.get(position).getId());
                 //dialog.dismiss();
             }
@@ -795,7 +795,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     public void openrejectDialog2(String it) {
         AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceRequestForCancellationsActivity.this);
         builder.setTitle("Alert");
-        builder.setMessage("Are You Sure Want to Approve?");
+        builder.setMessage("Are You Sure Want to Reject?");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
