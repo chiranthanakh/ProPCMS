@@ -446,10 +446,13 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     }
 
-    private void callExpensetypeList() {
+    private void callExpensetypeList(String id) {
 
+        ExpenseRequest expenseRequest = new ExpenseRequest(id,user);
+        WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+        webServices.ExpensetypeList(WebServices.ApiType.expense, expenseRequest);
 
-        progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
+       /* progressDialog = new ProgressDialog(VerifyCostTransferActivity.this);
         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
 
@@ -461,7 +464,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
                 webServices.ExpensetypeList(WebServices.ApiType.expense, expenseRequest);
             }
-        }
+        }*/
 
 
     }
@@ -572,6 +575,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
+
+
         LinearLayout ll_ctn_edit = dialog.findViewById(R.id.ll_ctn_edit);
         LinearLayout ll_vct_delete=dialog.findViewById(R.id.ll_vct_delete);
         TextView tv_dia_vct_ctn = dialog.findViewById(R.id.tv_dia_vct_ctn);
@@ -595,6 +600,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         to_pc = verifyCostTransferModel.getVcttoPcCodeName();
         expense_list = verifyCostTransferModel.getVctexpenseTypeName();
 
+        callExpensetypeList(verifyCostTransferModel.getId());
 
         tv_dia_vct_ctn.setText(verifyCostTransferModel.getVctCtn());
         tv_dia_vct_month.setText(verifyCostTransferModel.getVctmonth());
@@ -615,7 +621,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
             @Override
             public void onClick(View view) {
 
-                callExpensetypeList();
+
                 openEditDialog(position);
             }
         });
