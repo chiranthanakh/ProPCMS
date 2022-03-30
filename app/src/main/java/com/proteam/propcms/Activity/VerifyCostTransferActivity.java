@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,8 +33,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
+import com.proteam.propcms.Models.CtrnDataModel;
 import com.proteam.propcms.Models.VerifyBillingInstructionModel;
 import com.proteam.propcms.Models.VerifyCostTransferModel;
 import com.proteam.propcms.R;
@@ -68,12 +73,12 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     int mMonth,mDay,mYear;
     Spinner sp_all_project_vct;
     RecyclerView rv_vct_Data_list;
-    EditText edt_from_vct;
+    EditText edt_from_vct,edt_search_vct;
     TextView tv_count_vct;
 
     ProgressDialog progressDialog;
     LinearLayout ll_no_data_VCT;
-    AppCompatButton btn_verifySubmitCTN;
+    AppCompatButton btn_verifySubmitCTN,btn_search_vct;
     CheckBox ch_ctn;
     Context context=this;
     String from_pc,to_pc,expense_list;
@@ -88,8 +93,9 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     SharedPreferences.Editor editor;
     String user;
 
-
+    ArrayList<VerifyCostTransferModel> filterarraylist = new ArrayList<VerifyCostTransferModel>();
     ArrayList<VerifyCostTransferModel> arrayList = new ArrayList<VerifyCostTransferModel>();
+    ArrayList<VerifyCostTransferModel> temp = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +123,9 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void initialize()
     {
+        btn_search_vct=findViewById(R.id.btn_search_vct);
+        btn_search_vct.setOnClickListener(this);
+        edt_search_vct=findViewById(R.id.edt_search_vct);
         ch_ctn=findViewById(R.id.ch_ctn);
         iv_clear_vct=findViewById(R.id.iv_clear_vct);
         iv_clear_vct.setOnClickListener(this);
@@ -548,22 +557,139 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 finish();
                 startActivity(getIntent());
                 break;
+            case R.id.btn_search_vct:
+
+                if(sp_all_project_vct.getSelectedItem()!=null){
+
+                    if(!edt_from_vct.getText().toString().equals("")){
+                        Searchlist();
+                    }else {
+                        // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+
+                }else {
+                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                }
+
+                break;
 
 
         }
     }
 
-    private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(12);
+    private void Searchlist() {
+
+        String project_id = (String) projectmap.get(sp_all_project_vct.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList.size();i++){
+
+            // String project_id = "365";
+
+            if(arrayList.get(i).getId().equalsIgnoreCase(project_id)){
+
+                filterarraylist.add(new VerifyCostTransferModel(
+                        arrayList.get(i).getVctCtn(),
+                        arrayList.get(i).getVctmonth(),
+                        arrayList.get(i).getVctexpenseTypeName(),
+                        arrayList.get(i).getVctfromPcCodeName(),
+                        arrayList.get(i).getVcttoPcCodeName(),
+                        arrayList.get(i).getVctamount(),
+                        arrayList.get(i).getVctremarks(),
+                        arrayList.get(i).getId(),
+                        arrayList.get(i).getVctuserId(),
+                        arrayList.get(i).getVctuploadUserId()
+
+                ));
+            }
+
+            if(arrayList.size()==0){
+                ll_no_data_VCT.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_VCT.setVisibility(View.GONE);
+
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
+            VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(filterarraylist,this,false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
 
         }
+    }
 
-        public void onNothingSelected(AdapterView<?> parent) {
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(12);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        edt_search_vct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                filter(s.toString());
+            }
+        });
+
+    }
+
+
+    private void filter(String text) {
+
+        if(text.equals("")){
+            adaptorclass(false);
+        }else {
+            int count = arrayList.size();
+            temp.clear();
+            for (int i=0;i<arrayList.size();i++){
+
+                if(arrayList.get(i).getVctCtn().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getVctfromPcCodeName().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getVctexpenseTypeName().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getVctmonth().toLowerCase().contains(text.toLowerCase())){
+
+                    temp.add(new VerifyCostTransferModel(
+                            arrayList.get(i).getVctCtn(),
+                            arrayList.get(i).getVctmonth(),
+                            arrayList.get(i).getVctexpenseTypeName(),
+                            arrayList.get(i).getVctfromPcCodeName(),
+                            arrayList.get(i).getVcttoPcCodeName(),
+                            arrayList.get(i).getVctamount(),
+                            arrayList.get(i).getVctremarks(),
+                            arrayList.get(i).getId(),
+                            arrayList.get(i).getVctuserId(),
+                            arrayList.get(i).getVctuploadUserId()
+
+                    ));
+                }
+            }
+
+            if(temp.size()==0){
+                ll_no_data_VCT.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_VCT.setVisibility(View.GONE);
+
+            }
+
+            tv_count_vct.setText(String.valueOf(temp.size()));
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
+            VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(temp, this, false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+
         }
     };
 
@@ -677,33 +803,18 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_ToPcCode.setAdapter(adapter1);
         sp_edit_ToPcCode.setOnItemSelectedListener(OnCatSpinnerCL2);
 
-
         ArrayAdapter adapter2 = new ArrayAdapter(VerifyCostTransferActivity.this, android.R.layout.simple_list_item_1, expenselist);
         sp_edit_expenseType.setAdapter(adapter2);
         sp_edit_expenseType.setOnItemSelectedListener(OnCatSpinnerCL3);
 
-
         sp_edit_fromPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (i != 0) {
-                    from_pc = sp_edit_fromPcCode.getSelectedItem().toString();
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                }else {
-
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                    ((TextView) adapterView.getChildAt(0)).setText(from_pc);
-                }
-
+                from_pc = sp_edit_fromPcCode.getSelectedItem().toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 
             }
         });
@@ -711,24 +822,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_ToPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (i != 0) {
-                    to_pc = sp_edit_ToPcCode.getSelectedItem().toString();
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                }else {
-
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                    ((TextView) adapterView.getChildAt(0)).setText(to_pc);
-                }
-
+                to_pc = sp_edit_ToPcCode.getSelectedItem().toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 
             }
         });
@@ -736,25 +834,11 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_expenseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (i != 0) {
-                    expense_list = String.valueOf(expensemap.get(sp_edit_expenseType.getSelectedItem().toString()));
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                    ((TextView) adapterView.getChildAt(0)).setText(expense_list);
-                }else {
-
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                    ((TextView) adapterView.getChildAt(0)).setText(expense_list);
-                }
-
+                expense_list = String.valueOf(expensemap.get(sp_edit_expenseType.getSelectedItem().toString()));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 
             }
         });
@@ -868,6 +952,20 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(12);
             ((TextView) parent.getChildAt(0)).setText(expense_list);
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+           ((TextView) parent.getChildAt(0)).setTextSize(12);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+           ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+           ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 
