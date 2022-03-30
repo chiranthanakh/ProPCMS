@@ -187,7 +187,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                         for (int i = 0; i < list1.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
                             pccodelist.add(projectListResponse.getProject_list().get(i).getPc_code());
                             pccodemap.put(projectListResponse.getProject_list().get(i).getPc_code(),projectListResponse.getProject_list().get(i).getProject_id());
@@ -591,7 +591,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
             // String project_id = "365";
 
-            if(arrayList.get(i).getId().equalsIgnoreCase(project_id)){
+            if(arrayList.get(i).getVctfromPcCodeName().equalsIgnoreCase(project_id) || arrayList.get(i).getVcttoPcCodeName().equalsIgnoreCase(project_id)){
 
                 filterarraylist.add(new VerifyCostTransferModel(
                         arrayList.get(i).getVctCtn(),
@@ -810,7 +810,19 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_fromPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                from_pc = sp_edit_fromPcCode.getSelectedItem().toString();
+
+                if(i==0){
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(from_pc);
+                }else {
+                    from_pc = sp_edit_fromPcCode.getSelectedItem().toString();
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(from_pc);
+                }
+
+
             }
 
             @Override
@@ -822,7 +834,16 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_ToPcCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                to_pc = sp_edit_ToPcCode.getSelectedItem().toString();
+                if(i==0){
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(to_pc);
+                }else {
+                    to_pc = sp_edit_ToPcCode.getSelectedItem().toString();
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(to_pc);
+                }
             }
 
             @Override
@@ -834,7 +855,17 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         sp_edit_expenseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                expense_list = String.valueOf(expensemap.get(sp_edit_expenseType.getSelectedItem().toString()));
+                if(i==0){
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(expense_list);
+                }else {
+                    expense_list = String.valueOf(expensemap.get(sp_edit_expenseType.getSelectedItem().toString()));
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(sp_edit_expenseType.getSelectedItem().toString());
+                }
+
             }
 
             @Override
