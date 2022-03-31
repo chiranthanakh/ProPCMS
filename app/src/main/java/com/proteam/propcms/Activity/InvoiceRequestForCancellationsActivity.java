@@ -88,6 +88,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     ArrayList<IrfcDataModel> temp = new ArrayList();
     SharedPreferences.Editor editor;
     String user;
+    LinearLayout ll_no_data_irfc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        ll_no_data_irfc=findViewById(R.id.ll_no_data_irfc);
         tv_invoiceno_sort=findViewById(R.id.tv_invoiceno_sort);
         tv_pc_code_sort=findViewById(R.id.tv_pc_code_sort);
         tv_irfc_count=findViewById(R.id.tv_irfc_count);
@@ -395,6 +397,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                         }
 
+                        if(arrayList.size()==0){
+                            ll_no_data_irfc.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_irfc.setVisibility(View.GONE);
+
+                        }
+
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
                         IrfcListAdapter adapter = new IrfcListAdapter(arrayList,this,false);
                         recyclerView.setHasFixedSize(true);
@@ -587,6 +596,12 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                             arrayList.get(i).getId()));
 
                 }
+                if(temp.size()==0){
+                    ll_no_data_irfc.setVisibility(View.VISIBLE);
+                }else {
+                    ll_no_data_irfc.setVisibility(View.GONE);
+
+                }
             }
             tv_irfc_count.setText(String.valueOf(temp.size()));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
@@ -634,6 +649,13 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         arrayList.get(i).getId()));
             }
 
+            if(filterarraylist.size()==0){
+                ll_no_data_irfc.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfc.setVisibility(View.GONE);
+
+            }
+
         }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
         IrfcListAdapter adapter = new IrfcListAdapter(filterarraylist,this,false);
@@ -642,7 +664,14 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         recyclerView.setAdapter(adapter);
     }
 
-    private void adaptorclass(boolean b) {
+    private void adaptorclass(boolean b)
+    {
+        if(arrayList.size()==0){
+            ll_no_data_irfc.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_irfc.setVisibility(View.GONE);
+
+        }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfc_Data_list);
         IrfcListAdapter adapter = new IrfcListAdapter(arrayList,this,b);
         recyclerView.setHasFixedSize(true);

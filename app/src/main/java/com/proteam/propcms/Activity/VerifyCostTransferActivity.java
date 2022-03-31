@@ -616,7 +616,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 ));
             }
 
-            if(arrayList.size()==0){
+            if(filterarraylist.size()==0){
                 ll_no_data_VCT.setVisibility(View.VISIBLE);
             }else {
                 ll_no_data_VCT.setVisibility(View.GONE);

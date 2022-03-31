@@ -642,7 +642,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 ));
             }
 
-            if(arrayList.size()==0){
+            if(filterarraylist.size()==0){
                 ll_no_data_BI.setVisibility(View.VISIBLE);
             }else {
                 ll_no_data_BI.setVisibility(View.GONE);
@@ -1027,12 +1027,12 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(12);
+   //         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+        //    ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
         public void onNothingSelected(AdapterView<?> parent) {
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(12);
+         //   ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+          //  ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 

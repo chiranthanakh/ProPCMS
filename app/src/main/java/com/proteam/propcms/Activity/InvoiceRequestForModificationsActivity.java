@@ -79,6 +79,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     ArrayList<IrfmDataModel> temp = new ArrayList();
     ImageView iv_clear;
     CheckBox ch_action;
+    LinearLayout ll_no_data_irfm;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -104,6 +105,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void initialize()
     {
+        ll_no_data_irfm=findViewById(R.id.ll_no_data_irfm);
         sort_pccode  = findViewById(R.id.sort_pccode);
         sort_invoice = findViewById(R.id.sort_invoice);
         rv_irfm_Data_list=findViewById(R.id.rv_irfm_Data_list);
@@ -270,6 +272,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                             arrayList.get(i).getRequest(),
                             arrayList.get(i).getRequestdate()
                     ));
+                }
+
+                if(temp.size()==0){
+                    ll_no_data_irfm.setVisibility(View.VISIBLE);
+                }else {
+                    ll_no_data_irfm.setVisibility(View.GONE);
+
                 }
             }
 
@@ -455,6 +464,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                     };
 
+                        if(arrayList.size()==0){
+                            ll_no_data_irfm.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_no_data_irfm.setVisibility(View.GONE);
+
+                        }
+
                         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
                         IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,false);
                         recyclerView.setHasFixedSize(true);
@@ -591,6 +607,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         ));
             }
 
+            if(filterarraylist.size()==0){
+                ll_no_data_irfm.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_irfm.setVisibility(View.GONE);
+
+            }
+
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
             IrfmListAdapter adapter = new IrfmListAdapter(filterarraylist,this,false);
             recyclerView.setHasFixedSize(true);
@@ -618,6 +641,13 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     };
 
     private void adaptorclass(Boolean check) {
+
+        if(arrayList.size()==0){
+            ll_no_data_irfm.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_irfm.setVisibility(View.GONE);
+
+        }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_irfm_Data_list);
         IrfmListAdapter adapter = new IrfmListAdapter(arrayList,this,check);

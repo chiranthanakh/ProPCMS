@@ -633,6 +633,13 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
     private void adaptorclass(Boolean check) {
 
+        if(arrayList2.size()==0){
+            ll_no_data_ctnr.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_ctnr.setVisibility(View.GONE);
+
+        }
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ctrn_Data_list);
         CtnrListAdapter adapter = new CtnrListAdapter(arrayList2,this, check);
         recyclerView.setHasFixedSize(true);
@@ -673,7 +680,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                 ));
             }
 
-            if(arrayList2.size()==0){
+            if(filterarraylist.size()==0){
                 ll_no_data_ctnr.setVisibility(View.VISIBLE);
             }else {
                 ll_no_data_ctnr.setVisibility(View.GONE);
