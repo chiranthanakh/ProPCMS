@@ -305,6 +305,61 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     }
 
+    private void Searchlist() {
+
+        String project_id = (String) projectmap.get(sp_all_project_verify_bi.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList.size();i++){
+
+            // String project_id = "365";
+            String fsf= arrayList.get(i).getBIPcCode();
+            if(fsf.equals(project_id)){
+
+                filterarraylist.add(new VerifyBillingInstructionModel(
+                        arrayList.get(i).getInvoicedate(),
+                        arrayList.get(i).getBIPcCode(),
+                        arrayList.get(i).getBIgroup(),
+                        arrayList.get(i).getBIassigmnent(),
+                        arrayList.get(i).getBIbillTO(),
+                        arrayList.get(i).getBIbillingAdress(),
+                        arrayList.get(i).getBIrefrenceNumber(),
+                        arrayList.get(i).getBIkindAttention(),
+                        arrayList.get(i).getBIregion(),
+                        arrayList.get(i).getBIplace(),
+                        arrayList.get(i).getBIgstinNo(),
+                        arrayList.get(i).getBIpanOfCustomer(),
+                        arrayList.get(i).getBItaxableAmount(),
+                        arrayList.get(i).getBIgstRate(),
+                        arrayList.get(i).getBIforMonth(),
+                        arrayList.get(i).getBIdescription(),
+                        arrayList.get(i).getBIhsnSac(),
+                        arrayList.get(i).getBIparticulars(),
+                        arrayList.get(i).getBIstateOfSupplyCode(),
+                        arrayList.get(i).getBItransactionType(),
+                        arrayList.get(i).getId(),
+                        arrayList.get(i).getCompanyid(),
+                        arrayList.get(i).getProductid(),
+                        arrayList.get(i).getInvoicenumber(),
+                        arrayList.get(i).getDevisionid(),
+                        arrayList.get(i).getTotalamount(),
+                        arrayList.get(i).getGstmonth()
+                ));
+            }
+        }
+        if(arrayList.size()==0){
+            ll_no_data_BI.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_BI.setVisibility(View.GONE);
+
+        }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(filterarraylist,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code)
     {
@@ -376,7 +431,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                         pccode.add("Select Project code");
                         for (int i = 0; i < list1.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )",projectListResponse.getProject_list().get(i).getPc_code());
                             projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
                             pccode.add(projectListResponse.getProject_list().get(i).getPc_code());
                             pccodemap.put(projectListResponse.getProject_list().get(i).getPc_code(),projectListResponse.getProject_list().get(i).getProject_id());
@@ -583,7 +638,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 if(sp_all_project_verify_bi.getSelectedItem()!=null){
 
                     if(!edt_from_verify_BI.getText().toString().equals("")){
-                        Searchlist();
+
+                        searchlist();
+
                     }else {
                         // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
                         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
@@ -601,15 +658,14 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }
     }
 
-    private void Searchlist() {
-
+    private void searchlist() {
         String project_id = (String) projectmap.get(sp_all_project_verify_bi.getSelectedItem().toString());
 
         for (int i=0;i<arrayList.size();i++){
 
             // String project_id = "365";
-
-            if(arrayList.get(i).getBIPcCode().equalsIgnoreCase(project_id)){
+            String fsf= arrayList.get(i).getBIPcCode();
+            if(fsf != null && fsf.equalsIgnoreCase(project_id)){
 
                 filterarraylist.add(new VerifyBillingInstructionModel(
                         arrayList.get(i).getInvoicedate(),
@@ -641,22 +697,21 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                         arrayList.get(i).getGstmonth()
                 ));
             }
-
-            if(filterarraylist.size()==0){
-                ll_no_data_BI.setVisibility(View.VISIBLE);
-            }else {
-                ll_no_data_BI.setVisibility(View.GONE);
-
-            }
-
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
-            VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(filterarraylist,this,false);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+        }
+        if(arrayList.size()==0){
+            ll_no_data_BI.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_BI.setVisibility(View.GONE);
 
         }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+        VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(filterarraylist,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void onClickitem(String position, int item, String id)
@@ -789,7 +844,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         regions.add("East");regions.add("West");regions.add("North");regions.add("South");
 
         Button btn_dia_BI_update = dialog.findViewById(R.id.btn_dia_BI_update);
-       // LinearLayout ll_submitBI = dialog.findViewById(R.id.ll_submitBI);
+        // LinearLayout ll_submitBI = dialog.findViewById(R.id.ll_submitBI);
         Button btn_bi_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
         ImageView BI_edit_back_toolbar =dialog.findViewById(R.id.BI_edit_back_toolbar);
         Spinner sp_Bi_edit_ProjectCode = dialog.findViewById(R.id.sp_Bi_edit_ProjectCode);
@@ -1027,12 +1082,12 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-   //         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-        //    ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
         public void onNothingSelected(AdapterView<?> parent) {
-         //   ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-          //  ((TextView) parent.getChildAt(0)).setTextSize(12);
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
     };
 
