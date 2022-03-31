@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
@@ -76,10 +77,11 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     LinearLayout ll_no_data_BI;
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
-    AppCompatButton btn_verifySubmitBI;
+    AppCompatButton btn_verifySubmitBI,btn_search_Bi;
     String region,devisionid,productid,productname;
     CheckBox ch_BI;
     Context context=this;
+
 
     Map projectmap = new HashMap();
     Map pccodemap = new HashMap();
@@ -93,6 +95,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     Map divisionreverse = new HashMap();
 
     ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
+    ArrayList<VerifyBillingInstructionModel> filterarraylist = new ArrayList<VerifyBillingInstructionModel>();
     ArrayList<VerifyBillingInstructionModel> temp = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
+        btn_search_Bi=findViewById(R.id.btn_search_Bi);
+        btn_search_Bi.setOnClickListener(this);
         edt_search_bi=findViewById(R.id.edt_search_bi);
         iv_clear_BI=findViewById(R.id.iv_clear_BI);
         iv_clear_BI.setOnClickListener(this);
@@ -568,6 +573,82 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 finish();
                 startActivity(getIntent());
                 break;
+            case R.id.btn_search_Bi:
+
+                if(sp_all_project_verify_bi.getSelectedItem()!=null){
+
+                    if(!edt_from_verify_BI.getText().toString().equals("")){
+                        Searchlist();
+                    }else {
+                        // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+
+                }else {
+                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                }
+                break;
+
+        }
+    }
+
+    private void Searchlist() {
+
+        String project_id = (String) projectmap.get(sp_all_project_verify_bi.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList.size();i++){
+
+            // String project_id = "365";
+
+            if(arrayList.get(i).getBIPcCode().equalsIgnoreCase(project_id)){
+
+                filterarraylist.add(new VerifyBillingInstructionModel(
+                        arrayList.get(i).getInvoicedate(),
+                        arrayList.get(i).getBIPcCode(),
+                        arrayList.get(i).getBIgroup(),
+                        arrayList.get(i).getBIassigmnent(),
+                        arrayList.get(i).getBIbillTO(),
+                        arrayList.get(i).getBIbillingAdress(),
+                        arrayList.get(i).getBIrefrenceNumber(),
+                        arrayList.get(i).getBIkindAttention(),
+                        arrayList.get(i).getBIregion(),
+                        arrayList.get(i).getBIplace(),
+                        arrayList.get(i).getBIgstinNo(),
+                        arrayList.get(i).getBIpanOfCustomer(),
+                        arrayList.get(i).getBItaxableAmount(),
+                        arrayList.get(i).getBIgstRate(),
+                        arrayList.get(i).getBIforMonth(),
+                        arrayList.get(i).getBIdescription(),
+                        arrayList.get(i).getBIhsnSac(),
+                        arrayList.get(i).getBIparticulars(),
+                        arrayList.get(i).getBIstateOfSupplyCode(),
+                        arrayList.get(i).getBItransactionType(),
+                        arrayList.get(i).getId(),
+                        arrayList.get(i).getCompanyid(),
+                        arrayList.get(i).getProductid(),
+                        arrayList.get(i).getInvoicenumber(),
+                        arrayList.get(i).getDevisionid(),
+                        arrayList.get(i).getTotalamount(),
+                        arrayList.get(i).getGstmonth()
+                ));
+            }
+
+            if(arrayList.size()==0){
+                ll_no_data_BI.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_BI.setVisibility(View.GONE);
+
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+            VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(filterarraylist,this,false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
 
         }
     }

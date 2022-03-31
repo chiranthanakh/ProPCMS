@@ -935,25 +935,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     }
 
 
-    public void openDialogReject(String re) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Alert");
-        builder.setMessage("Are You Sure Want to Delete?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                callDialogueDeleteCTNapi(re);
-                dialog.cancel();
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-    }
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL1 = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -1036,6 +1018,26 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
 
+    }
+
+    public void openDialogReject(String re) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Alert");
+        builder.setMessage("Are You Sure Want to Delete?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                callDialogueDeleteCTNapi(re);
+                dialog.cancel();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
 
 }
