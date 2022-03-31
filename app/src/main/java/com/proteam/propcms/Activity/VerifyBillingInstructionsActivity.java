@@ -1218,7 +1218,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             temp.clear();
             for (int i=0;i<arrayList.size();i++){
 
-                if(arrayList.get(i).getBIPcCode().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIrefrenceNumber().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIkindAttention().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIforMonth().toLowerCase().contains(text.toLowerCase())){
+                if(arrayList.get(i).getBIPcCode()!=null && arrayList.get(i).getBIPcCode().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIrefrenceNumber().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIkindAttention().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIforMonth().toLowerCase().contains(text.toLowerCase())){
 
                     temp.add(new VerifyBillingInstructionModel(
                             arrayList.get(i).getInvoicedate(),
