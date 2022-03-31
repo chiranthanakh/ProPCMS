@@ -32,12 +32,14 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -74,21 +76,21 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener {
     DrawerLayout drawer_layout;
     ImageView iv_nav_view;
-    int mMonth,mDay,mYear;
-    TextView tvR, tvPython, tvCPP, tvJava,btn_nav_profile,tv_verifyBillingInstruction,tv_verifyCostTransfer,tv_nav_username;
+    int mMonth, mDay, mYear;
+    TextView tvR, tvPython, tvCPP, tvJava, btn_nav_profile, tv_verifyBillingInstruction, tv_verifyCostTransfer, tv_nav_username;
     PieChart pieChart;
-    LinearLayout ll_crnra,ll_irfm,ll_irfc,ll_verify_BI,ll_Verify_CTN;
+    LinearLayout ll_crnra, ll_irfm, ll_irfc, ll_verify_BI, ll_Verify_CTN;
     Button btn_logout;
-    TextView irfc,tv_irfm,tv_ctnra,tv_irfc_count,tv_irfm_count,tv_ctnr_count,tv_division_BI_count,tv_division_vct_count;
+    TextView irfc, tv_irfm, tv_ctnra, tv_irfc_count, tv_irfm_count, tv_ctnr_count, tv_division_BI_count, tv_division_vct_count;
     EditText edt_home_month;
-    Spinner sp_division_home,sp_clients_home,sp_division_head_home,sp_company_home;
+    Spinner sp_division_home, sp_clients_home, sp_division_head_home, sp_company_home;
 
-    CardView cc_For_managerLogin,cc_For_divisionLogin;
-    LinearLayout ll_select_data,ll_filter_data;
+    CardView cc_For_managerLogin, cc_For_divisionLogin;
+    LinearLayout ll_select_data, ll_filter_data;
     ProgressDialog progressDialog;
     SwipeRefreshLayout swiperefresh;
 
-    TextView tv_filterDetails_revenue,tv_filterDetails_outStanding,tv_filterDetails_PcCode,tv_filterDetails_collection;
+    TextView tv_filterDetails_revenue, tv_filterDetails_outStanding, tv_filterDetails_PcCode, tv_filterDetails_collection;
 
 
     List divisionList = new ArrayList();
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // horizontalchart array list for storing entries.
     ArrayList barEntries;
     // horizontalchart creating a string array for displaying days.
-    String[] days = new String[]{"Sep-2021", "Oct-2021","Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
+    String[] days = new String[]{"Sep-2021", "Oct-2021", "Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
     SharedPreferences.Editor editor;
     String role;
     String user;
@@ -118,11 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-         user = sharedPreferences.getString("userid", null);
-         role = sharedPreferences.getString("role",null);
+        user = sharedPreferences.getString("userid", null);
+        role = sharedPreferences.getString("role", null);
 
 
         if (user == null) {
@@ -135,12 +136,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initialize();
 
-        if(role.equalsIgnoreCase("manager")){
+        if (role.equalsIgnoreCase("manager")) {
             cc_For_divisionLogin.setVisibility(View.GONE);
             tv_verifyCostTransfer.setVisibility(View.GONE);
             tv_verifyBillingInstruction.setVisibility(View.GONE);
             tv_nav_username.setText("Jayaram DR");
-        }else {
+        } else {
             cc_For_managerLogin.setVisibility(View.GONE);
             tv_ctnra.setVisibility(View.GONE);
             tv_irfm.setVisibility(View.GONE);
@@ -166,52 +167,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
     }
 
-    private void initialize()
-    {
-        tv_filterDetails_revenue=findViewById(R.id.tv_filterDetails_revenue);
-        tv_filterDetails_outStanding=findViewById(R.id.tv_filterDetails_outStanding);
-        tv_filterDetails_PcCode=findViewById(R.id.tv_filterDetails_PcCode);
-        tv_filterDetails_collection=findViewById(R.id.tv_filterDetails_collection);
+    private void initialize() {
+        tv_filterDetails_revenue = findViewById(R.id.tv_filterDetails_revenue);
+        tv_filterDetails_outStanding = findViewById(R.id.tv_filterDetails_outStanding);
+        tv_filterDetails_PcCode = findViewById(R.id.tv_filterDetails_PcCode);
+        tv_filterDetails_collection = findViewById(R.id.tv_filterDetails_collection);
 
-        tv_division_vct_count=findViewById(R.id.tv_division_vct_count);
-        tv_division_BI_count=findViewById(R.id.tv_division_BI_count);
-        swiperefresh=findViewById(R.id.swiperefresh);
+        tv_division_vct_count = findViewById(R.id.tv_division_vct_count);
+        tv_division_BI_count = findViewById(R.id.tv_division_BI_count);
+        swiperefresh = findViewById(R.id.swiperefresh);
         tv_irfc_count = findViewById(R.id.tv_irfc_count1);
         tv_irfm_count = findViewById(R.id.tv_irfm_count1);
         tv_ctnr_count = findViewById(R.id.tv_ctnr_count1);
-        cc_For_divisionLogin=findViewById(R.id.cc_For_divisionLogin);
-        cc_For_managerLogin=findViewById(R.id.cc_For_managerLogin);
-        ll_Verify_CTN=findViewById(R.id.ll_Verify_CTN);
+        cc_For_divisionLogin = findViewById(R.id.cc_For_divisionLogin);
+        cc_For_managerLogin = findViewById(R.id.cc_For_managerLogin);
+        ll_Verify_CTN = findViewById(R.id.ll_Verify_CTN);
         ll_Verify_CTN.setOnClickListener(this);
-        ll_verify_BI=findViewById(R.id.ll_verify_BI);
-        tv_nav_username=findViewById(R.id.tv_nav_username);
+        ll_verify_BI = findViewById(R.id.ll_verify_BI);
+        tv_nav_username = findViewById(R.id.tv_nav_username);
         ll_verify_BI.setOnClickListener(this);
-        tv_verifyBillingInstruction=findViewById(R.id.tv_verifyBillingInstruction);
+        tv_verifyBillingInstruction = findViewById(R.id.tv_verifyBillingInstruction);
         tv_verifyBillingInstruction.setOnClickListener(this);
-        tv_verifyCostTransfer=findViewById(R.id.tv_verifyCostTransfer);
+        tv_verifyCostTransfer = findViewById(R.id.tv_verifyCostTransfer);
         tv_verifyCostTransfer.setOnClickListener(this);
-        ll_select_data=findViewById(R.id.ll_select_data);
+        ll_select_data = findViewById(R.id.ll_select_data);
         ll_select_data.setVisibility(View.GONE);
-        ll_filter_data=findViewById(R.id.ll_filter_data);
+        ll_filter_data = findViewById(R.id.ll_filter_data);
         ll_filter_data.setOnClickListener(this);
-        ll_irfc=findViewById(R.id.ll_irfc);
+        ll_irfc = findViewById(R.id.ll_irfc);
         ll_irfc.setOnClickListener(this);
-        ll_crnra=findViewById(R.id.ll_crnra);
+        ll_crnra = findViewById(R.id.ll_crnra);
         ll_crnra.setOnClickListener(this);
-        ll_irfm=findViewById(R.id.ll_irfm);
+        ll_irfm = findViewById(R.id.ll_irfm);
         ll_irfm.setOnClickListener(this);
         btn_logout = findViewById(R.id.btn_nav_logout);
         btn_logout.setOnClickListener(this);
-        btn_nav_profile=findViewById(R.id.btn_nav_profile);
+        btn_nav_profile = findViewById(R.id.btn_nav_profile);
         btn_nav_profile.setOnClickListener(this);
-        sp_company_home=findViewById(R.id.sp_company_home);
-        sp_division_head_home=findViewById(R.id.sp_division_head_home);
-        sp_clients_home=findViewById(R.id.sp_clients_home);
-        sp_division_home=findViewById(R.id.sp_division_home);
-        edt_home_month=findViewById(R.id.edt_home_month);
+        sp_company_home = findViewById(R.id.sp_company_home);
+        sp_division_head_home = findViewById(R.id.sp_division_head_home);
+        sp_clients_home = findViewById(R.id.sp_clients_home);
+        sp_division_home = findViewById(R.id.sp_division_home);
+        edt_home_month = findViewById(R.id.edt_home_month);
         edt_home_month.setOnClickListener(this);
 
         tvR = findViewById(R.id.tvR);
@@ -221,18 +220,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieChart = findViewById(R.id.piechart);
         pieChart = findViewById(R.id.piechart);
 
-        irfc=findViewById(R.id.irfc);
+        irfc = findViewById(R.id.irfc);
         irfc.setOnClickListener(this);
-        tv_irfm=findViewById(R.id.tv_irfm);
+        tv_irfm = findViewById(R.id.tv_irfm);
         tv_irfm.setOnClickListener(this);
-        tv_ctnra=findViewById(R.id.tv_ctnra);
+        tv_ctnra = findViewById(R.id.tv_ctnra);
         tv_ctnra.setOnClickListener(this);
         drawer_layout = findViewById(R.id.drawer_layout_main);
-        iv_nav_view=findViewById(R.id.iv_nav_view);
+        iv_nav_view = findViewById(R.id.iv_nav_view);
         iv_nav_view.setOnClickListener(this);
         //callcompanyapi();
-       // callDheadapi();
-       // callDivisionListApi();
+        // callDheadapi();
+        // callDivisionListApi();
         calldashboardcount();
         callDashboardFilterDetails();
 
@@ -242,19 +241,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.ll_filter_data:
 
 
-                if(ll_select_data.getVisibility() == View.VISIBLE){
+                if (ll_select_data.getVisibility() == View.VISIBLE) {
                     ll_select_data.setVisibility(View.GONE);
-                }else {
+                } else {
                     ll_select_data.setVisibility(View.VISIBLE);
 
-                   callcompanyapi();
-                   callDivisionListApi();
-                   callDheadapi();
+                    callcompanyapi();
+                    callDivisionListApi();
+                    callDheadapi();
                     callclientapi();
                 }
                 break;
@@ -267,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mcurrentDate.set(Calendar.YEAR, year) ;
+                        mcurrentDate.set(Calendar.YEAR, year);
                         mcurrentDate.set(Calendar.MONTH, month);
 
                         edt_home_month.setText(sdf.format(mcurrentDate.getTime()));
@@ -276,11 +274,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mYear = year;
 
                     }
-                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
+                }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)) {
                     @Override
                     protected void onCreate(Bundle savedInstanceState) {
                         super.onCreate(savedInstanceState);
-                        getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+                        getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
                     }
                 };
                 monthDatePickerDialog.setTitle("Select Month And Year");
@@ -289,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.ll_irfc:
             case R.id.irfc:
-                Intent intent_irfc= new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);
+                Intent intent_irfc = new Intent(MainActivity.this, InvoiceRequestForCancellationsActivity.class);
                 startActivity(intent_irfc);
                 break;
             case R.id.tv_irfm:
@@ -306,28 +304,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawer_layout.openDrawer(GravityCompat.START);
                 break;
             case R.id.btn_nav_profile:
-                Intent intent_profile = new Intent(MainActivity.this,ProfileActivity.class);
+                Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent_profile);
                 break;
 
 
             case R.id.tv_verifyBillingInstruction:
-                Intent intent_vbi1 = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
+                Intent intent_vbi1 = new Intent(MainActivity.this, VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi1);
                 break;
 
             case R.id.ll_verify_BI:
-                Intent intent_vbi = new Intent(MainActivity.this,VerifyBillingInstructionsActivity.class);
+                Intent intent_vbi = new Intent(MainActivity.this, VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi);
                 break;
 
             case R.id.tv_verifyCostTransfer:
-                Intent intent_vcy1 = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
+                Intent intent_vcy1 = new Intent(MainActivity.this, VerifyCostTransferActivity.class);
                 startActivity(intent_vcy1);
                 break;
 
             case R.id.ll_Verify_CTN:
-                Intent intent_vcy = new Intent(MainActivity.this,VerifyCostTransferActivity.class);
+                Intent intent_vcy = new Intent(MainActivity.this, VerifyCostTransferActivity.class);
                 startActivity(intent_vcy);
                 break;
 
@@ -352,17 +350,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case countitem:
 
-                if(progressDialog!=null)
-                {
-                    if(progressDialog.isShowing())
-                    {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
 
                 if (isSucces) {
 
-                    if(response!=null){
+                    if (response != null) {
 
                         Dashboardcountresponse dashboardcountresponse = (Dashboardcountresponse) response;
 
@@ -371,12 +367,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         tv_ctnr_count.setText(dashboardcountresponse.getCost_transfer_note_request_for_approval());
 
 
-                    }else{
+                    } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -384,10 +380,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case companylist:
 
-                if(progressDialog!=null)
-                {
-                    if(progressDialog.isShowing())
-                    {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
@@ -398,22 +392,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     List list = new ArrayList();
                     list = companyListResponse.getCompany_list();
 
-                    if(response!=null){
+                    if (response != null) {
 
-                        for (int i=0; i<list.size();i++){
+                        for (int i = 0; i < list.size(); i++) {
 
                             companyList.add(companyListResponse.getCompany_list().get(i).getCompany_name());
-                            companymap.put(companyListResponse.getCompany_list().get(i).getCompany_name(),companyListResponse.getCompany_list().get(i).getCompany_id());
+                            companymap.put(companyListResponse.getCompany_list().get(i).getCompany_name(), companyListResponse.getCompany_list().get(i).getCompany_id());
                         }
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, companyList);
                         sp_company_home.setAdapter(adapter);
 
-                    }else{
+                    } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -422,10 +416,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case headlist:
 
-                if(progressDialog!=null)
-                {
-                    if(progressDialog.isShowing())
-                    {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
@@ -436,22 +428,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     List list = new ArrayList();
                     list = devisionHeadList.getHead_list();
 
-                    if(response!=null){
+                    if (response != null) {
 
-                        for (int i=0; i<list.size();i++){
+                        for (int i = 0; i < list.size(); i++) {
 
                             headList.add(devisionHeadList.getHead_list().get(i).getHead_name());
-                            headmap.put(devisionHeadList.getHead_list().get(i).getHead_name(),devisionHeadList.getHead_list().get(i).getId());
+                            headmap.put(devisionHeadList.getHead_list().get(i).getHead_name(), devisionHeadList.getHead_list().get(i).getId());
                         }
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, headList);
                         sp_division_head_home.setAdapter(adapter);
 
-                    }else{
+                    } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -505,14 +497,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (response != null) {
 
                         List listwe = new ArrayList();
-                        ClientList clientList= (ClientList) response;
+                        ClientList clientList = (ClientList) response;
 
                         listwe = clientList.getClient_list();
 
                         for (int i = 0; i < listwe.size(); i++) {
 
                             clientList1.add(clientList.getClient_list().get(i).getClient_code());
-                         //clientmap.put(clientList.getClient_list().get(i).getClient_name(),clientList.getClient_list().get(i).getClient_id());
+                            //clientmap.put(clientList.getClient_list().get(i).getClient_name(),clientList.getClient_list().get(i).getClient_id());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, clientList1);
@@ -533,17 +525,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case divisioncountdashboard:
 
-                if(progressDialog!=null)
-                {
-                    if(progressDialog.isShowing())
-                    {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
 
                 if (isSucces) {
 
-                    if(response!=null){
+                    if (response != null) {
 
                         DashboardCountDivisionResponse dashboardCountDivisionResponse = (DashboardCountDivisionResponse) response;
 
@@ -551,12 +541,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         tv_division_vct_count.setText(dashboardCountDivisionResponse.getVerify_cost_transfer_note_with_status());
 
 
-                    }else{
+                    } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -564,17 +554,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case dashboardfilterdetails:
 
-                if(progressDialog!=null)
-                {
-                    if(progressDialog.isShowing())
-                    {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
 
                 if (isSucces) {
 
-                    if(response!=null){
+                    if (response != null) {
 
                         DashboardFilterDetailsResponse dashboardFilterDetailsResponse = (DashboardFilterDetailsResponse) response;
 
@@ -584,12 +572,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         tv_filterDetails_collection.setText(dashboardFilterDetailsResponse.getTotal_collection());
 
 
-                    }else{
+                    } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -604,9 +592,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void callDashboardFilterDetails() {
 
-        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14","2021-07","","","");
+        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14", "2021-07", "", "", "");
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
-        webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails,dashboardFilterDetailsRequest);
+        webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
 
        /* progressDialog = new ProgressDialog(MainActivity.this);
 
@@ -623,8 +611,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
 
     }
-
-
 
     private void calldashboardcount() {
 
@@ -636,14 +622,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
                 UserIdRequest userIdRequest = new UserIdRequest(user);
-                if(role.equalsIgnoreCase("manager")){
+                if (role.equalsIgnoreCase("manager")) {
                     WebServices<Dashboardcountresponse> webServices = new WebServices<Dashboardcountresponse>(MainActivity.this);
-                    webServices.dashboardcount(WebServices.ApiType.countitem,userIdRequest);
+                    webServices.dashboardcount(WebServices.ApiType.countitem, userIdRequest);
 
-                }else {
+                } else {
 
                     WebServices<DashboardCountDivisionResponse> webServices = new WebServices<DashboardCountDivisionResponse>(MainActivity.this);
-                    webServices.dashboardcountDivision(WebServices.ApiType.divisioncountdashboard,userIdRequest);
+                    webServices.dashboardcountDivision(WebServices.ApiType.divisioncountdashboard, userIdRequest);
 
                 }
 
@@ -653,15 +639,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-
-
     private void callDivisionListApi() {
 
         DivisionListModel divisionListModel = new DivisionListModel(user);
         WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
-        webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+        webServices.divisionlist(WebServices.ApiType.divisionlist, divisionListModel);
 
        /* progressDialog = new ProgressDialog(MainActivity.this);
 
@@ -679,36 +661,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     private void callcompanyapi() {
 
 
-        progressDialog=new ProgressDialog(MainActivity.this);
-        if(progressDialog!=null)
-        {
-            if(!progressDialog.isShowing())
-            {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
 
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
 
                 WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
-                webServices.companylist( WebServices.ApiType.companylist );
-            }
-            else {
+                webServices.companylist(WebServices.ApiType.companylist);
+            } else {
 
             }
         }
     }
 
-
     private void callclientapi() {
 
 
-        Clientlistrequest clientlistrequest = new Clientlistrequest(user,"");
+        Clientlistrequest clientlistrequest = new Clientlistrequest(user, "");
         WebServices<ClientList> webServices = new WebServices<ClientList>(MainActivity.this);
-        webServices.ClientList( WebServices.ApiType.client,clientlistrequest );
+        webServices.ClientList(WebServices.ApiType.client, clientlistrequest);
 
        /* progressDialog=new ProgressDialog(MainActivity.this);
         if(progressDialog!=null)
@@ -729,12 +706,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
     }
 
-
-
     private void callDheadapi() {
 
         WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
-        webServices.headlist( WebServices.ApiType.headlist );
+        webServices.headlist(WebServices.ApiType.headlist);
 
        /* progressDialog=new ProgressDialog(MainActivity.this);
         if(progressDialog!=null)
@@ -770,8 +745,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private void horizontalchart()
-    {
+
+    ///////////////////////// Chart Section ///////////////////////////////////
+
+    private void horizontalchart() {
         // initializing variable for bar chart.
         barChart = findViewById(R.id.idBarChart);
 
@@ -852,6 +829,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // our bar chart.
         barChart.invalidate();
     }
+
     // horizontalChart array list for first set
     private ArrayList<BarEntry> getBarEntriesOne() {
 
@@ -888,8 +866,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return barEntries;
     }
 
-    private void setData()
-    {
+    private void setData() {
 
         // Set the percentage of language used
         tvR.setText(Integer.toString(40));
@@ -922,6 +899,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // To animate the pie chart
         pieChart.startAnimation();
     }
+
+
+    ////////////Third Graph////////////
 
 
 }
