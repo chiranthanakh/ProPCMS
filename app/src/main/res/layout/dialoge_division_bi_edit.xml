@@ -101,8 +101,7 @@
                             android:background="@drawable/spinner_background"
                             android:fontFamily="@font/proxima_family"
                             android:gravity="center_vertical"
-                            android:textColor="@color/grey"
-                            app:hintText="Project Code" />
+                            android:textColor="@color/grey" />
 
                     </LinearLayout>
 
@@ -375,8 +374,7 @@
                         android:background="@drawable/spinner_background"
                         android:fontFamily="@font/proxima_family"
                         android:gravity="center_vertical"
-                        android:textColor="@color/grey"
-                        app:hintText="Region" />
+                        android:textColor="@color/grey" />
 
                 </LinearLayout>
 
@@ -414,8 +412,7 @@
                         android:background="@drawable/spinner_background"
                         android:fontFamily="@font/proxima_family"
                         android:gravity="center_vertical"
-                        android:textColor="@color/grey"
-                        app:hintText="Division" />
+                        android:textColor="@color/grey" />
 
                 </LinearLayout>
 

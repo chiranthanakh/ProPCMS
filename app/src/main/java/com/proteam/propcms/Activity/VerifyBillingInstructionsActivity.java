@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
@@ -76,8 +77,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     LinearLayout ll_no_data_BI;
     ProgressDialog progressDialog;
     TextView tv_count_vbi;
-    AppCompatButton btn_verifySubmitBI;
-    String region,devisionid,productid,productname;
+    AppCompatButton btn_verifySubmitBI,btn_search_Bi;
+    String region,devisionid,productid,productname,regionname;
     CheckBox ch_BI;
     Context context=this;
 
@@ -92,6 +93,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     Map divisionmap = new HashMap();
     Map divisionreverse = new HashMap();
 
+    ArrayList<VerifyBillingInstructionModel> filterarraylist = new ArrayList<VerifyBillingInstructionModel>();
     ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
     ArrayList<VerifyBillingInstructionModel> temp = new ArrayList();
     @Override
@@ -117,6 +119,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void initialize()
     {
+        btn_search_Bi=findViewById(R.id.btn_search_Bi);
+        btn_search_Bi.setOnClickListener(this);
         edt_search_bi=findViewById(R.id.edt_search_bi);
         iv_clear_BI=findViewById(R.id.iv_clear_BI);
         iv_clear_BI.setOnClickListener(this);
@@ -369,6 +373,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                         list1 = projectListResponse.getProject_list();
 
+                        pccode.add("Select Project code");
                         for (int i = 0; i < list1.size(); i++) {
 
                             projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
@@ -482,6 +487,11 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                         list = divisionListResponse.getDivision_list();
 
+                        divisionList.clear();
+                        divisionmap.clear();
+                        divisionreverse.clear();
+
+                        divisionList.add("select division");
                         for (int i = 0; i < list.size(); i++) {
 
 
@@ -489,7 +499,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                             divisionmap.put(divisionListResponse.getDivision_list().get(i).getDivision_name(),divisionListResponse.getDivision_list().get(i).getDivision_id());
                             divisionreverse.put(divisionListResponse.getDivision_list().get(i).getDivision_id(),divisionListResponse.getDivision_list().get(i).getDivision_name());
                         }
-
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
@@ -515,7 +524,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                         GenerealResponse generealResponse = (GenerealResponse) response;
 
                         Toast.makeText(this, generealResponse.getStatus(), Toast.LENGTH_SHORT).show();
-
+                        finish();
+                        startActivity(getIntent());
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
@@ -568,6 +578,82 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 finish();
                 startActivity(getIntent());
                 break;
+            case R.id.btn_search_Bi:
+
+                if(sp_all_project_verify_bi.getSelectedItem()!=null){
+
+                    if(!edt_from_verify_BI.getText().toString().equals("")){
+                        Searchlist();
+                    }else {
+                        // Toast.makeText(this, "Please Select month", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+
+                }else {
+                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                }
+                break;
+
+        }
+    }
+
+    private void Searchlist() {
+
+        String project_id = (String) projectmap.get(sp_all_project_verify_bi.getSelectedItem().toString());
+
+        for (int i=0;i<arrayList.size();i++){
+
+            // String project_id = "365";
+
+            if(arrayList.get(i).getBIPcCode().equalsIgnoreCase(project_id)){
+
+                filterarraylist.add(new VerifyBillingInstructionModel(
+                        arrayList.get(i).getInvoicedate(),
+                        arrayList.get(i).getBIPcCode(),
+                        arrayList.get(i).getBIgroup(),
+                        arrayList.get(i).getBIassigmnent(),
+                        arrayList.get(i).getBIbillTO(),
+                        arrayList.get(i).getBIbillingAdress(),
+                        arrayList.get(i).getBIrefrenceNumber(),
+                        arrayList.get(i).getBIkindAttention(),
+                        arrayList.get(i).getBIregion(),
+                        arrayList.get(i).getBIplace(),
+                        arrayList.get(i).getBIgstinNo(),
+                        arrayList.get(i).getBIpanOfCustomer(),
+                        arrayList.get(i).getBItaxableAmount(),
+                        arrayList.get(i).getBIgstRate(),
+                        arrayList.get(i).getBIforMonth(),
+                        arrayList.get(i).getBIdescription(),
+                        arrayList.get(i).getBIhsnSac(),
+                        arrayList.get(i).getBIparticulars(),
+                        arrayList.get(i).getBIstateOfSupplyCode(),
+                        arrayList.get(i).getBItransactionType(),
+                        arrayList.get(i).getId(),
+                        arrayList.get(i).getCompanyid(),
+                        arrayList.get(i).getProductid(),
+                        arrayList.get(i).getInvoicenumber(),
+                        arrayList.get(i).getDevisionid(),
+                        arrayList.get(i).getTotalamount(),
+                        arrayList.get(i).getGstmonth()
+                ));
+            }
+
+            if(arrayList.size()==0){
+                ll_no_data_BI.setVisibility(View.VISIBLE);
+            }else {
+                ll_no_data_BI.setVisibility(View.GONE);
+
+            }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_verify_BI_Data_list);
+            VerifyBillingInstructionAdapter adapter = new VerifyBillingInstructionAdapter(filterarraylist,this,false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
 
         }
     }
@@ -595,6 +681,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
+
+        calldevisionapi();
 
         LinearLayout ll_edit2 = dialog.findViewById(R.id.ll_edit2);
         LinearLayout ll_BI_delete = dialog.findViewById(R.id.ll_BI_delete);
@@ -663,7 +751,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ll_edit2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calldevisionapi();
                 openEditBIDialog(position);
             }
         });
@@ -684,6 +771,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     }
 
+
+
+    ////edit option
     private void openEditBIDialog(String position) {
         final Dialog dialog = new Dialog(this);
 
@@ -691,12 +781,16 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         Window window = dialog.getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.show();
+        VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
 
 
         List regions= new ArrayList();
+        regions.add("Select region");
         regions.add("East");regions.add("West");regions.add("North");regions.add("South");
 
-        Button btn_dia_BI_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
+        Button btn_dia_BI_update = dialog.findViewById(R.id.btn_dia_BI_update);
+       // LinearLayout ll_submitBI = dialog.findViewById(R.id.ll_submitBI);
+        Button btn_bi_submitBI = dialog.findViewById(R.id.btn_dia_BI_submitBI);
         ImageView BI_edit_back_toolbar =dialog.findViewById(R.id.BI_edit_back_toolbar);
         Spinner sp_Bi_edit_ProjectCode = dialog.findViewById(R.id.sp_Bi_edit_ProjectCode);
         Spinner sp_Bi_edit_division = dialog.findViewById(R.id.sp_Bi_edit_division);
@@ -730,7 +824,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         EditText ed_Bi_edit_description = dialog.findViewById(R.id.ed_Bi_edit_description);
 
 
-        VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
         ed_Bi_edit_invoiceDate.setText(verifyBillingInstructionModel.getInvoicedate());
         ed_Bi_edit_group.setText(verifyBillingInstructionModel.getBIgroup());
         ed_Bi_edit_billTo.setText(verifyBillingInstructionModel.getBIbillTO());
@@ -770,7 +863,17 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         sp_Bi_edit_ProjectCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
+
+                if(i==0){
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(productname);
+                }else {
+                    productid = sp_Bi_edit_ProjectCode.getSelectedItem().toString();
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(productid);
+                }
             }
 
             @Override
@@ -782,14 +885,35 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         sp_Bi_edit_region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(sp_Bi_edit_region.getSelectedItem().toString().equals("East")){
+
+                if(i==0){
+
+                    if(region.equals("1")){
+                        regionname = "East";
+                    }else if(region.equals("2")){
+                        regionname = "West";
+                    }else if(region.equals("3")){
+                        regionname = "North";
+                    }else if(region.equals("4")){
+                        regionname = "South";                }
+
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(regionname);
+                }else {
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(sp_Bi_edit_region.getSelectedItem().toString());
+                }
+
+               /* if(sp_Bi_edit_region.getSelectedItem().toString().equals("East")){
                     region = "1";
                 }else if(region.equals("West")){
                     region = "2";
                 }else if(region.equals("North")){
                     region = "3";
                 }else if(region.equals("South")){
-                    region = "4";                }
+                    region = "4";                }*/
             }
 
             @Override
@@ -798,10 +922,22 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             }
         });
 
-        sp_Bi_edit_ProjectCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_Bi_edit_division.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
+
+                if(i==0){
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(String.valueOf(divisionreverse.get(devisionid)));
+                }else {
+                    //productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
+                    devisionid = String.valueOf(divisionmap.get(sp_Bi_edit_division.getSelectedItem().toString()));
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                    ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                    ((TextView) adapterView.getChildAt(0)).setText(sp_Bi_edit_division.getSelectedItem().toString());
+                }
+
             }
 
             @Override
@@ -810,11 +946,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             }
         });
 
-
-        btn_dia_BI_submitBI.setOnClickListener(new View.OnClickListener() {
+        btn_dia_BI_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 if(!ed_Bi_edit_invoiceDate.getText().toString().isEmpty() &&
                         !ed_Bi_edit_group.getText().toString().isEmpty() &&
@@ -847,7 +981,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                             BillingUpdaterequest billingUpdaterequest = new BillingUpdaterequest(
                                     "14", verifyBillingInstructionModel.getId(),
                                     verifyBillingInstructionModel.getCompanyid(),
-                                    productid,
+                                    String.valueOf(pccodemap.get(productid)),
                                     verifyBillingInstructionModel.getInvoicenumber(),
                                     devisionid,
                                     ed_Bi_edit_group.getText().toString(),

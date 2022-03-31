@@ -919,7 +919,6 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                         }
                     }
 
-
                 }else {
                     Toast.makeText(VerifyCostTransferActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
                 }
