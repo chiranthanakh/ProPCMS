@@ -65,12 +65,14 @@ import com.proteam.propcms.Utils.WebServices;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvR, tvPython, tvCPP, tvJava, btn_nav_profile, tv_verifyBillingInstruction, tv_verifyCostTransfer, tv_nav_username;
     PieChart pieChart;
     LinearLayout ll_crnra, ll_irfm, ll_irfc, ll_verify_BI, ll_Verify_CTN;
-    Button btn_logout;
+    Button btn_logout,btn_search_list_dash;
     TextView irfc, tv_irfm, tv_ctnra, tv_irfc_count, tv_irfm_count, tv_ctnr_count, tv_division_BI_count, tv_division_vct_count;
     EditText edt_home_month;
     Spinner sp_division_home, sp_clients_home, sp_division_head_home, sp_company_home;
@@ -113,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List headList = new ArrayList();
     Map clientmap = new HashMap();
     List clientList1 = new ArrayList();
+    Map divisionmap = new HashMap();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initialize() {
+        btn_search_list_dash = findViewById(R.id.btn_search_list_dash);
+        btn_search_list_dash.setOnClickListener(this);
         tv_filterDetails_revenue = findViewById(R.id.tv_filterDetails_revenue);
         tv_filterDetails_outStanding = findViewById(R.id.tv_filterDetails_outStanding);
         tv_filterDetails_PcCode = findViewById(R.id.tv_filterDetails_PcCode);
@@ -312,6 +318,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_verifyBillingInstruction:
                 Intent intent_vbi1 = new Intent(MainActivity.this, VerifyBillingInstructionsActivity.class);
                 startActivity(intent_vbi1);
+                break;
+
+            case R.id.btn_search_list_dash:
+
+                if(!sp_clients_home.getSelectedItem().toString().isEmpty()){
+
+                    if(!sp_division_home.getSelectedItem().toString().isEmpty()){
+
+                        if(!sp_company_home.getSelectedItem().toString().isEmpty()){
+
+                            callDashboardFilterDetails2();
+
+                        }else {
+
+                            Toast.makeText(this, "Select Company", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else {
+
+                        Toast.makeText(this, "Select Division", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else {
+
+                    Toast.makeText(this, "Select client", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.ll_verify_BI:
@@ -470,6 +504,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                             divisionList.add(divisionListResponse.getDivision_list().get(i).getDivision_name());
+                            divisionmap.put(divisionListResponse.getDivision_list().get(i).getDivision_name(),divisionListResponse.getDivision_list().get(i).getDivision_id());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, divisionList);
@@ -504,7 +539,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         for (int i = 0; i < listwe.size(); i++) {
 
                             clientList1.add(clientList.getClient_list().get(i).getClient_code());
-                            //clientmap.put(clientList.getClient_list().get(i).getClient_name(),clientList.getClient_list().get(i).getClient_id());
+                            clientmap.put(clientList.getClient_list().get(i).getClient_code(),clientList.getClient_list().get(i).getClient_id());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, clientList1);
@@ -566,10 +601,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         DashboardFilterDetailsResponse dashboardFilterDetailsResponse = (DashboardFilterDetailsResponse) response;
 
-                        tv_filterDetails_revenue.setText(dashboardFilterDetailsResponse.getTotal_revenue());
-                        tv_filterDetails_outStanding.setText(dashboardFilterDetailsResponse.getTotal_outstanding());
+                        float amount = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_revenue());
+                        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                        String moneyString = formatter.format(amount);
+                        tv_filterDetails_revenue.setText(moneyString);
+
+                        float amount2 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_outstanding());
+                        NumberFormat formatter2 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                        String moneyString2 = formatter2.format(amount);
+                        tv_filterDetails_outStanding.setText(moneyString2);
+
+                        float amount3 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_collection());
+                        NumberFormat formatter3 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                        String moneyString3 = formatter3.format(amount);
                         tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
-                        tv_filterDetails_collection.setText(dashboardFilterDetailsResponse.getTotal_collection());
+                        tv_filterDetails_collection.setText(moneyString3);
 
 
                     } else {
@@ -592,23 +638,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void callDashboardFilterDetails() {
 
-        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14", "2021-07", "", "", "");
+        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14", "2021-07",
+             "","","");
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
         webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
 
-       /* progressDialog = new ProgressDialog(MainActivity.this);
 
-        if (progressDialog != null) {
+    }
+
+    private void callDashboardFilterDetails2() {
+
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+
+         if (progressDialog != null) {
             if (!progressDialog.isShowing()) {
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
 
-                DivisionListModel divisionListModel = new DivisionListModel("21");
-                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
-                webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
+
+                DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14", "2021-07",
+                        String.valueOf(clientmap.get(sp_clients_home.getSelectedItem().toString())), String.valueOf(divisionmap.get(sp_division_home.getSelectedItem().toString())),
+                        String.valueOf(companymap.get(sp_company_home.getSelectedItem().toString()))
+                );
+                WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
+                webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
+
             }
-        }*/
+        }
 
     }
 

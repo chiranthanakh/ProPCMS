@@ -62,6 +62,11 @@ public class IrfcListAdapter extends RecyclerView.Adapter<IrfcListAdapter.ViewHo
 
         if(check){
             holder.ch_irfc_check_data.setChecked(true);
+            map.put(position,listdata.get(position).getId());
+            mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
+        }else {
+            map.remove(position);
+            mClick.onClickitem(String.valueOf(position),4,listdata.get(position).getId());
         }
 
         holder.tv_irfc_pc_code.setText(listdata.get(position).getIrfcPcCode());

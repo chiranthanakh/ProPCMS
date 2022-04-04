@@ -81,8 +81,12 @@ public class VerifyBillingInstructionAdapter extends RecyclerView.Adapter<Verify
 
         if(check){
             holder.ch_BI_check_data.setChecked(true);
+            map.put(position,listdata.get(position).getId());
+            mClick.onClickitem(String.valueOf(position),2,listdata.get(position).getId());
         }else {
             holder.ch_BI_check_data.setChecked(false);
+            map.remove(position);
+            mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
         }
 
         holder.iv_BI_ALl_data_view.setOnClickListener(new View.OnClickListener() {
