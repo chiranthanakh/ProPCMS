@@ -1,10 +1,17 @@
 package com.proteam.propcms.Activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -12,11 +19,21 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Path;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -55,10 +72,16 @@ import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionResponse;
+import com.proteam.propcms.Utils.FileUtils;
 import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,6 +104,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     String region,devisionid,productid,productname,regionname;
     CheckBox ch_BI;
     Context context=this;
+    File originalFile;
 
     Map projectmap = new HashMap();
     Map pccodemap = new HashMap();
@@ -305,6 +329,29 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     }
 
+    private void callupdatefileapi() {
+
+        progressDialog=new ProgressDialog(VerifyBillingInstructionsActivity.this);
+
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+
+                    WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
+                    webServices.fileupload( WebServices.ApiType.pdfupload, originalFile);
+
+
+            }
+
+        }
+
+    }
+
     private void Searchlist() {
 
         String project_id = (String) projectmap.get(sp_all_project_verify_bi.getSelectedItem().toString());
@@ -359,6 +406,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code)
@@ -639,6 +687,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                     if(!edt_from_verify_BI.getText().toString().equals("")){
 
+                        String sdffas = edt_from_verify_BI.getText().toString();
+
                         searchlist();
 
                     }else {
@@ -665,7 +715,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
             // String project_id = "365";
             String fsf= arrayList.get(i).getBIPcCode();
-            if(fsf != null && fsf.equalsIgnoreCase(project_id)){
+           // if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && fsf.equalsIgnoreCase(mYear+"-"+mMonth) ){
+             if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && arrayList.get(i).getBIforMonth().equalsIgnoreCase(mYear+"-"+mMonth) ){
 
                 filterarraylist.add(new VerifyBillingInstructionModel(
                         arrayList.get(i).getInvoicedate(),
@@ -728,7 +779,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }
     }
 
-
     private void openBIallDataDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
         System.out.println("id print"+ id);
@@ -746,6 +796,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         ImageView tv_dia_BI_delete = dialog.findViewById(R.id.tv_dia_BI_delete);
         ImageView iv_dia_BI_upload = dialog.findViewById(R.id.iv_dia_BI_upload);
         ImageView iv_dia_BI_status = dialog.findViewById(R.id.iv_dia_BI_status);
+        LinearLayout ll_BI_upload = dialog.findViewById(R.id.ll_BI_upload);
 
         TextView tv_dia_BI_pcCode = dialog.findViewById(R.id.tv_dia_BI_pcCode);
         TextView tv_dia_BI_group = dialog.findViewById(R.id.tv_dia_BI_group);
@@ -796,6 +847,27 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         tv_dia_BI_particulars.setText(verifyBillingInstructionModel.getBIparticulars());
         tv_dia_BI_stateOfSupply.setText(verifyBillingInstructionModel.getBIstateOfSupplyCode());
         tv_dia_BI_transactionType.setText(verifyBillingInstructionModel.getBItransactionType());
+
+        ll_BI_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               boolean permition =  checkPermission();
+
+               if(permition){
+                   Intent intent = new Intent();
+                   intent.setType("*/*");
+                   intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                   intent.addCategory(Intent.CATEGORY_OPENABLE);
+                   startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+
+               }else {
+                   requestPermission();
+               }
+
+            }
+        });
+
         BI_back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -826,8 +898,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     }
 
-
-
     ////edit option
     private void openEditBIDialog(String position) {
         final Dialog dialog = new Dialog(this);
@@ -857,7 +927,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 dialog.dismiss();
             }
         });
-
 
         EditText ed_Bi_edit_invoiceDate = dialog.findViewById(R.id.ed_Bi_edit_invoiceDate);
         EditText ed_Bi_edit_group = dialog.findViewById(R.id.ed_Bi_edit_group);
@@ -924,10 +993,11 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                     ((TextView) adapterView.getChildAt(0)).setTextSize(12);
                     ((TextView) adapterView.getChildAt(0)).setText(productname);
                 }else {
-                    productid = sp_Bi_edit_ProjectCode.getSelectedItem().toString();
+
+                    productid =  String.valueOf(pccodemap.get(sp_Bi_edit_ProjectCode.getSelectedItem().toString()));
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
                     ((TextView) adapterView.getChildAt(0)).setTextSize(12);
-                    ((TextView) adapterView.getChildAt(0)).setText(productid);
+                    ((TextView) adapterView.getChildAt(0)).setText(sp_Bi_edit_ProjectCode.getSelectedItem().toString());
                 }
             }
 
@@ -961,14 +1031,6 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                     ((TextView) adapterView.getChildAt(0)).setText(sp_Bi_edit_region.getSelectedItem().toString());
                 }
 
-               /* if(sp_Bi_edit_region.getSelectedItem().toString().equals("East")){
-                    region = "1";
-                }else if(region.equals("West")){
-                    region = "2";
-                }else if(region.equals("North")){
-                    region = "3";
-                }else if(region.equals("South")){
-                    region = "4";                }*/
             }
 
             @Override
@@ -1036,7 +1098,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                             BillingUpdaterequest billingUpdaterequest = new BillingUpdaterequest(
                                     "14", verifyBillingInstructionModel.getId(),
                                     verifyBillingInstructionModel.getCompanyid(),
-                                    String.valueOf(pccodemap.get(productid)),
+                                    productid,
                                     verifyBillingInstructionModel.getInvoicenumber(),
                                     devisionid,
                                     ed_Bi_edit_group.getText().toString(),
@@ -1077,6 +1139,171 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
 
     }
+
+
+
+
+
+
+    /////////////////////extra things ////////////////////////////////////////////
+
+    private boolean checkPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+           // requestPermission();
+        } else {
+            int result = ContextCompat.checkSelfPermission(VerifyBillingInstructionsActivity.this, READ_EXTERNAL_STORAGE);
+            int result1 = ContextCompat.checkSelfPermission(VerifyBillingInstructionsActivity.this, WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                startActivityForResult(intent, 2296);
+            } catch (Exception e) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, 2296);
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(VerifyBillingInstructionsActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == -1) {
+
+            if (data != null) {
+                Uri uri = data.getData();
+                String ffs = uri.getPath();
+
+                //String path = copyFileToInternalStorage(uri,"PCMS");
+
+               //originalFile = new File(String.valueOf(originalFile));
+                //originalFile = new File(getRealPathFromURI(uri));
+               // originalFile = new File(String.valueOf("/Internal storage/Documents/pallavi_statement.pdf"));
+               // originalFile = new File(FileUtils.getRealPath(this, uri));
+
+                System.out.println("path======" + getRealPathFromURI(uri));
+                String path1 = data.getData().getPath();
+                String path2 = path1.replace("/document/raw:", "");
+                //callupdatefileapi();
+                String filename=path1.substring(path1.lastIndexOf("/")+1);
+                //tv_upload_group_photo.setText(filename);
+
+            }
+            //upload_attachment.setText(filePath);
+        }
+    }
+
+    private String copyFileToInternalStorage(Uri uri, String newDirName) {
+        Uri returnUri = uri;
+
+        Cursor returnCursor = this.getContentResolver().query(returnUri, new String[]{
+                OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE
+        }, null, null, null);
+
+
+        /*
+         * Get the column indexes of the data in the Cursor,
+         *     * move to the first row in the Cursor, get the data,
+         *     * and display it.
+         * */
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+        returnCursor.moveToFirst();
+        String name = (returnCursor.getString(nameIndex));
+        String size = (Long.toString(returnCursor.getLong(sizeIndex)));
+
+        File output;
+        if (!newDirName.equals("")) {
+            File dir = new File(this.getFilesDir() + "/" + newDirName);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            output = new File(this.getFilesDir() + "/" + newDirName + "/" + name);
+        } else {
+            output = new File(this.getFilesDir() + "/" + name);
+        }
+        try {
+            InputStream inputStream = this.getContentResolver().openInputStream(uri);
+            FileOutputStream outputStream = new FileOutputStream(output);
+            int read = 0;
+            int bufferSize = 1024;
+            final byte[] buffers = new byte[bufferSize];
+            while ((read = inputStream.read(buffers)) != -1) {
+                outputStream.write(buffers, 0, read);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+        } catch (Exception e) {
+
+            Log.e("Exception", e.getMessage());
+        }
+
+        return output.getPath();
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
+    @SuppressLint("Range")
+    /*public static String getrealpath(Uri uri, Context context){
+
+        String realpath=null;
+
+        if(uri.getScheme().equalsIgnoreCase("content")){
+            String[] projection={"_data"};
+            Cursor cursor=context.getContentResolver().query(uri,null,null,null,null);
+
+            try {
+                {
+                    if(cursor!=null && cursor.moveToFirst()){
+
+                        //int idcolumn=cursor.getColumnIndexOrThrow("_data");
+                        // cursor.moveToFirst();
+                        realpath=cursor.getString(cursor.getColumnIndexOrThrow());
+                        cursor.close();
+                    }
+                }
+            }finally {
+                cursor.close();
+            }
+            if (realpath == null){
+                realpath = uri.getPath();
+                int cutt = realpath.lastIndexOf('/');
+                if(cutt != -1){
+                    realpath = realpath.substring(cutt +1);
+                }
+            }
+        }
+        return realpath;
+    }*/
+
 
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
@@ -1270,5 +1497,58 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
         }
     };
+
+   /* public static String getRealPath(String uri) {
+        String docId = DocumentsContract.getDocumentId(uri);
+        String[] split = docId.split(":");
+        String type = split[0];
+        Uri contentUri;
+        switch (type) {
+            case "image":
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                break;
+            case "video":
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                break;
+            case "audio":
+                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                break;
+            default:
+                contentUri = MediaStore.Files.getContentUri("external");
+        }
+        String selection = "_id=?";
+        String[] selectionArgs = new String[]{
+                split[1]
+        };
+
+        return getDataColumn(this, contentUri, selection, selectionArgs);
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+        Cursor cursor = null;
+        String column = "_data";
+        String[] projection = {
+                column
+        };
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(column);
+                String value = cursor.getString(column_index);
+                if (value.startsWith("content://") || !value.startsWith("/") && !value.startsWith("file://")) {
+                    return null;
+                }
+                return value;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+
+}*/
 
 }

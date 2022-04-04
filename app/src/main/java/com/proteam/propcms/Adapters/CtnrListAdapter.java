@@ -72,8 +72,12 @@ public class CtnrListAdapter extends RecyclerView.Adapter<CtnrListAdapter.ViewHo
 
         if(check){
             holder.ch_ctnr_check_data.setChecked(true);
+            map.put(position,listdata.get(position).getId());
+            mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
         }else {
             holder.ch_ctnr_check_data.setChecked(false);
+            map.remove(position);
+            mClick.onClickitem(String.valueOf(position),4,listdata.get(position).getId());
         }
 
         holder.iv_ctnr_ALl_data_view.setOnClickListener(new View.OnClickListener() {

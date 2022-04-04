@@ -93,8 +93,14 @@ public class IrfmListAdapter extends RecyclerView.Adapter<IrfmListAdapter.ViewHo
 
         if(check){
             holder.ch_irfm_check_data.setChecked(true);
+            map.put(position,listdata.get(position).getId());
+            mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
+
         }else {
+
             holder.ch_irfm_check_data.setChecked(false);
+            map.remove(position);
+            mClick.onClickitem(String.valueOf(position),4,listdata.get(position).getId());
         }
 
         holder.iv_irfm_ALl_data_view.setOnClickListener(new View.OnClickListener() {

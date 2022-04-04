@@ -34,9 +34,13 @@ import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 import com.proteam.propcms.Response.invoicereject.RejectItems;
 import com.proteam.propcms.Response.invoicereject.RejectList;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ProPCms {
 
@@ -136,4 +140,11 @@ public interface ProPCms {
 
     @POST("Pcms_apis/expense_type_list")
     Call<ExpenseResponse> ExpenseList(@Body ExpenseRequest expenseRequest);
+
+
+    @Multipart
+    @POST("upload/bi_docs")
+    Call<GenerealResponse> fileupload1(@Part MultipartBody.Part file,
+                                       @Part("user_id") RequestBody user_id,
+                                       @Part("billing_id") RequestBody billing_id);
 }

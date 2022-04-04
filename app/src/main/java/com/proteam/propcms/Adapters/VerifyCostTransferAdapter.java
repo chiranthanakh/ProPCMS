@@ -57,6 +57,12 @@ public class VerifyCostTransferAdapter extends RecyclerView.Adapter<VerifyCostTr
 
         if(check){
             holder.ch_vct_check_data.setChecked(true);
+            map.put(position,listdata.get(position).getId());
+            mClick.onClickitem(String.valueOf(position),2,listdata.get(position).getId());
+        }else {
+            holder.ch_vct_check_data.setChecked(false);
+            map.remove(position);
+            mClick.onClickitem(String.valueOf(position),3,listdata.get(position).getId());
         }
 
         holder.tv_vct_ctn.setText(listdata.get(position).getVctCtn());

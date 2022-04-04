@@ -4,6 +4,7 @@ package com.proteam.propcms.Utils;
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,12 +22,16 @@ import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
 import com.proteam.propcms.Request.VctUpdateRequest;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +60,7 @@ public class WebServices<T> {
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
         ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI,update,SubmitCTN,deletectndata,DeleteBI
-        ,updatevct,expense
+        ,updatevct,expense,pdfupload
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -862,6 +867,41 @@ public class WebServices<T> {
             @Override
             public void onFailure(Call<T> call, Throwable t) {
                 onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void fileupload( ApiType apiTypes, File path) {
+
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), path);
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", "dock.pdf", requestFile);
+        RequestBody user_id = RequestBody.create(MultipartBody.FORM, "2");
+        RequestBody billing_id = RequestBody.create(MultipartBody.FORM, "2");
+
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient("https://pcmsdemo.proteam.co.in/");
+
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        //call=(Call<T>)auditApi.validateaudit(fileToUpload,audit1,rack1,rack_completed1,total_itemqty1,total_rack1,user_id1,total_untagged1);
+
+        call=(Call<T>)proPCms.fileupload1(body,user_id,billing_id);
+        //call=auditApi.fileupload1(fileToUpload,filename);
+
+        call.enqueue(new retrofit2.Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, retrofit2.Response<T> response) {
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+                Log.e("debug,", t.toString());
             }
         });
 
