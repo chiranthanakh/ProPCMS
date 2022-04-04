@@ -1037,7 +1037,7 @@
                     android:gravity="start|center"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:text="Top 10 Outstanding Clients"
+                    android:text="Revenue Trends by Month"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
                 <androidx.cardview.widget.CardView
@@ -1048,14 +1048,13 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:elevation="10dp"
-                    android:background="@color/white"
                     app:cardCornerRadius="10dp">
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/idBarChart"
-                        android:background="@color/white"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart_revenue_trend"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="300dp"
+                        android:background="@android:color/white"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -1065,7 +1064,7 @@
                     android:gravity="start|center"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
-                    android:text="Top 10 Outstanding Clients"
+                    android:text="Average Trends By Month"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
                 <androidx.cardview.widget.CardView
@@ -1076,15 +1075,17 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:elevation="10dp"
-                    android:background="@color/white"
                     app:cardCornerRadius="10dp">
 
-                    <com.github.mikephil.charting.charts.HorizontalBarChart
-                        android:id="@+id/skill_rating_chart"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart_average_trend"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="300dp"
+                        android:background="@android:color/white"/>
 
                 </androidx.cardview.widget.CardView>
+
+
 
 
             </LinearLayout>

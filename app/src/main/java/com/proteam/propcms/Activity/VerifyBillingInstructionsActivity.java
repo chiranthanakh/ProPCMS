@@ -698,7 +698,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 ));
             }
         }
-        if(arrayList.size()==0){
+        if(filterarraylist.size()==0){
             ll_no_data_BI.setVisibility(View.VISIBLE);
         }else {
             ll_no_data_BI.setVisibility(View.GONE);
@@ -1216,6 +1216,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }else {
             int count = arrayList.size();
             temp.clear();
+
             for (int i=0;i<arrayList.size();i++){
 
                 if(arrayList.get(i).getBIPcCode()!=null && arrayList.get(i).getBIPcCode().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIrefrenceNumber().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIkindAttention().toLowerCase().contains(text.toLowerCase()) || arrayList.get(i).getBIforMonth().toLowerCase().contains(text.toLowerCase())){

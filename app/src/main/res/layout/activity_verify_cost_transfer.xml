@@ -349,6 +349,9 @@
                             android:layout_marginStart="5dp"
                             android:gravity="center"
                             android:text="CTN#"
+                            android:drawableEnd="@drawable/sort"
+                            android:paddingRight="25dp"
+                            android:drawableTint="@color/white"
                             android:textColor="@color/white"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />
@@ -359,6 +362,9 @@
                             android:layout_marginStart="10dp"
                             android:gravity="center"
                             android:text="Month"
+                            android:drawableEnd="@drawable/sort"
+                            android:paddingRight="20dp"
+                            android:drawableTint="@color/white"
                             android:textColor="@color/white"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />

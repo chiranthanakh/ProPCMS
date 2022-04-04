@@ -352,6 +352,9 @@
                             android:gravity="center"
                             android:layout_marginStart="10dp"
                             android:text="PC Code"
+                            android:drawableEnd="@drawable/sort"
+                            android:paddingRight="15dp"
+                            android:drawableTint="@color/white"
                             android:textColor="@color/white"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />
@@ -405,6 +408,9 @@
                             android:layout_marginStart="10dp"
                             android:gravity="start|center"
                             android:text="Reference Number"
+                            android:drawableEnd="@drawable/sort"
+                            android:paddingRight="15dp"
+                            android:drawableTint="@color/white"
                             android:textColor="@color/white"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />
@@ -490,6 +496,9 @@
                             android:gravity="center"
                             android:text="For Month"
                             android:textColor="@color/white"
+                            android:drawableEnd="@drawable/sort"
+                            android:paddingRight="15dp"
+                            android:drawableTint="@color/white"
                             android:fontFamily="@font/proxima_nova_semi_bold"
                             android:textSize="12sp" />
 

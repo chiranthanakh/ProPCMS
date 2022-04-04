@@ -32,17 +32,24 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
@@ -91,17 +98,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SwipeRefreshLayout swiperefresh;
 
     TextView tv_filterDetails_revenue, tv_filterDetails_outStanding, tv_filterDetails_PcCode, tv_filterDetails_collection;
-
-
     List divisionList = new ArrayList();
 
-    // horizontal chart variable for our bar chart
+    LineChart lineChart_revenue_trend,lineChart_average_trend;
+
+    // Vertical chart variable for our bar chart
     BarChart barChart;
-    // horizontalchart variable for our bar data set.
+    // Verticalchart variable for our bar data set.
     BarDataSet barDataSet1, barDataSet2;
-    // horizontalchart array list for storing entries.
+    // Verticalchart array list for storing entries.
     ArrayList barEntries;
-    // horizontalchart creating a string array for displaying days.
+    // Verticalchart creating a string array for displaying days.
     String[] days = new String[]{"Sep-2021", "Oct-2021", "Nov-2021", "Dec-2021", "Jan-2022", "Feb-2022"};
     SharedPreferences.Editor editor;
     String role;
@@ -156,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
 
-        horizontalchart();
+
 
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -167,7 +174,157 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+        //////////////////////// Revenue Trends by Month Chart////////////////
+        lineChart_revenue_trend = findViewById(R.id.lineChart_revenue_trend);
+
+        lineChart_revenue_trend.setDragEnabled(true);
+        lineChart_revenue_trend.setScaleEnabled(false);
+
+        YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+        leftAxis.setAxisMaximum(25f);
+
+        // leftAxis.setAxisMinimum(0f);
+
+
+        YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
+        rightAxis.setAxisMaximum(25f);
+
+
+
+        ArrayList<Entry> yValues = new ArrayList<Entry>();
+
+        //  yValues.add(new Entry(0,23.6f));
+        yValues.add(new Entry(1,21.26f));
+        yValues.add(new Entry(2,2.94f));
+        yValues.add(new Entry(3,0f));
+        yValues.add(new Entry(4,0f));
+        yValues.add(new Entry(5,5.8f));
+        yValues.add(new Entry(6,0f));
+
+        LineDataSet set1 =new LineDataSet(yValues,"Revenue Trends by Month");
+
+        // set1.setFillAlpha(110);
+        set1.setColor(Color.parseColor("#3498db"));
+        set1.setLineWidth(6f);
+        set1.setValueTextSize(14f);
+        //  set1.enableDashedLine(10f,10f,0f);
+
+        set1.setValueTextColor(Color.parseColor("#ff8c00"));
+        set1.setCircleColor(Color.GREEN);
+        set1.setCircleColorHole(Color.GREEN);
+        set1.setCircleRadius(3f);
+
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        LineData data = new LineData(dataSets);
+        lineChart_revenue_trend.setData(data);
+
+        String[] values = new String[]{"Oct-2021","Nov-2021","Dec-2021","Jan-2022","Feb-2022","Mar-2022"};
+
+        Description description = new Description();
+        description.setText("");
+        lineChart_revenue_trend.setDescription(description);
+
+        XAxis xAxis = lineChart_revenue_trend.getXAxis();
+        xAxis.setValueFormatter(new MyAxisValueFormatter(values));
+        xAxis.setTextSize(9f);
+        // xAxis.setGranularity(1);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+
+        //////////////////////// Average Trends by Month Chart////////////////
+
+        lineChart_average_trend = findViewById(R.id.lineChart_average_trend);
+
+        lineChart_average_trend.setDragEnabled(true);
+        lineChart_average_trend.setScaleEnabled(false);
+
+        YAxis leftAxis1 = lineChart_average_trend.getAxisLeft();
+        leftAxis1.removeAllLimitLines();
+        leftAxis1.setAxisMaximum(48f);
+
+        leftAxis1.setAxisMinimum(42f);
+
+
+        YAxis rightAxis1 = lineChart_average_trend.getAxisRight();
+        rightAxis1.setAxisMaximum(48f);
+        rightAxis1.setAxisMinimum(42f);
+
+
+
+        ArrayList<Entry> yValues1 = new ArrayList<Entry>();
+
+        //  yValues.add(new Entry(0,23.6f));
+        yValues1.add(new Entry(1,45.23f));
+        yValues1.add(new Entry(2,42.84f));
+        yValues1.add(new Entry(3,43.56f));
+        yValues1.add(new Entry(4,43.56f));
+        yValues1.add(new Entry(5,43.56f));
+        yValues1.add(new Entry(6,43.56f));
+
+        LineDataSet set2 =new LineDataSet(yValues1,"Average Trends By Month");
+
+        // set1.setFillAlpha(110);
+        set2.setColor(Color.parseColor("#3498db"));
+        set2.setLineWidth(6f);
+        set2.setValueTextSize(14f);
+        set2.enableDashedLine(10f,10f,0f);
+
+        set2.setValueTextColor(Color.parseColor("#ff8c00"));
+        set2.setCircleColor(Color.GREEN);
+        set2.setCircleColorHole(Color.GREEN);
+        set2.setCircleRadius(3f);
+
+
+        ArrayList<ILineDataSet> dataSets1 = new ArrayList<>();
+        dataSets1.add(set2);
+
+        LineData data1 = new LineData(dataSets1);
+        lineChart_average_trend.setData(data1);
+
+        String[] valuess = new String[]{"Oct-2021","Nov-2021","Dec-2021","Jan-2022","Feb-2022","Mar-2022"};
+
+        Description description1 = new Description();
+        description1.setText("");
+        lineChart_average_trend.setDescription(description1);
+
+        XAxis xAxis1 = lineChart_average_trend.getXAxis();
+        xAxis1.setValueFormatter(new MyAxisValueFormatter(valuess));
+        xAxis1.setTextSize(9f);
+        // xAxis.setGranularity(1);
+        xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+
     }
+
+
+
+    //////////////////////// Revenue Trends by Month Chart////////////////
+
+    public class MyAxisValueFormatter implements IAxisValueFormatter
+    {
+        private String[] mValues;
+        public MyAxisValueFormatter(String[] values)
+        {
+            this.mValues = values;
+
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValues[(int)value];
+        }
+    }
+
+
+
+
+
 
     private void initialize() {
         tv_filterDetails_revenue = findViewById(R.id.tv_filterDetails_revenue);
@@ -748,123 +905,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ///////////////////////// Chart Section ///////////////////////////////////
 
-    private void horizontalchart() {
-        // initializing variable for bar chart.
-        barChart = findViewById(R.id.idBarChart);
-
-        // creating a new bar data set.
-        barDataSet1 = new BarDataSet(getBarEntriesOne(), "First Set");
-        barDataSet1.setColor(getApplicationContext().getResources().getColor(R.color.purple_200));
-        barDataSet2 = new BarDataSet(getBarEntriesTwo(), "Second Set");
-        barDataSet2.setColor(Color.BLUE);
-
-        // below line is to add bar data set to our bar data.
-        BarData data = new BarData(barDataSet1, barDataSet2);
-
-        // after adding data to our bar data we
-        // are setting that data to our bar chart.
-        barChart.setData(data);
-
-        // below line is to remove description
-        // label of our bar chart.
-        barChart.getDescription().setEnabled(false);
-
-        // below line is to get x axis
-        // of our bar chart.
-        XAxis xAxis = barChart.getXAxis();
-
-        // below line is to set value formatter to our x-axis and
-        // we are adding our days to our x axis.
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
-
-        // below line is to set center axis
-        // labels to our bar chart.
-        xAxis.setCenterAxisLabels(true);
-
-        // below line is to set position
-        // to our x-axis to bottom.
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        // below line is to set granularity
-        // to our x axis labels.
-        xAxis.setGranularity(1);
-
-        // below line is to enable
-        // granularity to our x axis.
-        xAxis.setGranularityEnabled(true);
-
-        // below line is to make our
-        // bar chart as draggable.
-        barChart.setDragEnabled(true);
-
-        // below line is to make visible
-        // range for our bar chart.
-        barChart.setVisibleXRangeMaximum(3);
-
-        // below line is to add bar
-        // space to our chart.
-        float barSpace = 0.1f;
-
-        // below line is use to add group
-        // spacing to our bar chart.
-        float groupSpace = 0.5f;
-
-        // we are setting width of
-        // bar in below line.
-        data.setBarWidth(0.15f);
-
-        // below line is to set minimum
-        // axis to our chart.
-        barChart.getXAxis().setAxisMinimum(0);
-
-        // below line is to
-        // animate our chart.
-        barChart.animate();
-
-        // below line is to group bars
-        // and add spacing to it.
-        barChart.groupBars(0, groupSpace, barSpace);
-
-        // below line is to invalidate
-        // our bar chart.
-        barChart.invalidate();
-    }
-
-    // horizontalChart array list for first set
-    private ArrayList<BarEntry> getBarEntriesOne() {
-
-        // creating a new array list
-        barEntries = new ArrayList<>();
-
-        // adding new entry to our array list with bar
-        // entry and passing x and y axis value to it.
-        barEntries.add(new BarEntry(1f, 4));
-        barEntries.add(new BarEntry(2f, 6));
-        barEntries.add(new BarEntry(3f, 8));
-        barEntries.add(new BarEntry(4f, 2));
-        barEntries.add(new BarEntry(5f, 4));
-        barEntries.add(new BarEntry(6f, 1));
-
-        return barEntries;
-    }
-
-    //horizontalChart array list for second set.
-    private ArrayList<BarEntry> getBarEntriesTwo() {
-
-        // creating a new array list
-        barEntries = new ArrayList<>();
-
-        // adding new entry to our array list with bar
-        // entry and passing x and y axis value to it.
-        barEntries.add(new BarEntry(1f, 8));
-        barEntries.add(new BarEntry(2f, 12));
-        barEntries.add(new BarEntry(3f, 4));
-        barEntries.add(new BarEntry(4f, 1));
-        barEntries.add(new BarEntry(5f, 7));
-        barEntries.add(new BarEntry(6f, 3));
-
-        return barEntries;
-    }
 
     private void setData() {
 
