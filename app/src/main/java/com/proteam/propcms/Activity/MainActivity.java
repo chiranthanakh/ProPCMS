@@ -302,6 +302,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // xAxis.setGranularity(1);
         xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        //////////////////////////////////// Top 10 Outstanding Client///////////////
+
+
+        HorizontalBarChart chart = (HorizontalBarChart) findViewById(R.id.chart);
+
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(false);
+
+
+
+
+        BarDataSet set3;
+        set3 = new BarDataSet(getDataSet(), "0.00 M To 10.00 M");
+
+        set3.setColors(Color.parseColor("#008FFB"));
+
+
+        ArrayList<IBarDataSet> dataSets3 = new ArrayList<IBarDataSet>();
+        dataSets3.add(set3);
+
+        BarData data3 = new BarData(dataSets3);
+
+        // hide Y-axis
+        YAxis left = chart.getAxisLeft();
+        // left.setDrawLabels(false);
+
+        YAxis right = chart.getAxisRight();
+        right.setDrawLabels(false);
+        // custom X-axis labels
+
+        String[] values3 = new String[] { "LARSEN & TOUBRO", "MARICI SOLAR INDIA", "AIR PLAZA RETAIL", "SANDVIK ASIA PRIVATE", "ABB GLOBAL INDUSTRIES","PUMA SPORTS INDIA","ABB INDIA LIMITED","SPML INFRA LIMITED","ABB POWER PRODUCTS","ABB POWER TECHNOLOGY"};
+
+        XAxis xAxis3 = chart.getXAxis();
+        xAxis3.setValueFormatter(new MyXAxisValueFormatter(values3));
+
+        xAxis3.setGranularity(1f);
+        xAxis3.setLabelCount(12);
+        xAxis3.setAxisLineWidth(1);
+        xAxis3.setTextSize(7);
+        chart.setData(data3);
+
+        // custom description
+        Description descriptiont = new Description();
+        descriptiont.setText("");
+        chart.setDescription(descriptiont);
+
+        chart.animateY(1000);
+        chart.invalidate();
+
+    }
+
+
+    ////////////////////Top 10 Out Standing Client //////////////////////////
+
+
+    public class MyXAxisValueFormatter implements IAxisValueFormatter {
+
+        private String[] mValues;
+
+        public MyXAxisValueFormatter(String[] values) {
+            this.mValues = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValues[(int) value];
+        }
+
+    }
+
+    private ArrayList<BarEntry> getDataSet() {
+
+        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+
+
+        BarEntry v1e1 = new BarEntry(0, 1.47f);
+        valueSet1.add(v1e1);
+
+        BarEntry v1e2 = new BarEntry(1, 1.53f);
+        valueSet1.add(v1e2);
+        BarEntry v1e3 = new BarEntry(2, 1.57f);
+        valueSet1.add(v1e3);
+        BarEntry v1e4 = new BarEntry(3, 1.61f);
+        valueSet1.add(v1e4);
+        BarEntry v1e5 = new BarEntry(4, 1.82f);
+        valueSet1.add(v1e5);
+
+        BarEntry v1e6 = new BarEntry(5, 1.86f);
+        valueSet1.add(v1e6);
+
+        BarEntry v1e7 = new BarEntry(6, 4.75f);
+        valueSet1.add(v1e7);
+
+        BarEntry v1e8 = new BarEntry(7, 5.48f);
+        valueSet1.add(v1e8);
+
+        BarEntry v1e9 = new BarEntry(8, 6.05f);
+        valueSet1.add(v1e9);
+
+        BarEntry v1e10 = new BarEntry(9, 6.47f);
+        valueSet1.add(v1e10);
+
+
+
+        return valueSet1;
 
 
     }
