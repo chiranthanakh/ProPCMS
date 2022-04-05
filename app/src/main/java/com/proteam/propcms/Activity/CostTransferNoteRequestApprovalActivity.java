@@ -1,6 +1,12 @@
 package com.proteam.propcms.Activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,10 +14,17 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -31,6 +44,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Models.Approvalmodel;
 import com.proteam.propcms.Models.CtrnDataModel;
@@ -40,11 +55,13 @@ import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
 import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +71,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
+public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick, PickiTCallbacks {
     ImageView mToolbar;
     EditText edt_from,edt_search;
     int mMonth,mDay,mYear;
@@ -72,8 +89,12 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
     ArrayList<CtrnDataModel> temp = new ArrayList();
     ArrayList<CtrnDataModel> filterarraylist = new ArrayList<CtrnDataModel>();
     CheckBox ch_action_ctrn;
-
+    File originalFile;
+    String billId;
+    PickiT pickiT;
     LinearLayout ll_no_data_ctnr;
+    SharedPreferences.Editor editor;
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +102,11 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         setContentView(R.layout.activity_cost_transfer_note_request_approval);
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
+        pickiT = new PickiT(this, this, this);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        user = sharedPreferences.getString("userid", null);
 
 
         initialize();
@@ -370,6 +396,27 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         }
     }
 
+    private void callupdatefileapi() {
+
+        progressDialog=new ProgressDialog(CostTransferNoteRequestApprovalActivity.this);
+
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+
+                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(CostTransferNoteRequestApprovalActivity.this);
+                webServices.fileupload( WebServices.ApiType.pdfupload, originalFile,user,billId);
+
+
+            }
+        }
+    }
+
 
     ///////////////////////Api respone ////////////////////////////////////
 
@@ -517,6 +564,33 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                 }
                 break;
 
+            case pdfupload:
+
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+
+                        VctDeleteResponse generealResponse = (VctDeleteResponse) response;
+
+                        Toast.makeText(this, generealResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
         }
 
         }
@@ -572,6 +646,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
+        LinearLayout upload = dialog.findViewById(R.id.ll_ctrn_uploaddock);
         ImageView iv_dia_edit = dialog.findViewById(R.id.iv_dia_edit);
         ImageView iv_dia_delete = dialog.findViewById(R.id.iv_dia_delete);
         ImageView iv_dia_upload = dialog.findViewById(R.id.iv_dia_upload);
@@ -587,6 +662,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         Button btn_dia_approve = dialog.findViewById(R.id.btn_dia_approve);
         Button btn_dia_reject = dialog.findViewById(R.id.btn_dia_reject);
 
+        billId = arrayList2.get(Integer.parseInt(position)).getId();
         tv_dia_ctn.setText(arrayList2.get(Integer.parseInt(position)).getCtnrCtn());
         tv_dia_month.setText(arrayList2.get(Integer.parseInt(position)).getCtnrMonth());
         tv_dia_directExpense.setText(arrayList2.get(Integer.parseInt(position)).getCtnrExpenseType());
@@ -600,6 +676,27 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         tv_dia_transferCost.setText(moneyString);
 
         tv_dia_Remarks.setText(arrayList2.get(Integer.parseInt(position)).getCtnrRemarks());
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                boolean permition =  checkPermission();
+
+                if(permition){
+                    Intent intent = new Intent();
+                    intent.setType("*/*");
+                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+
+                }else {
+                    requestPermission();
+                }
+
+            }
+        });
+
         back_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -629,6 +726,23 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
             }
         });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == -1) {
+
+            if (data != null) {
+                Uri uri = data.getData();
+                String ffs = uri.getPath();
+
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
+
+            }
+        }
     }
 
     private void adaptorclass(Boolean check) {
@@ -773,5 +887,64 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
 
+    }
+
+    @Override
+    public void PickiTonUriReturned() {
+
+    }
+
+    @Override
+    public void PickiTonStartListener() {
+
+    }
+
+    @Override
+    public void PickiTonProgressUpdate(int progress) {
+
+    }
+
+    @Override
+    public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
+
+        // originalFile = path;
+        originalFile = new File(path);
+        callupdatefileapi();
+        System.out.println("paths----"+path);
+
+    }
+
+    @Override
+    public void PickiTonMultipleCompleteListener(ArrayList<String> paths, boolean wasSuccessful, String Reason) {
+
+    }
+
+    private boolean checkPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+            // requestPermission();
+        } else {
+            int result = ContextCompat.checkSelfPermission(CostTransferNoteRequestApprovalActivity.this, READ_EXTERNAL_STORAGE);
+            int result1 = ContextCompat.checkSelfPermission(CostTransferNoteRequestApprovalActivity.this, WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                startActivityForResult(intent, 2296);
+            } catch (Exception e) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, 2296);
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(CostTransferNoteRequestApprovalActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 123);
+        }
     }
 }

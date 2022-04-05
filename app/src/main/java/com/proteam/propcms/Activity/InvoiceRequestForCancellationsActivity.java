@@ -1,8 +1,14 @@
 package com.proteam.propcms.Activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.customview.widget.Openable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +21,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -39,6 +49,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Adapters.IrfcListAdapter;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
@@ -59,6 +71,7 @@ import com.proteam.propcms.Utils.WebServices;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +83,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class InvoiceRequestForCancellationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
+public class InvoiceRequestForCancellationsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick, PickiTCallbacks {
     ImageView mToolbar,iv_refresh_irfc;
     EditText edt_from_irfc,edt_search_irfc;
     int mMonth,mDay,mYear;
@@ -89,6 +102,9 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
     SharedPreferences.Editor editor;
     String user;
     LinearLayout ll_no_data_irfc;
+    File originalFile;
+    String billId;
+    PickiT pickiT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +113,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
 
-
+        pickiT = new PickiT(this, this, this);
         SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         user = sharedPreferences.getString("userid", null);
@@ -336,6 +352,27 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
             }
         }*/
 
+    }
+
+    private void callupdatefileapi() {
+
+        progressDialog=new ProgressDialog(InvoiceRequestForCancellationsActivity.this);
+
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+
+                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(InvoiceRequestForCancellationsActivity.this);
+                webServices.fileupload( WebServices.ApiType.pdfupload, originalFile,user,billId);
+
+
+            }
+        }
     }
 
 
@@ -689,6 +726,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
         LinearLayout ic_d_irfc_viewInvoice = dialog.findViewById(R.id.ll_irfc);
         LinearLayout ll_irfm = dialog.findViewById(R.id.ll_irfm);
+        LinearLayout ll_irfc_upload = dialog.findViewById(R.id.ll_irfc_upload);
         ImageView iv_d_irfc_upload = dialog.findViewById(R.id.iv_d_irfc_upload);
         ImageView iv_d_irfc_status = dialog.findViewById(R.id.iv_d_irfc_status);
         ImageView back_toolbar_dialog = dialog.findViewById(R.id.back_toolbar_dialog);
@@ -748,6 +786,23 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         tv_d_irfc_transactionType.setText(arrayList.get(position).getIrfcTransactionType());
         tv_d_irfc_InvoiceWithWhom.setText(StringUtils.capitalize(arrayList.get(position).getIrfcInvoiceWithWhom().toLowerCase().trim()));
 
+        ll_irfc_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean permition =  checkPermission();
+
+                if(permition){
+                    Intent intent = new Intent();
+                    intent.setType("*/*");
+                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+
+                }else {
+                    requestPermission();
+                }
+            }
+        });
         ll_irfm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -793,6 +848,22 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == -1) {
+
+            if (data != null) {
+                Uri uri = data.getData();
+                String ffs = uri.getPath();
+
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
+
+            }
+        }
     }
 
     public void openapproveDialog2(String it) {
@@ -931,6 +1002,64 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         }else if(item==4){
             map.remove(value);
         }
+
+    }
+
+    private boolean checkPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+            // requestPermission();
+        } else {
+            int result = ContextCompat.checkSelfPermission(InvoiceRequestForCancellationsActivity.this, READ_EXTERNAL_STORAGE);
+            int result1 = ContextCompat.checkSelfPermission(InvoiceRequestForCancellationsActivity.this, WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                startActivityForResult(intent, 2296);
+            } catch (Exception e) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, 2296);
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(InvoiceRequestForCancellationsActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
+
+    @Override
+    public void PickiTonUriReturned() {
+
+    }
+
+    @Override
+    public void PickiTonStartListener() {
+
+    }
+
+    @Override
+    public void PickiTonProgressUpdate(int progress) {
+
+    }
+
+    @Override
+    public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
+
+        originalFile = new File(path);
+        callupdatefileapi();
+        System.out.println("paths----"+path);
+
+    }
+
+    @Override
+    public void PickiTonMultipleCompleteListener(ArrayList<String> paths, boolean wasSuccessful, String Reason) {
 
     }
 }

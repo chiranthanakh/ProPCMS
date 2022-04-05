@@ -1,7 +1,13 @@
 package com.proteam.propcms.Activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,8 +19,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -34,6 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 import com.proteam.propcms.Adapters.CtnrListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
@@ -61,6 +74,7 @@ import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +84,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class VerifyCostTransferActivity extends AppCompatActivity implements View.OnClickListener , OnResponseListener, OnClick {
+public class VerifyCostTransferActivity extends AppCompatActivity implements View.OnClickListener , OnResponseListener, OnClick, PickiTCallbacks {
     ImageView mToolbar,iv_clear_vct;
     int mMonth,mDay,mYear;
     Spinner sp_all_project_vct;
@@ -84,6 +98,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     CheckBox ch_ctn;
     Context context=this;
     String from_pc,to_pc,expense_list;
+    File originalFile;
 
     Map projectmap = new HashMap();
     List projectList = new ArrayList();
@@ -94,6 +109,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     Map map = new HashMap();
     SharedPreferences.Editor editor;
     String user;
+    String billid;
+    PickiT pickiT;
 
     ArrayList<VerifyCostTransferModel> filterarraylist = new ArrayList<VerifyCostTransferModel>();
     ArrayList<VerifyCostTransferModel> arrayList = new ArrayList<VerifyCostTransferModel>();
@@ -109,7 +126,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         editor = sharedPreferences.edit();
         user = sharedPreferences.getString("userid", null);
 
-
+        pickiT = new PickiT(this, this, this);
         initialize();
         sp_all_project_vct.setOnItemSelectedListener(OnCatSpinnerCL);
 
@@ -370,6 +387,31 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                 }
                 break;
+
+            case pdfupload:
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+
+                        VctDeleteResponse generealResponse = (VctDeleteResponse) response;
+
+                        Toast.makeText(this, generealResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
         }
     }
 
@@ -522,6 +564,29 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
             }
         }*/
+
+    }
+
+    private void callupdatefileapi() {
+
+        progressDialog=new ProgressDialog(VerifyCostTransferActivity.this);
+
+        if(progressDialog!=null)
+        {
+            if(!progressDialog.isShowing()) {
+
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+
+
+                WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyCostTransferActivity.this);
+                webServices.fileupload( WebServices.ApiType.pdfupload, originalFile,user,billid);
+
+
+            }
+
+        }
 
     }
 
@@ -701,6 +766,8 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         }
     };
 
+
+    /////dialog/////
     private void opengAllDataDialog(String position,String id) {
         final Dialog dialog = new Dialog(this);
         System.out.println("id print"+ id);
@@ -709,8 +776,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
-
-
+        LinearLayout ll_crnra_upload = dialog.findViewById(R.id.ll_crnra_upload);
         LinearLayout ll_ctn_edit = dialog.findViewById(R.id.ll_ctn_edit);
         LinearLayout ll_vct_delete=dialog.findViewById(R.id.ll_vct_delete);
         TextView tv_dia_vct_ctn = dialog.findViewById(R.id.tv_dia_vct_ctn);
@@ -730,6 +796,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
         VerifyCostTransferModel verifyCostTransferModel = arrayList.get(Integer.parseInt(position));
 
+        billid = verifyCostTransferModel.getId();
         from_pc = verifyCostTransferModel.getVctfromPcCodeName();
         to_pc = verifyCostTransferModel.getVcttoPcCodeName();
         expense_list = verifyCostTransferModel.getVctexpenseTypeName();
@@ -748,6 +815,23 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
         tv_dia_vct_transferCost.setText(moneyString);
         tv_dia_vct_Remarks.setText(verifyCostTransferModel.getVctremarks());
+
+        ll_crnra_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean permition =  checkPermission();
+                if(permition){
+                    Intent intent = new Intent();
+                    intent.setType("*/*");
+                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+
+                }else {
+                    requestPermission();
+                }
+            }
+        });
 
         back_toolbar_vct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -779,7 +863,6 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 openDialogReject(id);
             }
         });
-
     }
 
 
@@ -934,7 +1017,66 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == -1) {
+
+            if (data != null) {
+                Uri uri = data.getData();
+                String ffs = uri.getPath();
+
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
+                //String path = copyFileToInternalStorage(uri,"PCMS");
+
+                //originalFile = new File(String.valueOf(originalFile));
+                //originalFile = new File(getRealPathFromURI(uri));
+                // originalFile = new File(String.valueOf("/Internal storage/Documents/pallavi_statement.pdf"));
+                // originalFile = new File(FileUtils.getRealPath(this, uri));
+
+                // System.out.println("path======" + getRealPathFromURI(uri));
+                String path1 = data.getData().getPath();
+                String path2 = path1.replace("/document/raw:", "");
+                //callupdatefileapi();
+                String filename=path1.substring(path1.lastIndexOf("/")+1);
+                //tv_upload_group_photo.setText(filename);
+
+            }
+            //upload_attachment.setText(filePath);
+        }
+    }
+
+////////permitions storage
+
+    private boolean checkPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+            // requestPermission();
+        } else {
+            int result = ContextCompat.checkSelfPermission(VerifyCostTransferActivity.this, READ_EXTERNAL_STORAGE);
+            int result1 = ContextCompat.checkSelfPermission(VerifyCostTransferActivity.this, WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                startActivityForResult(intent, 2296);
+            } catch (Exception e) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, 2296);
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(VerifyCostTransferActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL1 = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -1039,4 +1181,33 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         alertDialog.show();
     }
 
+    @Override
+    public void PickiTonUriReturned() {
+
+    }
+
+    @Override
+    public void PickiTonStartListener() {
+
+    }
+
+    @Override
+    public void PickiTonProgressUpdate(int progress) {
+
+    }
+
+    @Override
+    public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
+
+        originalFile = new File(path);
+        callupdatefileapi();
+        System.out.println("paths----"+path);
+
+
+    }
+
+    @Override
+    public void PickiTonMultipleCompleteListener(ArrayList<String> paths, boolean wasSuccessful, String Reason) {
+
+    }
 }

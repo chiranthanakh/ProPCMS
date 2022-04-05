@@ -872,17 +872,17 @@ public class WebServices<T> {
 
     }
 
-    public void fileupload( ApiType apiTypes, File path) {
+    public void fileupload( ApiType apiTypes, File path,String userid,String billid) {
 
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), path);
 
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", "dock.pdf", requestFile);
-        RequestBody user_id = RequestBody.create(MultipartBody.FORM, "2");
-        RequestBody billing_id = RequestBody.create(MultipartBody.FORM, "2");
+        RequestBody user_id = RequestBody.create(MultipartBody.FORM, userid);
+        RequestBody billing_id = RequestBody.create(MultipartBody.FORM, billid);
 
         apiTypeVariable = apiTypes;
-        Retrofit retrofit=getRetrofitClient("https://pcmsdemo.proteam.co.in/");
+        Retrofit retrofit=getRetrofitClient("https://pcmsdemo.proteam.co.in/api/");
 
         ProPCms proPCms=retrofit.create(ProPCms.class);
 

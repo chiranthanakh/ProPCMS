@@ -19,6 +19,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -51,6 +52,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Adapters.VerifyBillingInstructionAdapter;
 import com.proteam.propcms.Adapters.VerifyCostTransferAdapter;
@@ -91,7 +94,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick {
+public class VerifyBillingInstructionsActivity extends AppCompatActivity implements View.OnClickListener, OnResponseListener, OnClick, PickiTCallbacks {
     ImageView mToolbar,iv_clear_BI;
     Spinner sp_all_project_verify_bi;
     int mMonth,mDay,mYear;
@@ -105,7 +108,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     CheckBox ch_BI;
     Context context=this;
     File originalFile;
-
+    String billId;
     Map projectmap = new HashMap();
     Map pccodemap = new HashMap();
     Map pccodemapreverse = new HashMap();
@@ -116,7 +119,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     List divisionList = new ArrayList();
     Map divisionmap = new HashMap();
     Map divisionreverse = new HashMap();
-
+    PickiT pickiT;
+    SharedPreferences.Editor editor;
+    String user;
     ArrayList<VerifyBillingInstructionModel> filterarraylist = new ArrayList<VerifyBillingInstructionModel>();
     ArrayList<VerifyBillingInstructionModel> arrayList = new ArrayList<VerifyBillingInstructionModel>();
     ArrayList<VerifyBillingInstructionModel> temp = new ArrayList();
@@ -126,10 +131,15 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         setContentView(R.layout.activity_verify_billing_instructions);
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        user = sharedPreferences.getString("userid", null);
+
         initialize();
         sp_all_project_verify_bi.setOnItemSelectedListener(OnCatSpinnerCL);
 
-
+        pickiT = new PickiT(this, this, this);
 
     }
 
@@ -343,7 +353,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
 
                     WebServices<GenerealResponse> webServices = new WebServices<GenerealResponse>(VerifyBillingInstructionsActivity.this);
-                    webServices.fileupload( WebServices.ApiType.pdfupload, originalFile);
+                    webServices.fileupload( WebServices.ApiType.pdfupload, originalFile,user,billId);
 
 
             }
@@ -638,6 +648,34 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
                 }
                 break;
+
+            case pdfupload:
+
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+
+                        VctDeleteResponse generealResponse = (VctDeleteResponse) response;
+
+                        Toast.makeText(this, generealResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
         }
     }
 
@@ -822,6 +860,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
 
         VerifyBillingInstructionModel verifyBillingInstructionModel = arrayList.get(Integer.parseInt(position));
+        billId = verifyBillingInstructionModel.getId();
         tv_dia_BI_pcCode.setText(verifyBillingInstructionModel.getBIPcCode());
         tv_dia_BI_group.setText(verifyBillingInstructionModel.getBIgroup());
         tv_dia_BI_assignment.setText(verifyBillingInstructionModel.getBIassigmnent());
@@ -1188,123 +1227,20 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 Uri uri = data.getData();
                 String ffs = uri.getPath();
 
-                //String path = copyFileToInternalStorage(uri,"PCMS");
-
-               //originalFile = new File(String.valueOf(originalFile));
-                //originalFile = new File(getRealPathFromURI(uri));
-               // originalFile = new File(String.valueOf("/Internal storage/Documents/pallavi_statement.pdf"));
-               // originalFile = new File(FileUtils.getRealPath(this, uri));
-
-                System.out.println("path======" + getRealPathFromURI(uri));
-                String path1 = data.getData().getPath();
-                String path2 = path1.replace("/document/raw:", "");
-                //callupdatefileapi();
-                String filename=path1.substring(path1.lastIndexOf("/")+1);
-                //tv_upload_group_photo.setText(filename);
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
 
             }
-            //upload_attachment.setText(filePath);
         }
     }
 
-    private String copyFileToInternalStorage(Uri uri, String newDirName) {
-        Uri returnUri = uri;
 
-        Cursor returnCursor = this.getContentResolver().query(returnUri, new String[]{
-                OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE
-        }, null, null, null);
-
-
-        /*
-         * Get the column indexes of the data in the Cursor,
-         *     * move to the first row in the Cursor, get the data,
-         *     * and display it.
-         * */
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-        returnCursor.moveToFirst();
-        String name = (returnCursor.getString(nameIndex));
-        String size = (Long.toString(returnCursor.getLong(sizeIndex)));
-
-        File output;
-        if (!newDirName.equals("")) {
-            File dir = new File(this.getFilesDir() + "/" + newDirName);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            output = new File(this.getFilesDir() + "/" + newDirName + "/" + name);
-        } else {
-            output = new File(this.getFilesDir() + "/" + name);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!isChangingConfigurations()) {
+            pickiT.deleteTemporaryFile(this);
         }
-        try {
-            InputStream inputStream = this.getContentResolver().openInputStream(uri);
-            FileOutputStream outputStream = new FileOutputStream(output);
-            int read = 0;
-            int bufferSize = 1024;
-            final byte[] buffers = new byte[bufferSize];
-            while ((read = inputStream.read(buffers)) != -1) {
-                outputStream.write(buffers, 0, read);
-            }
-
-            inputStream.close();
-            outputStream.close();
-
-        } catch (Exception e) {
-
-            Log.e("Exception", e.getMessage());
-        }
-
-        return output.getPath();
     }
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
-    @SuppressLint("Range")
-    /*public static String getrealpath(Uri uri, Context context){
-
-        String realpath=null;
-
-        if(uri.getScheme().equalsIgnoreCase("content")){
-            String[] projection={"_data"};
-            Cursor cursor=context.getContentResolver().query(uri,null,null,null,null);
-
-            try {
-                {
-                    if(cursor!=null && cursor.moveToFirst()){
-
-                        //int idcolumn=cursor.getColumnIndexOrThrow("_data");
-                        // cursor.moveToFirst();
-                        realpath=cursor.getString(cursor.getColumnIndexOrThrow());
-                        cursor.close();
-                    }
-                }
-            }finally {
-                cursor.close();
-            }
-            if (realpath == null){
-                realpath = uri.getPath();
-                int cutt = realpath.lastIndexOf('/');
-                if(cutt != -1){
-                    realpath = realpath.substring(cutt +1);
-                }
-            }
-        }
-        return realpath;
-    }*/
-
-
 
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -1321,7 +1257,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
     private AdapterView.OnItemSelectedListener OnCatSpinnerCL1 = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+           ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
         public void onNothingSelected(AdapterView<?> parent) {
@@ -1358,9 +1294,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
             ((TextView) parent.getChildAt(0)).setTextSize(12);
         }
         public void onNothingSelected(AdapterView<?> parent) {
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-            ((TextView) parent.getChildAt(0)).setTextSize(12);
-            ((TextView) parent.getChildAt(0)).setText(String.valueOf(divisionreverse.get(devisionid)));
+           // ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+           // ((TextView) parent.getChildAt(0)).setTextSize(12);
+           // ((TextView) parent.getChildAt(0)).setText(String.valueOf(divisionreverse.get(devisionid)));
         }
     };
 
@@ -1498,57 +1434,33 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
         }
     };
 
-   /* public static String getRealPath(String uri) {
-        String docId = DocumentsContract.getDocumentId(uri);
-        String[] split = docId.split(":");
-        String type = split[0];
-        Uri contentUri;
-        switch (type) {
-            case "image":
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                break;
-            case "video":
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                break;
-            case "audio":
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                break;
-            default:
-                contentUri = MediaStore.Files.getContentUri("external");
-        }
-        String selection = "_id=?";
-        String[] selectionArgs = new String[]{
-                split[1]
-        };
+    @Override
+    public void PickiTonUriReturned() {
 
-        return getDataColumn(this, contentUri, selection, selectionArgs);
     }
 
-    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
-        Cursor cursor = null;
-        String column = "_data";
-        String[] projection = {
-                column
-        };
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int column_index = cursor.getColumnIndexOrThrow(column);
-                String value = cursor.getString(column_index);
-                if (value.startsWith("content://") || !value.startsWith("/") && !value.startsWith("file://")) {
-                    return null;
-                }
-                return value;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
+    @Override
+    public void PickiTonStartListener() {
 
-}*/
+    }
 
+    @Override
+    public void PickiTonProgressUpdate(int progress) {
+
+    }
+    @Override
+    public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
+
+       // originalFile = path;
+        originalFile = new File(path);
+        callupdatefileapi();
+        System.out.println("paths----"+path);
+
+    }
+
+    @Override
+    public void PickiTonMultipleCompleteListener(ArrayList<String> paths, boolean wasSuccessful, String Reason) {
+
+
+    }
 }

@@ -1,14 +1,22 @@
 package com.proteam.propcms.Activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,11 +36,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 import com.proteam.propcms.Adapters.IrfcListAdapter;
 import com.proteam.propcms.Adapters.IrfmListAdapter;
 import com.proteam.propcms.Models.IrfcDataModel;
@@ -50,6 +62,7 @@ import com.proteam.propcms.Utils.WebServices;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,7 +92,9 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
     ArrayList<IrfmDataModel> temp = new ArrayList();
     ImageView iv_clear;
     CheckBox ch_action;
+    File originalFile;
     LinearLayout ll_no_data_irfm;
+    PickiT pickiT;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -89,7 +104,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         setContentView(R.layout.activity_invoice_request_for_modifications);
         mToolbar = findViewById(R.id.back_toolbar);
         mToolbar.setOnClickListener(view -> onBackPressed());
-
         initialize();
         sp_all_project_irfm.setOnItemSelectedListener(OnCatSpinnerCL);
 
@@ -682,6 +696,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     }
 
+
     private void  callRejectindividualApi(String id) {
 
         ArrayList list = new ArrayList();
@@ -821,6 +836,22 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == -1) {
+
+            if (data != null) {
+                Uri uri = data.getData();
+                String ffs = uri.getPath();
+
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
+
+            }
+        }
+    }
+
     private void openrequestdialog(String position) {
         final Dialog dialog = new Dialog(this);
 
@@ -912,5 +943,36 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
 
+    }
+
+    /////////////////////extra things ////////////////////////////////////////////
+
+    private boolean checkPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+            // requestPermission();
+        } else {
+            int result = ContextCompat.checkSelfPermission(InvoiceRequestForModificationsActivity.this, READ_EXTERNAL_STORAGE);
+            int result1 = ContextCompat.checkSelfPermission(InvoiceRequestForModificationsActivity.this, WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                startActivityForResult(intent, 2296);
+            } catch (Exception e) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, 2296);
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(InvoiceRequestForModificationsActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 123);
+        }
     }
 }

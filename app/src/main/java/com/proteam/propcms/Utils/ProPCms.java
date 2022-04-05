@@ -143,8 +143,8 @@ public interface ProPCms {
 
 
     @Multipart
-    @POST("upload/bi_docs")
-    Call<GenerealResponse> fileupload1(@Part MultipartBody.Part file,
+    @POST("Pcms_apis/upload_bi_docs")
+    Call< VctDeleteResponse> fileupload1(@Part MultipartBody.Part file,
                                        @Part("user_id") RequestBody user_id,
                                        @Part("billing_id") RequestBody billing_id);
 }

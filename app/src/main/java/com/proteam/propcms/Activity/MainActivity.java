@@ -479,11 +479,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_search_list_dash:
 
-                if(!sp_clients_home.getSelectedItem().toString().isEmpty()){
+                if(sp_clients_home.getSelectedItem()!=null){
 
-                    if(!sp_division_home.getSelectedItem().toString().isEmpty()){
+                    if(sp_division_home.getSelectedItem()!=null){
 
-                        if(!sp_company_home.getSelectedItem().toString().isEmpty()){
+                        if(sp_company_home.getSelectedItem()!=null){
 
                             callDashboardFilterDetails2();
 
@@ -758,22 +758,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         DashboardFilterDetailsResponse dashboardFilterDetailsResponse = (DashboardFilterDetailsResponse) response;
 
-                        float amount = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_revenue());
-                        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
-                        String moneyString = formatter.format(amount);
-                        tv_filterDetails_revenue.setText(moneyString);
+                        if(dashboardFilterDetailsResponse.getTotal_revenue()!=null){
+                            float amount = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_revenue());
+                            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                            String moneyString = formatter.format(amount);
+                            tv_filterDetails_revenue.setText(moneyString);
+                        }
 
-                        float amount2 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_outstanding());
-                        NumberFormat formatter2 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
-                        String moneyString2 = formatter2.format(amount);
-                        tv_filterDetails_outStanding.setText(moneyString2);
+                        if(dashboardFilterDetailsResponse.getTotal_outstanding()!=null){
+                            float amount2 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_outstanding());
+                            NumberFormat formatter2 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                            String moneyString2 = formatter2.format(amount2);
+                            tv_filterDetails_outStanding.setText(moneyString2);
+                        }
 
-                        float amount3 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_collection());
-                        NumberFormat formatter3 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
-                        String moneyString3 = formatter3.format(amount);
-                        tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
-                        tv_filterDetails_collection.setText(moneyString3);
-
+                        if(dashboardFilterDetailsResponse.getTotal_collection()!=null){
+                            float amount3 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_collection());
+                            NumberFormat formatter3 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+                            String moneyString3 = formatter3.format(amount3);
+                            tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
+                            tv_filterDetails_collection.setText(moneyString3);
+                        }
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
@@ -804,7 +809,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void callDashboardFilterDetails2() {
-
 
         progressDialog = new ProgressDialog(MainActivity.this);
 
