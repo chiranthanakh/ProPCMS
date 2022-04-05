@@ -740,7 +740,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:text="Annual Top 10 Revenue Customers"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <androidx.cardview.widget.CardView
@@ -1038,7 +1038,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:text="Revenue Trends by Month"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -1065,7 +1065,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/proxima_nova_semi_bold"
                     android:text="Average Trends By Month"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -1082,6 +1082,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:background="@android:color/white"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/proxima_nova_semi_bold"
+                    android:text="Top 10 Outstanding Clients"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:elevation="10dp"
+                    app:cardCornerRadius="10dp">
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@color/white" />
 
                 </androidx.cardview.widget.CardView>
 
