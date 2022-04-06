@@ -61,7 +61,7 @@ public class WebServices<T> {
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
         ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI,update,SubmitCTN,deletectndata,DeleteBI
-        ,updatevct,expense,pdfupload,mRevenue,mAverage
+        ,updatevct,expense,pdfupload,mRevenue,mAverage,mAveragerevenu
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";

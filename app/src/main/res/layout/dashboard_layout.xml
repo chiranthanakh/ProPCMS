@@ -470,7 +470,6 @@
                             app:boxStrokeColor="@color/grey"
                             app:boxStrokeWidth="0.5dp"
                             app:boxStrokeWidthFocused="0.9dp"
-                            app:hintTextColor="@color/grey_dark"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:startIconTint="@color/grey_light">
