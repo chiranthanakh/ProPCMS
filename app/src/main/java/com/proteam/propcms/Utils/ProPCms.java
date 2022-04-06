@@ -8,6 +8,7 @@ import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.ExpenseRequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Request.MonthlyRevenueGraphrequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.VctDeleteRequest;
@@ -27,6 +28,7 @@ import com.proteam.propcms.Response.ProfileResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
+import com.proteam.propcms.Response.RevenueChartResponse;
 import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyCostTransferListResponse;
@@ -130,10 +132,8 @@ public interface ProPCms {
     @POST("Pcms_apis/verify_cost_transfer_note_with_status_delete")
     Call<VctDeleteResponse> Deletevctdata(@Body VctDeleteRequest vctDeleteRequest);
 
-
     @POST("Pcms_apis/verify_billing_instructions_with_status_list_delete")
     Call<VctDeleteResponse> DeleteBIdata(@Body VctDeleteRequest vctDeleteRequest);
-
 
     @POST("Pcms_apis/verify_cost_transfer_note_with_status_update")
     Call<VctDeleteResponse> vctupdate(@Body VctUpdateRequest vctUpdateRequest);
@@ -141,6 +141,8 @@ public interface ProPCms {
     @POST("Pcms_apis/expense_type_list")
     Call<ExpenseResponse> ExpenseList(@Body ExpenseRequest expenseRequest);
 
+    @POST("Pcms_apis/revenue_trend_chart")
+    Call<RevenueChartResponse> monthlychart(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
 
     @Multipart
     @POST("Pcms_apis/upload_bi_docs")

@@ -16,6 +16,7 @@ import com.proteam.propcms.Request.DivisionListModel;
 import com.proteam.propcms.Request.ExpenseRequest;
 import com.proteam.propcms.Request.InvApproverequest;
 import com.proteam.propcms.Request.Loginmodel;
+import com.proteam.propcms.Request.MonthlyRevenueGraphrequest;
 import com.proteam.propcms.Request.ProjectListModel;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Request.Updateuserrequest;
@@ -60,7 +61,7 @@ public class WebServices<T> {
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
         ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI,update,SubmitCTN,deletectndata,DeleteBI
-        ,updatevct,expense,pdfupload
+        ,updatevct,expense,pdfupload,mRevenue
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -902,6 +903,30 @@ public class WebServices<T> {
             public void onFailure(Call<T> call, Throwable t) {
                 onResponseListner.onResponse(null, apiTypeVariable, false,0);
                 Log.e("debug,", t.toString());
+            }
+        });
+
+    }
+
+    public void MonthlyRevenue( ApiType apiTypes, MonthlyRevenueGraphrequest monthlyRevenueGraphrequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.monthlychart(monthlyRevenueGraphrequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
             }
         });
 
