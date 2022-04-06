@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         YAxis rightAxis1 = lineChart_average_trend.getAxisRight();
         rightAxis1.setAxisMaximum(48f);
         rightAxis1.setAxisMinimum(42f);
+        rightAxis.setDrawLabels(false);
 
 
 
@@ -248,10 +249,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //////////////////////////////////// Top 10 Outstanding Client///////////////
 
 
-        HorizontalBarChart chart = (HorizontalBarChart) findViewById(R.id.chart);
+        HorizontalBarChart topTen_outstanding = (HorizontalBarChart) findViewById(R.id.topTen_outstanding);
 
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(false);
+        topTen_outstanding.setDragEnabled(true);
+        topTen_outstanding.setScaleEnabled(false);
 
 
 
@@ -268,31 +269,90 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BarData data3 = new BarData(dataSets3);
 
         // hide Y-axis
-        YAxis left = chart.getAxisLeft();
+        YAxis left = topTen_outstanding.getAxisLeft();
+
+        left.removeAllLimitLines();
+        left.setAxisMaximum(8f);
+
+        left.setAxisMinimum(0f);
         // left.setDrawLabels(false);
 
-        YAxis right = chart.getAxisRight();
+        YAxis right = topTen_outstanding.getAxisRight();
         right.setDrawLabels(false);
         // custom X-axis labels
 
         String[] values3 = new String[] { "LARSEN & TOUBRO", "MARICI SOLAR INDIA", "AIR PLAZA RETAIL", "SANDVIK ASIA PRIVATE", "ABB GLOBAL INDUSTRIES","PUMA SPORTS INDIA","ABB INDIA LIMITED","SPML INFRA LIMITED","ABB POWER PRODUCTS","ABB POWER TECHNOLOGY"};
 
-        XAxis xAxis3 = chart.getXAxis();
+        XAxis xAxis3 = topTen_outstanding.getXAxis();
         xAxis3.setValueFormatter(new MyXAxisValueFormatter(values3));
 
         xAxis3.setGranularity(1f);
         xAxis3.setLabelCount(12);
         xAxis3.setAxisLineWidth(1);
         xAxis3.setTextSize(7);
-        chart.setData(data3);
+        topTen_outstanding.setData(data3);
 
         // custom description
         Description descriptiont = new Description();
         descriptiont.setText("");
-        chart.setDescription(descriptiont);
+        topTen_outstanding.setDescription(descriptiont);
 
-        chart.animateY(1000);
-        chart.invalidate();
+        topTen_outstanding.animateY(1000);
+        topTen_outstanding.invalidate();
+
+
+        ////////////////////////Outstanding Ageing Details//////////////////////////////////////////
+
+        HorizontalBarChart graph_outstanding_ageing = (HorizontalBarChart) findViewById(R.id.graph_outstanding_ageing);
+
+        graph_outstanding_ageing.setDragEnabled(true);
+        graph_outstanding_ageing.setScaleEnabled(false);
+
+        BarDataSet set4;
+        set4 = new BarDataSet(getDataSet4(), "0.00 M To 10.00 M");
+
+        set4.setColors(Color.parseColor("#008FFB"));
+
+
+        ArrayList<IBarDataSet> dataSets4 = new ArrayList<IBarDataSet>();
+        dataSets4.add(set4);
+
+        BarData data = new BarData(dataSets4);
+
+
+        // hide Y-axis
+        YAxis left4 = graph_outstanding_ageing.getAxisLeft();
+        // left.setDrawLabels(false);
+        left4.setAxisMaximum(25f);
+        left4.setAxisMinimum(0f);
+
+        YAxis right4 = graph_outstanding_ageing.getAxisRight();
+        right4.setDrawLabels(false);
+        // custom X-axis labels
+
+
+        String[] values4 = new String[] { ">181", "151 To 180", "121 To 150", "91 To 120", "61 To 90","31 To 60","0 To 30"};
+
+        XAxis xAxis4 = graph_outstanding_ageing.getXAxis();
+        xAxis4.setValueFormatter(new MyXAxisValueFormatter(values4));
+
+        xAxis4.setGranularity(1f);
+        xAxis4.setLabelCount(12);
+        xAxis4.setAxisLineWidth(1);
+        xAxis4.setTextSize(10);
+
+
+        graph_outstanding_ageing.setData(data);
+
+        // custom description
+        Description description4 = new Description();
+        description4.setText("");
+        graph_outstanding_ageing.setDescription(description4);
+
+
+        graph_outstanding_ageing.animateY(1000);
+        graph_outstanding_ageing.invalidate();
+
 
     }
 
@@ -349,9 +409,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BarEntry v1e10 = new BarEntry(9, 6.47f);
         valueSet1.add(v1e10);
 
-
-
         return valueSet1;
+
+
+
+    }
+
+
+    /////////////////////////////Outstanding Ageing Details////////////////////
+
+
+    private ArrayList<BarEntry> getDataSet4() {
+
+        ArrayList<BarEntry> valueSet4 = new ArrayList<>();
+
+
+        BarEntry v1e1 = new BarEntry(0, 20.44f);
+        valueSet4.add(v1e1);
+
+        BarEntry v1e2 = new BarEntry(1, 16.46f);
+        valueSet4.add(v1e2);
+        BarEntry v1e3 = new BarEntry(2, 6.48f);
+        valueSet4.add(v1e3);
+        BarEntry v1e4 = new BarEntry(3, 0.0f);
+        valueSet4.add(v1e4);
+        BarEntry v1e5 = new BarEntry(4, 0.0f);
+        valueSet4.add(v1e5);
+
+        BarEntry v1e6 = new BarEntry(5, 0.0f);
+        valueSet4.add(v1e6);
+
+        BarEntry v1e7 = new BarEntry(6, 0.0f);
+        valueSet4.add(v1e7);
+
+        return valueSet4;
 
 
     }
@@ -896,13 +987,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void callMonthlyrevenue() {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-04","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-04","","","","");
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
         webServices.MonthlyRevenue(WebServices.ApiType.mRevenue, monthlyRevenueGraphrequest);
 
 
     }
 
+    private void callMonthlyAverage() {
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-04","","","","");
+        WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
+        webServices.AverageMonthChart(WebServices.ApiType.mAverage, monthlyRevenueGraphrequest);
+
+
+    }
     private void callDashboardFilterDetails() {
 
         DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest("14", "2021-07",
@@ -1076,7 +1175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
         rightAxis.setAxisMaximum(2500000);
-
+        rightAxis.setDrawLabels(false);
         //yValues.add(new Entry(0,23.6f));
         /*yValues.add(new Entry(1,21.26f));
         yValues.add(new Entry(2,2.94f));
