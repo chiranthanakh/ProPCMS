@@ -13,9 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +22,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +32,6 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -45,17 +41,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
 import com.proteam.propcms.Request.DivisionListModel;
-import com.proteam.propcms.Request.Loginmodel;
-import com.proteam.propcms.Request.ProjectListModel;
+import com.proteam.propcms.Request.MonthlyRevenueGraphrequest;
 import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.ClientList;
 import com.proteam.propcms.Response.CompanyListResponse;
@@ -65,7 +57,7 @@ import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
-import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.RevenueChartResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
@@ -76,7 +68,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -101,7 +92,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView tv_filterDetails_revenue, tv_filterDetails_outStanding, tv_filterDetails_PcCode, tv_filterDetails_collection;
     List divisionList = new ArrayList();
-
+    List revenueList = new ArrayList();
+    List monthList = new ArrayList();
+    String[] values;
+    ArrayList<Entry> yValues = new ArrayList<Entry>();
     LineChart lineChart_revenue_trend,lineChart_average_trend;
 
     // Vertical chart variable for our bar chart
@@ -168,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
 
 
-
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -178,71 +171,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        //////////////////////// Revenue Trends by Month Chart////////////////
-        lineChart_revenue_trend = findViewById(R.id.lineChart_revenue_trend);
-
-        lineChart_revenue_trend.setDragEnabled(true);
-        lineChart_revenue_trend.setScaleEnabled(false);
-
-        YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
-        leftAxis.removeAllLimitLines();
-        leftAxis.setAxisMaximum(25f);
-
-        // leftAxis.setAxisMinimum(0f);
-
-
-        YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
-        rightAxis.setAxisMaximum(25f);
-
-
-
-        ArrayList<Entry> yValues = new ArrayList<Entry>();
-
-        //  yValues.add(new Entry(0,23.6f));
-        yValues.add(new Entry(1,21.26f));
-        yValues.add(new Entry(2,2.94f));
-        yValues.add(new Entry(3,0f));
-        yValues.add(new Entry(4,0f));
-        yValues.add(new Entry(5,5.8f));
-        yValues.add(new Entry(6,0f));
-
-        LineDataSet set1 =new LineDataSet(yValues,"Revenue Trends by Month");
-
-        // set1.setFillAlpha(110);
-        set1.setColor(Color.parseColor("#3498db"));
-        set1.setLineWidth(6f);
-        set1.setValueTextSize(14f);
-        //  set1.enableDashedLine(10f,10f,0f);
-
-        set1.setValueTextColor(Color.parseColor("#ff8c00"));
-        set1.setCircleColor(Color.GREEN);
-        set1.setCircleColorHole(Color.GREEN);
-        set1.setCircleRadius(3f);
-
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-
-        LineData data = new LineData(dataSets);
-        lineChart_revenue_trend.setData(data);
-
-        String[] values = new String[]{"Oct-2021","Nov-2021","Dec-2021","Jan-2022","Feb-2022","Mar-2022"};
-
-        Description description = new Description();
-        description.setText("");
-        lineChart_revenue_trend.setDescription(description);
-
-        XAxis xAxis = lineChart_revenue_trend.getXAxis();
-        xAxis.setValueFormatter(new MyAxisValueFormatter(values));
-        xAxis.setTextSize(9f);
-        // xAxis.setGranularity(1);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
+        //monthlyrevenuegraphs();
 
 
         //////////////////////// Average Trends by Month Chart////////////////
 
-        lineChart_average_trend = findViewById(R.id.lineChart_average_trend);
+        /*lineChart_average_trend = findViewById(R.id.lineChart_average_trend);
 
         lineChart_average_trend.setDragEnabled(true);
         lineChart_average_trend.setScaleEnabled(false);
@@ -300,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xAxis1.setValueFormatter(new MyAxisValueFormatter(valuess));
         xAxis1.setTextSize(9f);
         // xAxis.setGranularity(1);
-        xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);*/
 
         //////////////////////////////////// Top 10 Outstanding Client///////////////
 
@@ -357,6 +291,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chart.invalidate();
 
     }
+
+
 
 
     ////////////////////Top 10 Out Standing Client //////////////////////////
@@ -890,6 +826,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tv_filterDetails_collection.setText(moneyString3);
                         }
 
+                        callMonthlyrevenue();
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+
+            case mRevenue:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if (response != null) {
+
+                        RevenueChartResponse revenueChartResponse = (RevenueChartResponse) response;
+
+                         revenueList = revenueChartResponse.getData();
+                         monthList = revenueChartResponse.getMonth();
+
+                         values = (String[]) monthList.toArray(new String[0]);
+
+                        for(int i=1;i<=revenueList.size();i++){
+                          //  String vacsd = formatNumber(Long.parseLong(revenueChartResponse.getData().get(i)));
+                            yValues.add(new Entry(i,Float.parseFloat(revenueChartResponse.getData().get(i-1))));
+                        }
+                        monthlyrevenuegraphs();
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
@@ -905,8 +878,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
+
+    private void callMonthlyrevenue() {
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-04","","","");
+        WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
+        webServices.MonthlyRevenue(WebServices.ApiType.mRevenue, monthlyRevenueGraphrequest);
+
+
+    }
 
     private void callDashboardFilterDetails() {
 
@@ -973,20 +957,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DivisionListModel divisionListModel = new DivisionListModel(user);
         WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
         webServices.divisionlist(WebServices.ApiType.divisionlist, divisionListModel);
-
-       /* progressDialog = new ProgressDialog(MainActivity.this);
-
-        if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                DivisionListModel divisionListModel = new DivisionListModel("21");
-                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(MainActivity.this);
-                webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
-            }
-        }*/
 
     }
 
@@ -1078,6 +1048,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ///////////////////////// Chart Section ///////////////////////////////////
 
 
+    private void monthlyrevenuegraphs() {
+
+        //////////////////////// Revenue Trends by Month Chart////////////////
+        lineChart_revenue_trend = findViewById(R.id.lineChart_revenue_trend);
+
+        lineChart_revenue_trend.setDragEnabled(true);
+        lineChart_revenue_trend.setScaleEnabled(false);
+
+        YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+        leftAxis.setAxisMaximum(2500000);
+
+        // leftAxis.setAxisMinimum(0f);
+
+
+        YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
+        rightAxis.setAxisMaximum(2500000);
+
+        //yValues.add(new Entry(0,23.6f));
+        /*yValues.add(new Entry(1,21.26f));
+        yValues.add(new Entry(2,2.94f));
+        yValues.add(new Entry(3,0f));
+        yValues.add(new Entry(4,0f));
+        yValues.add(new Entry(5,5.8f));
+        yValues.add(new Entry(6,0f));*/
+
+        LineDataSet set1 =new LineDataSet(yValues,"Revenue Trends by Month");
+
+        // set1.setFillAlpha(110);
+        set1.setColor(Color.parseColor("#3498db"));
+        set1.setLineWidth(6f);
+        set1.setValueTextSize(14f);
+        //  set1.enableDashedLine(10f,10f,0f);
+
+        set1.setValueTextColor(Color.parseColor("#ff8c00"));
+        set1.setCircleColor(Color.GREEN);
+        set1.setCircleColorHole(Color.GREEN);
+        set1.setCircleRadius(3f);
+
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        LineData data = new LineData(dataSets);
+        lineChart_revenue_trend.setData(data);
+
+       //String[] values = new String[]{"Oct-2021","Nov-2021","Dec-2021","Jan-2022","Feb-2022","Mar-2022"};
+
+        Description description = new Description();
+        description.setText("");
+        lineChart_revenue_trend.setDescription(description);
+
+        XAxis xAxis = lineChart_revenue_trend.getXAxis();
+        xAxis.setValueFormatter(new MyAxisValueFormatter(values));
+        xAxis.setTextSize(9f);
+        // xAxis.setGranularity(1);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+    }
+
     private void setData() {
 
         // Set the percentage of language used
@@ -1115,5 +1146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ////////////Third Graph////////////
 
+    public static String formatNumber(long count) {
+        if (count < 1000) return "" + count;
+        int exp = (int) (Math.log(count) / Math.log(1000));
+        return String.format("%.1f %c", count / Math.pow(1000, exp),"kMGTPE".charAt(exp-1));
+    }
 
 }
