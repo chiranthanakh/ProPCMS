@@ -326,6 +326,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // hide Y-axis
         YAxis left = chart.getAxisLeft();
+
+        left.removeAllLimitLines();
+        left.setAxisMaximum(8f);
+
+        left.setAxisMinimum(0f);
         // left.setDrawLabels(false);
 
         YAxis right = chart.getAxisRight();
