@@ -33,7 +33,6 @@ import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyCostTransferListResponse;
 import com.proteam.propcms.Response.approvalresponse.ApprovalList;
-import com.proteam.propcms.Response.invoicereject.RejectItems;
 import com.proteam.propcms.Response.invoicereject.RejectList;
 
 import okhttp3.MultipartBody;
@@ -149,4 +148,8 @@ public interface ProPCms {
     Call< VctDeleteResponse> fileupload1(@Part MultipartBody.Part file,
                                        @Part("user_id") RequestBody user_id,
                                        @Part("billing_id") RequestBody billing_id);
+
+
+    @POST("Pcms_apis/average_trends_by_month")
+    Call<RevenueChartResponse> Averagemonthchart(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
 }
