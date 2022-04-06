@@ -13,7 +13,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ll_select_data, ll_filter_data;
     ProgressDialog progressDialog;
     SwipeRefreshLayout swiperefresh;
+    Handler mHandler;
 
     TextView tv_filterDetails_revenue, tv_filterDetails_outStanding, tv_filterDetails_PcCode, tv_filterDetails_collection;
     List divisionList = new ArrayList();
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor = sharedPreferences.edit();
         user = sharedPreferences.getString("userid", null);
         role = sharedPreferences.getString("role", null);
+        mHandler=new Handler();
 
 
         if (user == null) {
@@ -170,8 +174,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                callMonthlyrevenue();
+            }
+        });
 
-        //monthlyrevenuegraphs();
 
 
         //////////////////////// Average Trends by Month Chart////////////////
@@ -821,7 +830,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tv_filterDetails_collection.setText(moneyString3);
                         }
 
-                        callMonthlyrevenue();
+                        //callMonthlyrevenue();
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
@@ -857,7 +866,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                           //  String vacsd = formatNumber(Long.parseLong(revenueChartResponse.getData().get(i)));
                             yValues.add(new Entry(i,Float.parseFloat(revenueChartResponse.getData().get(i-1))));
                         }
-                        monthlyrevenuegraphs();
+
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                monthlyrevenuegraphs();
+                            }
+                        });
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
 
