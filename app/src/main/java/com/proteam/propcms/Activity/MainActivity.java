@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -42,10 +43,14 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
@@ -65,8 +70,7 @@ import com.proteam.propcms.Response.TopTenRevenueListResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
-import org.eazegraph.lib.charts.PieChart;
-import org.eazegraph.lib.models.PieModel;
+
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView iv_nav_view;
     int mMonth, mDay, mYear;
     TextView tvR, tvPython, tvCPP, tvJava, btn_nav_profile, tv_verifyBillingInstruction, tv_verifyCostTransfer, tv_nav_username;
-    PieChart pieChart;
+
     LinearLayout ll_crnra, ll_irfm, ll_irfc, ll_verify_BI, ll_Verify_CTN;
     Button btn_logout,btn_search_list_dash;
     TextView irfc, tv_irfm, tv_ctnra, tv_irfc_count, tv_irfm_count, tv_ctnr_count, tv_division_BI_count, tv_division_vct_count;
@@ -129,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Map divisionmap = new HashMap();
 
 
+    PieChart pieChart;
+    PieData pieData;
+    PieDataSet pieDataSet;
+    ArrayList pieEntries;
+    ArrayList PieEntryLabels;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,7 +176,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tv_nav_username.setText("Basavaraj");
         }
 
-        setData();
+
+        getEntries();
+        pieDataSet = new PieDataSet(pieEntries, "");
+        pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        pieDataSet.setSliceSpace(0f);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(10f);
+        pieDataSet.setSliceSpace(0f);
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
@@ -361,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvCPP = findViewById(R.id.tvCPP);
         tvJava = findViewById(R.id.tvJava);
         pieChart = findViewById(R.id.piechart);
-        pieChart = findViewById(R.id.piechart);
+
 
         irfc = findViewById(R.id.irfc);
         irfc.setOnClickListener(this);
@@ -1263,41 +1282,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //////////////////Top Ten Revenue Graph///////////////////
 
-
-    private void setData() {
-
-        // Set the percentage of language used
-        tvR.setText(Integer.toString(40));
-        tvPython.setText(Integer.toString(30));
-        tvCPP.setText(Integer.toString(5));
-        tvJava.setText(Integer.toString(25));
-
-        // Set the data and color to the pie chart
-        pieChart.addPieSlice(
-                new PieModel(
-                        "R",
-                        Integer.parseInt(tvR.getText().toString()),
-                        Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.parseInt(tvPython.getText().toString()),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt(tvCPP.getText().toString()),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt(tvJava.getText().toString()),
-                        Color.parseColor("#29B6F6")));
-
-        // To animate the pie chart
-        pieChart.startAnimation();
+    private void getEntries() {
+        pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(2f, 0));
+        pieEntries.add(new PieEntry(4f, 1));
+        pieEntries.add(new PieEntry(6f, 2));
+        pieEntries.add(new PieEntry(8f, 3));
+        pieEntries.add(new PieEntry(7f, 4));
+        pieEntries.add(new PieEntry(3f, 5));
     }
+
+
+
 
 
     ////////////Third Graph////////////

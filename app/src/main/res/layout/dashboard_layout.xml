@@ -744,6 +744,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewGraph"
+                    android:backgroundTint="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -753,14 +754,16 @@
                     android:elevation="10dp"
                     app:cardCornerRadius="10dp">
 
-                    <org.eazegraph.lib.charts.PieChart
-                        android:id="@+id/piechart"
-                        android:layout_width="180dp"
-                        android:layout_height="match_parent"
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id = "@+id/piechart"
                         android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
-                        android:padding="6dp" />
+
+                        android:layout_gravity="center_vertical"
+                        android:layout_width = "200dp"
+                        android:layout_height = "match_parent" />
 
 
 
@@ -788,6 +791,7 @@
 
                             <!--Text view to display R -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:id="@+id/abb_power_tech"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -819,6 +823,7 @@
 
                             <!--Text view to display python text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -849,6 +854,7 @@
 
                             <!--Text view to display C++ text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -878,6 +884,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -906,6 +913,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -928,6 +936,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -950,6 +959,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -972,6 +982,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -994,6 +1005,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
@@ -1016,6 +1028,7 @@
 
                             <!--Text view to display Java text -->
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
