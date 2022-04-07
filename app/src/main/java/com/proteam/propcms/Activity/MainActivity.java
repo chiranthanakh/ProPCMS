@@ -1033,6 +1033,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
 
+    private void CallTopTenOutStanding() {
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        WebServices<TopTenRevenueListResponse> webServices = new WebServices<TopTenRevenueListResponse>(MainActivity.this);
+        webServices.TopTenOutstandingList(WebServices.ApiType.mTopTenOutstanding, monthlyRevenueGraphrequest);
+
+
+    }
+
     private void CallTopTenRevenue() {
 
         MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
