@@ -786,7 +786,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#008ffb" />
+                                android:background="#81c784" />
 
                             <!--Text view to display R -->
                             <TextView
@@ -818,7 +818,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#00e396" />
+                                android:background="#e57373" />
 
                             <!--Text view to display python text -->
                             <TextView
@@ -954,7 +954,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#00e396" />
+                                android:background="#e08e0b" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -977,7 +977,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#feb019" />
+                                android:background="#008744" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -1000,7 +1000,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#ff4560" />
+                                android:background="#ff0000" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -1023,7 +1023,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="#775dd0" />
+                                android:background="#234288" />
 
                             <!--Text view to display Java text -->
                             <TextView

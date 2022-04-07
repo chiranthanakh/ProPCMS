@@ -1208,21 +1208,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         //pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        pieDataSet.setColors(Color.parseColor("#FFBB86FC"),
-                Color.parseColor("#234288"),
-                Color.parseColor("#3498db"),
+        pieDataSet.setColors(Color.parseColor("#81c784"),
                 Color.parseColor("#e57373"),
-                Color.parseColor("#81c784"),
+                Color.parseColor("#feb019"),
+                Color.parseColor("#ff4560"),
                 Color.parseColor("#b3e5fc"),
-                Color.parseColor("#1A2562FC"),
+                Color.parseColor("#008ffb"),
                 Color.parseColor("#e08e0b"),
                 Color.parseColor("#008744"),
-                Color.parseColor("#ff0000"));
+                Color.parseColor("#ff0000"),
+                Color.parseColor("#234288"));
         pieDataSet.setSliceSpace(0f);
         pieDataSet.setValueFormatter(new LargeValueFormatter());
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(5f);
         pieDataSet.setSliceSpace(0f);
+
+
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
