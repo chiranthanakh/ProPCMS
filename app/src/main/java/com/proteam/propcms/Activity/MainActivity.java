@@ -194,8 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
-
         //////////////////////////////////// Top 10 Outstanding Client///////////////
 
 
@@ -519,7 +517,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         mcurrentDate.set(Calendar.YEAR, year);
                         mcurrentDate.set(Calendar.MONTH, month);
-
                         edt_home_month.setText(sdf.format(mcurrentDate.getTime()));
                         mDay = dayOfMonth;
                         mMonth = month;
