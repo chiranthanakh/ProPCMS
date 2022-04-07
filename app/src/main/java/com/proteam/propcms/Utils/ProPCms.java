@@ -157,4 +157,7 @@ public interface ProPCms {
 
     @POST("Pcms_apis/annual_top_10_revenue_customers")
     Call<TopTenRevenueListResponse> TopTenRevenue(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
+
+    @POST("Pcms_apis/top_10_outstanding_clients")
+    Call<TopTenRevenueListResponse> TopTenOutstanding(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
 }

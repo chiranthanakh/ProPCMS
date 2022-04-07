@@ -760,7 +760,6 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="20dp"
                         android:layout_weight="1"
-
                         android:layout_gravity="center_vertical"
                         android:layout_width = "200dp"
                         android:layout_height = "match_parent" />
