@@ -29,6 +29,7 @@ import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
 import com.proteam.propcms.Request.Updateuserrequest;
 import com.proteam.propcms.Response.RevenueChartResponse;
+import com.proteam.propcms.Response.TopTenRevenueListResponse;
 import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.VerifyBillingInstructionListResponse;
 import com.proteam.propcms.Response.VerifyCostTransferListResponse;
@@ -152,4 +153,8 @@ public interface ProPCms {
 
     @POST("Pcms_apis/average_trends_by_month")
     Call<RevenueChartResponse> Averagemonthchart(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
+
+
+    @POST("Pcms_apis/annual_top_10_revenue_customers")
+    Call<TopTenRevenueListResponse> TopTenRevenue(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
 }

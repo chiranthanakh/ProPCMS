@@ -45,6 +45,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.proteam.propcms.R;
 import com.proteam.propcms.Request.Clientlistrequest;
 import com.proteam.propcms.Request.DashboardFilterDetailsRequest;
@@ -60,6 +61,7 @@ import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.RevenueChartResponse;
+import com.proteam.propcms.Response.TopTenRevenueListResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
@@ -976,6 +978,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
+            case mTopTenRevenue:
+
+                break;
+
         }
 
     }
@@ -984,6 +990,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
+
+
+    private void TopTenRevenueList() {
+
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-04","","","","");
+        WebServices<TopTenRevenueListResponse> webServices = new WebServices<TopTenRevenueListResponse>(MainActivity.this);
+        webServices.TopTenRevenueData(WebServices.ApiType.mTopTenRevenue, monthlyRevenueGraphrequest);
+
+
+    }
 
     private void callMonthlyrevenue() {
 
@@ -1166,6 +1183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lineChart_revenue_trend.setDragEnabled(true);
         lineChart_revenue_trend.setScaleEnabled(false);
 
+
         YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
         leftAxis.removeAllLimitLines();
         leftAxis.setAxisMaximum(2500000);
@@ -1215,6 +1233,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xAxis.setTextSize(9f);
         // xAxis.setGranularity(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+        lineChart_revenue_trend.invalidate();
+        lineChart_revenue_trend.refreshDrawableState();
 
 
     }
