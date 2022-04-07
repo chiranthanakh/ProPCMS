@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Entry> yValuesaverage = new ArrayList<Entry>();
     LineChart lineChart_revenue_trend,lineChart_average_trend;
 
+    List revenueClientlist = new ArrayList();
+    List revenueamountlist = new ArrayList();
+
     // Vertical chart variable for our bar chart
     BarChart barChart;
     // Verticalchart variable for our bar data set.
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PieChart pieChart;
     PieData pieData;
     PieDataSet pieDataSet;
-    ArrayList pieEntries;
+    ArrayList pieEntries = new ArrayList<>();;
     ArrayList PieEntryLabels;
 
     @Override
@@ -177,19 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        getEntries();
-        pieDataSet = new PieDataSet(pieEntries, "");
-        pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        pieDataSet.setSliceSpace(0f);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(10f);
-        pieDataSet.setSliceSpace(0f);
-        sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
-        sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
-        sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
-        sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
+
 
 
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -200,16 +191,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        CallTopTenRevenue();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                callMonthlyrevenue();
+                //callMonthlyrevenue();
             }
         });
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                callMonthlyAverage();
+               // callMonthlyAverage();
             }
         });
 
@@ -993,6 +985,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case mTopTenRevenue:
 
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if (response != null) {
+
+                        List list = new ArrayList();
+
+                        TopTenRevenueListResponse topTenRevenueListResponse = (TopTenRevenueListResponse) response;
+
+                        list = topTenRevenueListResponse.getGraph_data();
+
+                        for (int i=0; i<list.size();i++){
+
+                            revenueClientlist.add(topTenRevenueListResponse.getGraph_data().get(i).getClient_name());
+                            revenueamountlist.add(topTenRevenueListResponse.getGraph_data().get(i).getAmt());
+
+                            pieEntries.add(new PieEntry(Float.parseFloat(topTenRevenueListResponse.getGraph_data().get(i).getAmt()), i));
+                            //pieEntries.add(new PieEntry(15.0f, i));
+
+                        }
+
+                        setpiechart();
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
                 break;
         }
 
@@ -1181,6 +1211,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ///////////////////////// Chart Section ///////////////////////////////////
 
 
+    private void setpiechart(){
+
+        pieDataSet = new PieDataSet(pieEntries, "");
+        pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        //pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        pieDataSet.setColors(Color.parseColor("#FFBB86FC"),
+                Color.parseColor("#234288"),
+                Color.parseColor("#3498db"),
+                Color.parseColor("#e57373"),
+                Color.parseColor("#81c784"),
+                Color.parseColor("#b3e5fc"),
+                Color.parseColor("#1A2562FC"),
+                Color.parseColor("#e08e0b"),
+                Color.parseColor("#008744"),
+                Color.parseColor("#ff0000"));
+        pieDataSet.setSliceSpace(0f);
+        pieDataSet.setValueFormatter(new LargeValueFormatter());
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(5f);
+        pieDataSet.setSliceSpace(0f);
+        sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
+        sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
+        sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
+        sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
+    }
+
     private void monthlyrevenuegraphs() {
 
         //////////////////////// Revenue Trends by Month Chart////////////////
@@ -1294,13 +1351,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //////////////////Top Ten Revenue Graph///////////////////
 
     private void getEntries() {
-        pieEntries = new ArrayList<>();
+       /* pieEntries = new ArrayList<>();
         pieEntries.add(new PieEntry(2f, 0));
         pieEntries.add(new PieEntry(4f, 1));
         pieEntries.add(new PieEntry(6f, 2));
         pieEntries.add(new PieEntry(8f, 3));
         pieEntries.add(new PieEntry(7f, 4));
-        pieEntries.add(new PieEntry(3f, 5));
+        pieEntries.add(new PieEntry(3f, 5));*/
     }
 
 
