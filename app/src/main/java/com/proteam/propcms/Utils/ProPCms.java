@@ -24,6 +24,7 @@ import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.ExpenseResponse;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.OutstandingAgeingListResponse;
 import com.proteam.propcms.Response.ProfileResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
 import com.proteam.propcms.Response.RequestForModificationListResponse;
@@ -160,4 +161,8 @@ public interface ProPCms {
 
     @POST("Pcms_apis/top_10_outstanding_clients")
     Call<TopTenRevenueListResponse> TopTenOutstanding(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
+
+
+    @POST("Pcms_apis/outstanding_ageing_details")
+    Call<OutstandingAgeingListResponse> OutstandingAgeingList(@Body MonthlyRevenueGraphrequest monthlyRevenueGraphrequest);
 }

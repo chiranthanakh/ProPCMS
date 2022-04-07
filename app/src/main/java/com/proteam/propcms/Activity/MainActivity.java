@@ -65,6 +65,7 @@ import com.proteam.propcms.Response.Dashboardcountresponse;
 import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
+import com.proteam.propcms.Response.OutstandingAgeingListResponse;
 import com.proteam.propcms.Response.RevenueChartResponse;
 import com.proteam.propcms.Response.TopTenRevenueListResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
@@ -1032,6 +1033,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
+
+    private void CallOutStandingAgeing() {
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        WebServices<OutstandingAgeingListResponse> webServices = new WebServices<OutstandingAgeingListResponse>(MainActivity.this);
+        webServices.OutstandingAgeingList(WebServices.ApiType.OutstandingAgeing, monthlyRevenueGraphrequest);
+
+
+    }
 
     private void CallTopTenOutStanding() {
 
