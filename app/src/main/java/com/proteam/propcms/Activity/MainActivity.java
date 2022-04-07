@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -1235,8 +1236,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setpiechart(){
 
         pieDataSet = new PieDataSet(pieEntries, "");
+
+        pieChart.getDescription().setEnabled(false);
         pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
+        pieChart.setDrawEntryLabels(false);
         //pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         pieDataSet.setColors(Color.parseColor("#81c784"),
                 Color.parseColor("#e57373"),
@@ -1254,22 +1258,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieDataSet.setValueTextSize(5f);
         pieDataSet.setSliceSpace(0f);
 
-        tv_com1.setText((CharSequence) revenueClientlist.get(0)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
-        tv_com3.setText((CharSequence) revenueClientlist.get(2)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
-        tv_com4.setText((CharSequence) revenueClientlist.get(3)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
-        tv_com5.setText((CharSequence) revenueClientlist.get(4)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
-        tv_com6.setText((CharSequence) revenueClientlist.get(5)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
-        tv_com7.setText((CharSequence) revenueClientlist.get(6)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
-        tv_com8.setText((CharSequence) revenueClientlist.get(7)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
-        tv_com9.setText((CharSequence) revenueClientlist.get(8)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
-        tv_com10.setText((CharSequence) revenueClientlist.get(9)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
-        tv_com2.setText((CharSequence) revenueClientlist.get(1)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+        tv_com1.setText((CharSequence) revenueClientlist.get(0)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+        tv_com3.setText((CharSequence) revenueClientlist.get(2)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+        tv_com4.setText((CharSequence) revenueClientlist.get(3)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+        tv_com5.setText((CharSequence) revenueClientlist.get(4)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+        tv_com6.setText((CharSequence) revenueClientlist.get(5)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+        tv_com7.setText((CharSequence) revenueClientlist.get(6)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+        tv_com8.setText((CharSequence) revenueClientlist.get(7)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+        tv_com9.setText((CharSequence) revenueClientlist.get(8)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+        tv_com10.setText((CharSequence) revenueClientlist.get(9)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+        tv_com2.setText((CharSequence) revenueClientlist.get(1)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
 
 
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_clients_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_division_head_home.setOnItemSelectedListener(OnCatSpinnerCL);
         sp_company_home.setOnItemSelectedListener(OnCatSpinnerCL);
+
+        pieChart.invalidate();
+        pieChart.refreshDrawableState();
+     //   pieChart.spin(2000,0,-360f, Easing.EasingOption.EaseInOutQuad);
+        pieChart.animateY(1400);
     }
 
     private void monthlyrevenuegraphs() {
