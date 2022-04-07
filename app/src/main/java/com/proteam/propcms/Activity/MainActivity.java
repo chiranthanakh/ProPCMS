@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ll_crnra, ll_irfm, ll_irfc, ll_verify_BI, ll_Verify_CTN;
     Button btn_logout,btn_search_list_dash;
     TextView irfc, tv_irfm, tv_ctnra, tv_irfc_count, tv_irfm_count, tv_ctnr_count, tv_division_BI_count, tv_division_vct_count;
+    TextView tv_com1,tv_com2,tv_com3,tv_com4,tv_com5,tv_com6,tv_com7,tv_com8,tv_com9,tv_com10;
     EditText edt_home_month;
     Spinner sp_division_home, sp_clients_home, sp_division_head_home, sp_company_home;
 
@@ -372,8 +373,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvCPP = findViewById(R.id.tvCPP);
         tvJava = findViewById(R.id.tvJava);
         pieChart = findViewById(R.id.piechart);
-
-
         irfc = findViewById(R.id.irfc);
         irfc.setOnClickListener(this);
         tv_irfm = findViewById(R.id.tv_irfm);
@@ -383,6 +382,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer_layout = findViewById(R.id.drawer_layout_main);
         iv_nav_view = findViewById(R.id.iv_nav_view);
         iv_nav_view.setOnClickListener(this);
+
+        tv_com1 = findViewById(R.id.tv_company1);
+        tv_com2 = findViewById(R.id.tv_company2);
+        tv_com3 = findViewById(R.id.tv_company3);
+        tv_com4 = findViewById(R.id.tv_company4);
+        tv_com5 = findViewById(R.id.tv_company5);
+        tv_com6 = findViewById(R.id.tv_company6);
+        tv_com7 = findViewById(R.id.tv_company7);
+        tv_com8 = findViewById(R.id.tv_company8);
+        tv_com9 = findViewById(R.id.tv_company9);
+        tv_com10 = findViewById(R.id.tv_company10);
+
         //callcompanyapi();
         // callDheadapi();
         // callDivisionListApi();
@@ -1232,6 +1243,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(5f);
         pieDataSet.setSliceSpace(0f);
+
+        tv_com1.setText((CharSequence) revenueClientlist.get(0)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+        tv_com3.setText((CharSequence) revenueClientlist.get(2)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+        tv_com4.setText((CharSequence) revenueClientlist.get(3)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+        tv_com5.setText((CharSequence) revenueClientlist.get(4)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+        tv_com6.setText((CharSequence) revenueClientlist.get(5)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+        tv_com7.setText((CharSequence) revenueClientlist.get(6)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+        tv_com8.setText((CharSequence) revenueClientlist.get(7)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+        tv_com9.setText((CharSequence) revenueClientlist.get(8)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+        tv_com10.setText((CharSequence) revenueClientlist.get(9)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+        tv_com2.setText((CharSequence) revenueClientlist.get(1)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
 
 
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);

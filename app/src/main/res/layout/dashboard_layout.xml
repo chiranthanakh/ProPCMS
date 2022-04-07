@@ -791,12 +791,13 @@
                             <!--Text view to display R -->
                             <TextView
                                 android:textColor="@color/black"
-                                android:id="@+id/abb_power_tech"
+                                android:id="@+id/tv_company1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ABB POWER TECHN - 21.04 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/tvR"
@@ -822,12 +823,14 @@
 
                             <!--Text view to display python text -->
                             <TextView
+                                android:id="@+id/tv_company2"
                                 android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ABB INDIA LIMIT - 14.65 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/tvPython"
@@ -857,8 +860,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ABB POWER PRODU - 13.64 M"
-                                android:textSize="11sp" />
+                                android:id="@+id/tv_company3"
+                                android:ems="15"
+
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/tvCPP"
@@ -887,8 +892,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ABB GLOBAL INDU - 11.35 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+                                android:id="@+id/tv_company4"
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/tvJava"
@@ -916,8 +922,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="PUMA SPORTS IND - 6.52 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:id="@+id/tv_company5"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -939,8 +947,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ADIDAS INDIA MA - 5.24 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:id="@+id/tv_company6"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -962,8 +972,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ARVIND LIFESTYL - 5.11 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+                                android:id="@+id/tv_company7"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -985,8 +996,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="AIR PLAZA RETAI - 5.00 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:id="@+id/tv_company8"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -1008,8 +1021,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="ADITYA BIRLA FA - 4.96 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:id="@+id/tv_company9"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -1031,8 +1046,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="5dp"
-                                android:text="Other - 142.96 M"
-                                android:textSize="11sp" />
+                                android:ems="15"
+
+                                android:id="@+id/tv_company10"
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
