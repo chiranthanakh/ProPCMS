@@ -77,6 +77,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -110,12 +112,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List monthList1 = new ArrayList();
     String[] values;
     String[] values2;
+    String[] outstandingvalues;
+    String[] outstandingAgivalues;
     ArrayList<Entry> yValues = new ArrayList<Entry>();
     ArrayList<Entry> yValuesaverage = new ArrayList<Entry>();
+    ArrayList<BarEntry> valueSet4 = new ArrayList<>();
+    ArrayList<BarEntry> valueSet1 = new ArrayList<>();
     LineChart lineChart_revenue_trend,lineChart_average_trend;
 
     List revenueClientlist = new ArrayList();
     List revenueamountlist = new ArrayList();
+
+    List outsdandingClientlist = new ArrayList();
+    List outstandingAmountList = new ArrayList();
+
+
+    List outsdandingAgidatelist = new ArrayList();
+    List outstandingAgiValuerList = new ArrayList();
 
     // Vertical chart variable for our bar chart
     BarChart barChart;
@@ -193,126 +206,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        CallTopTenRevenue();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                //callMonthlyrevenue();
+                CallTopTenRevenue();
             }
         });
+
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-               // callMonthlyAverage();
+                callMonthlyrevenue();
             }
         });
 
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+               callMonthlyAverage();
+            }
+        });
 
-        //////////////////////////////////// Top 10 Outstanding Client///////////////
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                CallTopTenOutStanding();
+            }
+        });
 
-
-        HorizontalBarChart topTen_outstanding = (HorizontalBarChart) findViewById(R.id.topTen_outstanding);
-
-        topTen_outstanding.setDragEnabled(true);
-        topTen_outstanding.setScaleEnabled(false);
-
-        BarDataSet set3;
-        set3 = new BarDataSet(getDataSet(), "0.00 M To 10.00 M");
-
-        set3.setColors(Color.parseColor("#008FFB"));
-
-
-        ArrayList<IBarDataSet> dataSets3 = new ArrayList<IBarDataSet>();
-        dataSets3.add(set3);
-
-        BarData data3 = new BarData(dataSets3);
-
-        // hide Y-axis
-        YAxis left = topTen_outstanding.getAxisLeft();
-
-        left.removeAllLimitLines();
-        left.setAxisMaximum(8f);
-
-        left.setAxisMinimum(0f);
-        // left.setDrawLabels(false);
-
-        YAxis right = topTen_outstanding.getAxisRight();
-        right.setDrawLabels(false);
-        // custom X-axis labels
-
-        String[] values3 = new String[] { "LARSEN & TOUBRO", "MARICI SOLAR INDIA", "AIR PLAZA RETAIL", "SANDVIK ASIA PRIVATE", "ABB GLOBAL INDUSTRIES","PUMA SPORTS INDIA","ABB INDIA LIMITED","SPML INFRA LIMITED","ABB POWER PRODUCTS","ABB POWER TECHNOLOGY"};
-
-        XAxis xAxis3 = topTen_outstanding.getXAxis();
-        xAxis3.setValueFormatter(new MyXAxisValueFormatter(values3));
-
-        xAxis3.setGranularity(1f);
-        xAxis3.setLabelCount(12);
-        xAxis3.setAxisLineWidth(1);
-        xAxis3.setTextSize(7);
-        topTen_outstanding.setData(data3);
-
-        // custom description
-        Description descriptiont = new Description();
-        descriptiont.setText("");
-        topTen_outstanding.setDescription(descriptiont);
-
-        topTen_outstanding.animateY(1000);
-        topTen_outstanding.invalidate();
-
-
-        ////////////////////////Outstanding Ageing Details//////////////////////////////////////////
-
-        HorizontalBarChart graph_outstanding_ageing = (HorizontalBarChart) findViewById(R.id.graph_outstanding_ageing);
-
-        graph_outstanding_ageing.setDragEnabled(true);
-        graph_outstanding_ageing.setScaleEnabled(false);
-
-        BarDataSet set4;
-        set4 = new BarDataSet(getDataSet4(), "0.00 M To 10.00 M");
-
-        set4.setColors(Color.parseColor("#008FFB"));
-
-
-        ArrayList<IBarDataSet> dataSets4 = new ArrayList<IBarDataSet>();
-        dataSets4.add(set4);
-
-        BarData data = new BarData(dataSets4);
-
-
-        // hide Y-axis
-        YAxis left4 = graph_outstanding_ageing.getAxisLeft();
-        // left.setDrawLabels(false);
-        left4.setAxisMaximum(25f);
-        left4.setAxisMinimum(0f);
-
-        YAxis right4 = graph_outstanding_ageing.getAxisRight();
-        right4.setDrawLabels(false);
-        // custom X-axis labels
-
-
-        String[] values4 = new String[] { ">181", "151 To 180", "121 To 150", "91 To 120", "61 To 90","31 To 60","0 To 30"};
-
-        XAxis xAxis4 = graph_outstanding_ageing.getXAxis();
-        xAxis4.setValueFormatter(new MyXAxisValueFormatter(values4));
-
-        xAxis4.setGranularity(1f);
-        xAxis4.setLabelCount(12);
-        xAxis4.setAxisLineWidth(1);
-        xAxis4.setTextSize(10);
-
-
-        graph_outstanding_ageing.setData(data);
-
-        // custom description
-        Description description4 = new Description();
-        description4.setText("");
-        graph_outstanding_ageing.setDescription(description4);
-
-
-        graph_outstanding_ageing.animateY(1000);
-        graph_outstanding_ageing.invalidate();
-
-
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                CallOutStandingAgeing();
+            }
+        });
     }
 
     private void initialize() {
@@ -428,13 +355,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
 
 
+
         BarEntry v1e1 = new BarEntry(0, 1.47f);
         valueSet1.add(v1e1);
 
-        BarEntry v1e2 = new BarEntry(1, 1.53f);
-        valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(2, 1.57f);
-        valueSet1.add(v1e3);
+
         BarEntry v1e4 = new BarEntry(3, 1.61f);
         valueSet1.add(v1e4);
         BarEntry v1e5 = new BarEntry(4, 1.82f);
@@ -1008,6 +933,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (response != null) {
 
                         List list = new ArrayList();
+                        List list2 = new ArrayList();
+
 
                         TopTenRevenueListResponse topTenRevenueListResponse = (TopTenRevenueListResponse) response;
 
@@ -1020,10 +947,110 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             pieEntries.add(new PieEntry(Float.parseFloat(topTenRevenueListResponse.getGraph_data().get(i).getAmt()), i));
                             //pieEntries.add(new PieEntry(15.0f, i));
-
                         }
 
-                        setpiechart();
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                setpiechart();
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+            case OutstandingAgeing:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if (response != null) {
+
+                        List list = new ArrayList();
+
+                        OutstandingAgeingListResponse outstandingAgeingListResponse = (OutstandingAgeingListResponse) response;
+
+                        list = outstandingAgeingListResponse.getGraph_data();
+
+                        for (int i=0; i<list.size();i++){
+
+                            outsdandingAgidatelist.add(outstandingAgeingListResponse.getGraph_data().get(i).getDate());
+                            outstandingAgiValuerList.add(outstandingAgeingListResponse.getGraph_data().get(i).getValue());
+
+                           BarEntry v1e = new BarEntry(i, Float.parseFloat(outstandingAgeingListResponse.getGraph_data().get((list.size()-1)-i).getValue()));
+                           valueSet1.add(v1e);
+                        }
+
+                        Collections.reverse(outsdandingAgidatelist);
+                        outstandingAgivalues = (String[]) outsdandingAgidatelist.toArray(new String[0]);
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                outstandingAgi();
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+            case mTopTenOutstanding:
+
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+
+                if (isSucces) {
+
+                    if (response != null) {
+
+                        List list = new ArrayList();
+
+                        TopTenRevenueListResponse topTenRevenueListResponse = (TopTenRevenueListResponse) response;
+
+                        list = topTenRevenueListResponse.getGraph_data();
+
+                        for (int i=0; i<list.size();i++){
+
+                            outsdandingClientlist.add(topTenRevenueListResponse.getGraph_data().get(i).getClient_name().substring(0,13));
+                            outstandingAmountList.add(topTenRevenueListResponse.getGraph_data().get(i).getAmt());
+
+                            BarEntry v1e = new BarEntry(i, Float.parseFloat(topTenRevenueListResponse.getGraph_data().get((list.size()-1)-i).getAmt()));
+                            valueSet4.add(v1e);
+                        }
+                        Collections.reverse(outsdandingClientlist);
+                        outstandingvalues = (String[]) outsdandingClientlist.toArray(new String[0]);
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                toptenOutstanding();
+                            }
+                        });
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
@@ -1253,6 +1280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(5f);
         pieDataSet.setSliceSpace(0f);
+        pieDataSet.notifyDataSetChanged();
 
         tv_com1.setText((CharSequence) revenueClientlist.get(0)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
         tv_com3.setText((CharSequence) revenueClientlist.get(2)+"-"+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
@@ -1382,21 +1410,118 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //////////////////Top Ten Revenue Graph///////////////////
+    private void toptenOutstanding(){
 
-    private void getEntries() {
-       /* pieEntries = new ArrayList<>();
-        pieEntries.add(new PieEntry(2f, 0));
-        pieEntries.add(new PieEntry(4f, 1));
-        pieEntries.add(new PieEntry(6f, 2));
-        pieEntries.add(new PieEntry(8f, 3));
-        pieEntries.add(new PieEntry(7f, 4));
-        pieEntries.add(new PieEntry(3f, 5));*/
+        //////////////////////////////////// Top 10 Outstanding Client///////////////
+
+        HorizontalBarChart topTen_outstanding = (HorizontalBarChart) findViewById(R.id.topTen_outstanding);
+
+        topTen_outstanding.setDragEnabled(true);
+        topTen_outstanding.setScaleEnabled(false);
+
+        BarDataSet set3;
+        set3 = new BarDataSet(valueSet4, "0.00 M To 10.00 M");
+
+        set3.setColors(Color.parseColor("#008FFB"));
+
+
+        ArrayList<IBarDataSet> dataSets3 = new ArrayList<IBarDataSet>();
+        dataSets3.add(set3);
+
+        BarData data3 = new BarData(dataSets3);
+
+        // hide Y-axis
+        YAxis left = topTen_outstanding.getAxisLeft();
+
+        left.removeAllLimitLines();
+        left.setAxisMaximum(1000000);
+        left.setValueFormatter(new LargeValueFormatter());
+
+        left.setAxisMinimum(0f);
+        // left.setDrawLabels(false);
+
+        YAxis right = topTen_outstanding.getAxisRight();
+        right.setDrawLabels(false);
+        // custom X-axis labels
+
+        //String[] values3 = new String[] { "LARSEN & TOUBRO", "MARICI SOLAR INDIA", "AIR PLAZA RETAIL", "SANDVIK ASIA PRIVATE", "ABB GLOBAL INDUSTRIES","PUMA SPORTS INDIA","ABB INDIA LIMITED","SPML INFRA LIMITED","ABB POWER PRODUCTS","ABB POWER TECHNOLOGY"};
+
+        XAxis xAxis3 = topTen_outstanding.getXAxis();
+        xAxis3.setValueFormatter(new MyXAxisValueFormatter(outstandingvalues));
+        //xAxis3.setValueFormatter(new LargeValueFormatter());
+
+        xAxis3.setGranularity(1f);
+        xAxis3.setLabelCount(12);
+        xAxis3.setAxisLineWidth(1);
+        xAxis3.setTextSize(7);
+        topTen_outstanding.setData(data3);
+
+        // custom description
+        Description descriptiont = new Description();
+        descriptiont.setText("");
+        topTen_outstanding.setDescription(descriptiont);
+
+        topTen_outstanding.animateY(1000);
+        topTen_outstanding.invalidate();
+
+
     }
 
+    ////////////////////////Outstanding Ageing Details//////////////////////////////////////////
+    private void outstandingAgi(){
+
+        HorizontalBarChart graph_outstanding_ageing = (HorizontalBarChart) findViewById(R.id.graph_outstanding_ageing);
+
+        graph_outstanding_ageing.setDragEnabled(true);
+        graph_outstanding_ageing.setScaleEnabled(false);
+
+        BarDataSet set4;
+        set4 = new BarDataSet(valueSet1, "0.00 M To 10.00 M");
+
+        set4.setColors(Color.parseColor("#008FFB"));
 
 
+        ArrayList<IBarDataSet> dataSets4 = new ArrayList<IBarDataSet>();
+        dataSets4.add(set4);
 
+        BarData data = new BarData(dataSets4);
+
+
+        // hide Y-axis
+        YAxis left4 = graph_outstanding_ageing.getAxisLeft();
+        // left.setDrawLabels(false);
+        left4.setAxisMaximum(2500000f);
+        left4.setAxisMinimum(0f);
+        left4.setValueFormatter(new LargeValueFormatter());
+
+        YAxis right4 = graph_outstanding_ageing.getAxisRight();
+        right4.setDrawLabels(false);
+        // custom X-axis labels
+
+
+        //String[] values4 = new String[] { ">181", "151 To 180", "121 To 150", "91 To 120", "61 To 90","31 To 60","0 To 30"};
+
+        XAxis xAxis4 = graph_outstanding_ageing.getXAxis();
+        xAxis4.setValueFormatter(new MyXAxisValueFormatter(outstandingAgivalues));
+
+        xAxis4.setGranularity(1f);
+        xAxis4.setLabelCount(12);
+        xAxis4.setAxisLineWidth(1);
+        xAxis4.setTextSize(10);
+
+
+        graph_outstanding_ageing.setData(data);
+
+        // custom description
+        Description description4 = new Description();
+        description4.setText("");
+        graph_outstanding_ageing.setDescription(description4);
+
+
+        graph_outstanding_ageing.animateY(1000);
+        graph_outstanding_ageing.invalidate();
+
+    }
 
     ////////////Third Graph////////////
 
