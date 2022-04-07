@@ -61,7 +61,7 @@ public class WebServices<T> {
     public enum ApiType {
        general,login,profile,profileupdate,invoicemod,projectlist,approve,companylist,headlist,divisionlist,countitem,client
         ,verifyBi,verifyVct,divisioncountdashboard,dashboardfilterdetails,submitBI,update,SubmitCTN,deletectndata,DeleteBI
-        ,updatevct,expense,pdfupload,mRevenue,mAverage,mAveragerevenu
+        ,updatevct,expense,pdfupload,mRevenue,mAverage,mAveragerevenu,mTopTenRevenue
     }
 
     String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
@@ -940,6 +940,30 @@ public class WebServices<T> {
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
         call=(Call<T>)proPCms.Averagemonthchart(monthlyRevenueGraphrequest);
+
+        call.enqueue(new Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, Response<T> response) {
+                System.out.println("usercompany===="+response.body());
+                t=(T)response.body();
+                onResponseListner.onResponse(t, apiTypeVariable, true,response.code());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                onResponseListner.onResponse(null, apiTypeVariable, false,0);
+            }
+        });
+
+    }
+
+    public void TopTenRevenueList( ApiType apiTypes, MonthlyRevenueGraphrequest monthlyRevenueGraphrequest)
+    {
+        apiTypeVariable = apiTypes;
+        Retrofit retrofit=getRetrofitClient(BaseUrl);
+        ProPCms proPCms=retrofit.create(ProPCms.class);
+
+        call=(Call<T>)proPCms.TopTenRevenue(monthlyRevenueGraphrequest);
 
         call.enqueue(new Callback<T>() {
             @Override

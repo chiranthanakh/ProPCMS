@@ -61,6 +61,7 @@ import com.proteam.propcms.Response.DevisionHeadList;
 import com.proteam.propcms.Response.DivisionListResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.RevenueChartResponse;
+import com.proteam.propcms.Response.TopTenRevenueListResponse;
 import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
@@ -970,6 +971,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 break;
+
+            case mTopTenRevenue:
+
+                break;
         }
 
     }
@@ -978,6 +983,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
+
+    private void CallTopTenRevenue() {
+
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        WebServices<TopTenRevenueListResponse> webServices = new WebServices<TopTenRevenueListResponse>(MainActivity.this);
+        webServices.TopTenRevenueList(WebServices.ApiType.mTopTenRevenue, monthlyRevenueGraphrequest);
+
+
+    }
 
     private void callMonthlyrevenue() {
 
