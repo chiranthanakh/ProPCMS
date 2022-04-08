@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,13 +74,14 @@ import com.proteam.propcms.Utils.OnResponseListener;
 import com.proteam.propcms.Utils.WebServices;
 
 
-
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -207,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        DateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+        Date date = new Date();
+        Log.d("Month",dateFormat.format(date));
+
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -238,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                CallOutStandingAgeing();
+                CallOutStandingAgeing("","","","","");
             }
         });
     }
@@ -351,73 +357,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private ArrayList<BarEntry> getDataSet() {
-
-        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-
-
-
-        BarEntry v1e1 = new BarEntry(0, 1.47f);
-        valueSet1.add(v1e1);
-
-
-        BarEntry v1e4 = new BarEntry(3, 1.61f);
-        valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(4, 1.82f);
-        valueSet1.add(v1e5);
-
-        BarEntry v1e6 = new BarEntry(5, 1.86f);
-        valueSet1.add(v1e6);
-
-        BarEntry v1e7 = new BarEntry(6, 4.75f);
-        valueSet1.add(v1e7);
-
-        BarEntry v1e8 = new BarEntry(7, 5.48f);
-        valueSet1.add(v1e8);
-
-        BarEntry v1e9 = new BarEntry(8, 6.05f);
-        valueSet1.add(v1e9);
-
-        BarEntry v1e10 = new BarEntry(9, 6.47f);
-        valueSet1.add(v1e10);
-
-        return valueSet1;
-
-
-
-    }
-
-
-    /////////////////////////////Outstanding Ageing Details////////////////////
-
-
-    private ArrayList<BarEntry> getDataSet4() {
-
-        ArrayList<BarEntry> valueSet4 = new ArrayList<>();
-
-
-        BarEntry v1e1 = new BarEntry(0, 20.44f);
-        valueSet4.add(v1e1);
-
-        BarEntry v1e2 = new BarEntry(1, 16.46f);
-        valueSet4.add(v1e2);
-        BarEntry v1e3 = new BarEntry(2, 6.48f);
-        valueSet4.add(v1e3);
-        BarEntry v1e4 = new BarEntry(3, 0.0f);
-        valueSet4.add(v1e4);
-        BarEntry v1e5 = new BarEntry(4, 0.0f);
-        valueSet4.add(v1e5);
-
-        BarEntry v1e6 = new BarEntry(5, 0.0f);
-        valueSet4.add(v1e6);
-
-        BarEntry v1e7 = new BarEntry(6, 0.0f);
-        valueSet4.add(v1e7);
-
-        return valueSet4;
-
-
-    }
 
 
 
@@ -1073,12 +1012,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ////////////////////////+++++++++++++++++++++API calling +++++++++++++++++++++++++=///////////////////////////
 
 
-    private void CallOutStandingAgeing() {
+    private void CallOutStandingAgeing(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
         MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
         WebServices<OutstandingAgeingListResponse> webServices = new WebServices<OutstandingAgeingListResponse>(MainActivity.this);
         webServices.OutstandingAgeingList(WebServices.ApiType.OutstandingAgeing, monthlyRevenueGraphrequest);
-
 
     }
 
@@ -1320,7 +1258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
         leftAxis.removeAllLimitLines();
         leftAxis.setValueFormatter(new LargeValueFormatter());
-        leftAxis.setAxisMaximum(40000000);
+        leftAxis.setAxisMaximum(5000000);
         // leftAxis.setAxisMinimum(0f);
         YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
         rightAxis.setAxisMaximum(2500000);
@@ -1432,7 +1370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set3 = new BarDataSet(valueSet4, "0.00 M To 10.00 M");
 
         set3.setColors(Color.parseColor("#008FFB"));
-
+        set3.setValueFormatter(new LargeValueFormatter());
 
         ArrayList<IBarDataSet> dataSets3 = new ArrayList<IBarDataSet>();
         dataSets3.add(set3);
@@ -1488,7 +1426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set4 = new BarDataSet(valueSet1, "0.00 M To 10.00 M");
 
         set4.setColors(Color.parseColor("#008FFB"));
-
+        set4.setValueFormatter(new LargeValueFormatter());
 
         ArrayList<IBarDataSet> dataSets4 = new ArrayList<IBarDataSet>();
         dataSets4.add(set4);
