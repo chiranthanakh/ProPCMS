@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList pieEntries = new ArrayList<>();;
     ArrayList PieEntryLabels;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -864,6 +865,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 averagerevenuegraphs();
+
                             }
                         });
                     } else {
@@ -1278,12 +1280,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lineChart_revenue_trend.refreshDrawableState();
     }
 
+    //////////////////////// Average Trends by Month Chart////////////////
+
     private void averagerevenuegraphs() {
 
         lineChart_average_trend = findViewById(R.id.lineChart_average_trend);
 
         lineChart_average_trend.setDragEnabled(true);
         lineChart_average_trend.setScaleEnabled(false);
+
+
 
         YAxis leftAxis1 = lineChart_average_trend.getAxisLeft();
         leftAxis1.removeAllLimitLines();
@@ -1327,6 +1333,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         lineChart_average_trend.invalidate();
         lineChart_average_trend.refreshDrawableState();
+
+
 
     }
 
