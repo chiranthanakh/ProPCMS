@@ -209,45 +209,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        DateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         Date date = new Date();
-        Log.d("Month",dateFormat.format(date));
+        Log.d("Month1",dateFormat.format(date));
+        edt_home_month.setText(dateFormat.format(date));
 
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                CallTopTenRevenue();
+                CallTopTenRevenue("2022-03","","","","");
             }
         });
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                callMonthlyrevenue();
-            }
-        });
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-               callMonthlyAverage();
-            }
-        });
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                CallTopTenOutStanding();
-            }
-        });
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                CallOutStandingAgeing("","","","","");
-            }
-        });
+        grafdataapiscall(dateFormat.format(date),"","","","");
     }
+
+
 
     private void initialize() {
         btn_search_list_dash = findViewById(R.id.btn_search_list_dash);
@@ -295,13 +274,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edt_home_month = findViewById(R.id.edt_home_month);
         edt_home_month.setOnClickListener(this);
 
-        Calendar mcurrentDate = Calendar.getInstance();
-        String myFormat = "MMMM yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-        //mcurrentDate.set(Calendar.YEAR, year);
-        //mcurrentDate.set(Calendar.MONTH, month);
-
-        edt_home_month.setText(sdf.format(mcurrentDate.get(mMonth)));
+        DateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+        Date date = new Date();
+        edt_home_month.setText(dateFormat.format(date));
 
         tvR = findViewById(R.id.tvR);
         tvPython = findViewById(R.id.tvPython);
@@ -329,15 +304,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_com9 = findViewById(R.id.tv_company9);
         tv_com10 = findViewById(R.id.tv_company10);
 
-        //callcompanyapi();
-        // callDheadapi();
-        // callDivisionListApi();
-        calldashboardcount();
-        callDashboardFilterDetails();
 
 
     }
 
+    private void grafdataapiscall(String month,String client,String division,String company,String owner) {
+
+        calldashboardcount();
+
+       callDashboardFilterDetails(month,client,division,company,owner);
+
+       /* AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                CallTopTenRevenue(month,client,division,company,owner);
+            }
+        });*/
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                callMonthlyAverage(month,client,division,company,owner);
+            }
+        });
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                callMonthlyrevenue(month,client,division,company,owner);
+            }
+        });
+
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                CallTopTenOutStanding(month,client,division,company,owner);
+            }
+        });
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                CallOutStandingAgeing(month,client,division,company,owner);
+            }
+        });
+
+    }
 
     ////////////////////Top 10 Out Standing Client //////////////////////////
 
@@ -354,11 +365,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public String getFormattedValue(float value, AxisBase axis) {
             return mValues[(int) value];
         }
-
     }
-
-
-
 
     //////////////////////// Revenue Trends by Month Chart////////////////
 
@@ -382,7 +389,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_filter_data:
-
 
                 if (ll_select_data.getVisibility() == View.VISIBLE) {
                     ll_select_data.setVisibility(View.GONE);
@@ -408,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mcurrentDate.set(Calendar.MONTH, month);
                         edt_home_month.setText(sdf.format(mcurrentDate.getTime()));
                         mDay = dayOfMonth;
-                        mMonth = month;
+                        mMonth = month+1;
                         mYear = year;
 
                     }
@@ -454,30 +460,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_search_list_dash:
 
-                if(sp_clients_home.getSelectedItem()!=null){
 
-                    if(sp_division_home.getSelectedItem()!=null){
+                String client_id = "",division_id = "",companyid = "";
 
-                        if(sp_company_home.getSelectedItem()!=null){
-
-                            callDashboardFilterDetails2();
-
-                        }else {
-
-                            Toast.makeText(this, "Select Company", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }else {
-
-                        Toast.makeText(this, "Select Division", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }else {
-
-                    Toast.makeText(this, "Select client", Toast.LENGTH_SHORT).show();
+                if(sp_clients_home.getSelectedItem()!=null) {
+                    client_id = String.valueOf(clientmap.get(sp_clients_home.getSelectedItem().toString()));
                 }
 
+                if(sp_division_home.getSelectedItem()!=null) {
+                        division_id = String.valueOf(divisionmap.get(sp_division_home.getSelectedItem().toString()));
+                }
+
+                if(sp_company_home.getSelectedItem()!=null){
+                        companyid = String.valueOf(companymap.get(sp_company_home.getSelectedItem().toString()));
+
+                }
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+                Date date = new Date();
+
+                callDashboardFilterDetails2(String.valueOf(mYear+"-"+mMonth+1),client_id,division_id,companyid);
+                grafdataapiscall(String.valueOf(mYear+"-"+mMonth),client_id,division_id,companyid,"");
+                String finalClient_id = client_id;
+                String finalDivision_id = division_id;
+                String finalCompanyid = companyid;
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        CallTopTenRevenue(String.valueOf(mYear+"-"+mMonth), finalClient_id, finalDivision_id, finalCompanyid,"");
+                    }
+                });
                 break;
 
             case R.id.ll_verify_BI:
@@ -509,6 +521,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    /////////////////////////******************************Api response **********************888/////////////////////
     @Override
     public void onResponse(Object response, WebServices.ApiType URL, boolean isSucces, int code) {
 
@@ -731,6 +745,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (response != null) {
 
+                        tv_filterDetails_revenue.setText("0");
+                        tv_filterDetails_outStanding.setText("0");
+                        tv_filterDetails_PcCode.setText("0");
+                        tv_filterDetails_collection.setText("0");
+
                         DashboardFilterDetailsResponse dashboardFilterDetailsResponse = (DashboardFilterDetailsResponse) response;
 
                         if(dashboardFilterDetailsResponse.getTotal_revenue()!=null){
@@ -751,10 +770,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             float amount3 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_collection());
                             NumberFormat formatter3 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
                             String moneyString3 = formatter3.format(amount3);
-                            tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
                             tv_filterDetails_collection.setText(moneyString3);
                         }
-
+                        tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
                         //callMonthlyrevenue();
 
                     } else {
@@ -834,12 +852,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          monthList1 = revenueChartResponse.getMonth();
 
                          values2 = (String[]) monthList.toArray(new String[0]);
-                       // yValuesaverage.add(new Entry(0,Float.parseFloat("0")));
 
                         for(int i=0;i<revenueList1.size();i++){
                            // float dfvav = Float.parseFloat(truncateNumber(Float.parseFloat(revenueChartResponse.getData().get(i))));
                           // String vacsd = formatNumber(Long.parseLong(revenueChartResponse.getData().get(i)));
-                            yValuesaverage.add(new Entry(i,Math.round(Float.parseFloat(revenueChartResponse.getData().get(i)))));
+                            yValuesaverage.add(new Entry(i,Float.parseFloat(revenueChartResponse.getData().get(i))));
                         }
 
 
@@ -880,15 +897,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         list = topTenRevenueListResponse.getGraph_data();
 
-                        for (int i=0; i<list.size();i++){
+                        revenueClientlist.clear();
+                        revenueamountlist.clear();
+                        pieEntries.clear();
+                        for (int i = 0; i < list.size(); i++) {
 
                             revenueClientlist.add(topTenRevenueListResponse.getGraph_data().get(i).getClient_name());
                             revenueamountlist.add(topTenRevenueListResponse.getGraph_data().get(i).getAmt());
 
                             pieEntries.add(new PieEntry(Float.parseFloat(topTenRevenueListResponse.getGraph_data().get(i).getAmt()), i));
                             //pieEntries.add(new PieEntry(15.0f, i));
-                        }
 
+                    }
 
                         mHandler.post(new Runnable() {
                             @Override
@@ -1014,77 +1034,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void CallOutStandingAgeing(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,month,client_id,division,company_id,process_owenr_id);
         WebServices<OutstandingAgeingListResponse> webServices = new WebServices<OutstandingAgeingListResponse>(MainActivity.this);
         webServices.OutstandingAgeingList(WebServices.ApiType.OutstandingAgeing, monthlyRevenueGraphrequest);
 
     }
 
-    private void CallTopTenOutStanding() {
+    private void CallTopTenOutStanding(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,month,client_id,division,company_id,process_owenr_id);
         WebServices<TopTenRevenueListResponse> webServices = new WebServices<TopTenRevenueListResponse>(MainActivity.this);
         webServices.TopTenOutstandingList(WebServices.ApiType.mTopTenOutstanding, monthlyRevenueGraphrequest);
 
 
     }
 
-    private void CallTopTenRevenue() {
+    private void CallTopTenRevenue(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,month,client_id,division,company_id,process_owenr_id);
         WebServices<TopTenRevenueListResponse> webServices = new WebServices<TopTenRevenueListResponse>(MainActivity.this);
         webServices.TopTenRevenueList(WebServices.ApiType.mTopTenRevenue, monthlyRevenueGraphrequest);
 
 
     }
 
-    private void callMonthlyrevenue() {
+    private void callMonthlyrevenue(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,month,client_id,division,company_id,process_owenr_id);
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
         webServices.MonthlyRevenue(WebServices.ApiType.mRevenue, monthlyRevenueGraphrequest);
 
 
     }
 
-    private void callMonthlyAverage() {
+    private void callMonthlyAverage(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,"2022-03","","","","");
+        MonthlyRevenueGraphrequest monthlyRevenueGraphrequest = new MonthlyRevenueGraphrequest(user,month,client_id,division,company_id,process_owenr_id);
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
         webServices.AverageMonthChart(WebServices.ApiType.mAveragerevenu, monthlyRevenueGraphrequest);
 
 
     }
-    private void callDashboardFilterDetails() {
+    private void callDashboardFilterDetails(String month,String client_id,String division,String company_id,String process_owenr_id) {
 
-        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest(user, "2022-03",
-             "","","");
+        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest(user,month,client_id,division,company_id);
         WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
         webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
 
 
     }
 
-    private void callDashboardFilterDetails2() {
-
-        progressDialog = new ProgressDialog(MainActivity.this);
-
-         if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
+    private void callDashboardFilterDetails2(String month,String client,String division,String company) {
 
 
-                DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest(user, "2021-07",
-                        String.valueOf(clientmap.get(sp_clients_home.getSelectedItem().toString())), String.valueOf(divisionmap.get(sp_division_home.getSelectedItem().toString())),
-                        String.valueOf(companymap.get(sp_company_home.getSelectedItem().toString()))
-                );
-                WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
-                webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
+        DashboardFilterDetailsRequest dashboardFilterDetailsRequest = new DashboardFilterDetailsRequest(user, month, client, division,company);
+        WebServices<DashboardFilterDetailsResponse> webServices = new WebServices<DashboardFilterDetailsResponse>(MainActivity.this);
+        webServices.dashboardFilter(WebServices.ApiType.dashboardfilterdetails, dashboardFilterDetailsRequest);
 
-            }
-        }
 
     }
 
@@ -1149,23 +1155,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         WebServices<ClientList> webServices = new WebServices<ClientList>(MainActivity.this);
         webServices.ClientList(WebServices.ApiType.client, clientlistrequest);
 
-       /* progressDialog=new ProgressDialog(MainActivity.this);
-        if(progressDialog!=null)
-        {
-            if(!progressDialog.isShowing())
-            {
-
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
-                webServices.headlist( WebServices.ApiType.headlist );
-            }
-            else {
-
-            }
-        }*/
     }
 
     private void callDheadapi() {
@@ -1173,23 +1162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
         webServices.headlist(WebServices.ApiType.headlist);
 
-       /* progressDialog=new ProgressDialog(MainActivity.this);
-        if(progressDialog!=null)
-        {
-            if(!progressDialog.isShowing())
-            {
 
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(MainActivity.this);
-                webServices.headlist( WebServices.ApiType.headlist );
-            }
-            else {
-
-            }
-        }*/
     }
 
 
@@ -1224,16 +1197,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieDataSet.setSliceSpace(0f);
         pieDataSet.notifyDataSetChanged();
 
-        tv_com1.setText((CharSequence) revenueClientlist.get(0)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
-        tv_com3.setText((CharSequence) revenueClientlist.get(2)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
-        tv_com4.setText((CharSequence) revenueClientlist.get(3)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
-        tv_com5.setText((CharSequence) revenueClientlist.get(4)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
-        tv_com6.setText((CharSequence) revenueClientlist.get(5)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
-        tv_com7.setText((CharSequence) revenueClientlist.get(6)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
-        tv_com8.setText((CharSequence) revenueClientlist.get(7)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
-        tv_com9.setText((CharSequence) revenueClientlist.get(8)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
-        tv_com10.setText((CharSequence) revenueClientlist.get(9)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
-        tv_com2.setText((CharSequence) revenueClientlist.get(1)+" - "+formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+                    tv_com1.clearFocus();
+                if(revenueClientlist.size()==10){
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }
+
 
 
         sp_division_home.setOnItemSelectedListener(OnCatSpinnerCL);
@@ -1258,10 +1236,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         YAxis leftAxis = lineChart_revenue_trend.getAxisLeft();
         leftAxis.removeAllLimitLines();
         leftAxis.setValueFormatter(new LargeValueFormatter());
-        leftAxis.setAxisMaximum(5000000);
+       // leftAxis.setAxisMaximum(5000000);
         // leftAxis.setAxisMinimum(0f);
         YAxis rightAxis = lineChart_revenue_trend.getAxisRight();
-        rightAxis.setAxisMaximum(2500000);
+        //rightAxis.setAxisMaximum(2500000);
         rightAxis.setDrawLabels(false);
         LineDataSet set1 =new LineDataSet(yValues,"Revenue Trends by Month");
 
@@ -1310,13 +1288,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         YAxis leftAxis1 = lineChart_average_trend.getAxisLeft();
         leftAxis1.removeAllLimitLines();
         leftAxis1.setValueFormatter(new LargeValueFormatter());
-        leftAxis1.setAxisMaximum(6164482);
-        leftAxis1.setAxisMinimum(1574321);
-
 
         YAxis rightAxis1 = lineChart_average_trend.getAxisRight();
-        rightAxis1.setAxisMaximum(6164482);
-        rightAxis1.setAxisMinimum(1574321);
         rightAxis1.setDrawLabels(false);
         LineDataSet set2 =new LineDataSet(yValuesaverage,"Average Trends By Month");
 
@@ -1381,7 +1354,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         YAxis left = topTen_outstanding.getAxisLeft();
 
         left.removeAllLimitLines();
-        left.setAxisMaximum(1000000);
+        //left.setAxisMaximum(1000000);
         left.setValueFormatter(new LargeValueFormatter());
 
         left.setAxisMinimum(0f);
@@ -1437,8 +1410,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // hide Y-axis
         YAxis left4 = graph_outstanding_ageing.getAxisLeft();
         // left.setDrawLabels(false);
-        left4.setAxisMaximum(2500000f);
-        left4.setAxisMinimum(0f);
+       // left4.setAxisMaximum(2500000f);
+        //left4.setAxisMinimum(0f);
         left4.setValueFormatter(new LargeValueFormatter());
 
         YAxis right4 = graph_outstanding_ageing.getAxisRight();
@@ -1470,7 +1443,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    ////////////Third Graph////////////
 
     public static String formatNumber(long count) {
         if (count < 1000) return "" + count;
@@ -1493,20 +1465,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
-    public String truncateNumber(float floatNumber) {
-        long million = 1000000L;
-        long billion = 1000000000L;
-        long trillion = 1000000000000L;
-        long number = Math.round(floatNumber);
-        if ((number >= million) && (number < billion)) {
-            float fraction = calculateFraction(number, million);
-            return String.valueOf(fraction);
-        } else if ((number >= billion) && (number < trillion)) {
-            float fraction = calculateFraction(number, billion);
-            return String.valueOf(fraction);
-        }
-        return Long.toString(number);
-    }
 
     public float calculateFraction(long number, long divisor) {
         long truncate = (number * 10L + (divisor / 2L)) / divisor;

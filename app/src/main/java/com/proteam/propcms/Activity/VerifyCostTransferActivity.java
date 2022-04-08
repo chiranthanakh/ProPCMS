@@ -537,7 +537,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
-                UserIdRequest userIdRequest = new UserIdRequest("14");
+                UserIdRequest userIdRequest = new UserIdRequest(user);
                 WebServices<VerifCostTransferResponse> webServices = new WebServices<VerifCostTransferResponse>(VerifyCostTransferActivity.this);
                 webServices.VerifyVCTDataList(WebServices.ApiType.verifyVct,userIdRequest);
             } else {
@@ -548,7 +548,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
     private void callProjectListApi() {
 
-        ProjectListModel projectListModel = new ProjectListModel("14");
+        ProjectListModel projectListModel = new ProjectListModel(user);
         WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(VerifyCostTransferActivity.this);
         webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
 

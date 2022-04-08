@@ -230,7 +230,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void callProjectListApi() {
 
-        ProjectListModel projectListModel = new ProjectListModel("14");
+        ProjectListModel projectListModel = new ProjectListModel(user);
         WebServices<ProjectListResponse> webServices = new WebServices<ProjectListResponse>(VerifyBillingInstructionsActivity.this);
         webServices.projectlist(WebServices.ApiType.projectlist,projectListModel);
 
@@ -308,7 +308,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.show();
-                UserIdRequest userIdRequest = new UserIdRequest("14");
+                UserIdRequest userIdRequest = new UserIdRequest(user);
                 WebServices<VerifyBillingInstructionResponse> webServices = new WebServices<VerifyBillingInstructionResponse>(VerifyBillingInstructionsActivity.this);
                 webServices.VerifyBIDataList(WebServices.ApiType.verifyBi,userIdRequest);
             } else {
@@ -319,23 +319,9 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
     private void calldevisionapi() {
 
-        DivisionListModel divisionListModel = new DivisionListModel("14");
+        DivisionListModel divisionListModel = new DivisionListModel(user);
         WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
         webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
-
-        /*progressDialog = new ProgressDialog(VerifyBillingInstructionsActivity.this);
-
-        if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                DivisionListModel divisionListModel = new DivisionListModel("14");
-                WebServices<DivisionListResponse> webServices = new WebServices<DivisionListResponse>(VerifyBillingInstructionsActivity.this);
-                webServices.divisionlist(WebServices.ApiType.divisionlist,divisionListModel);
-            }
-        }*/
 
     }
 
@@ -1135,7 +1121,7 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
                             progressDialog.show();
 
                             BillingUpdaterequest billingUpdaterequest = new BillingUpdaterequest(
-                                    "14", verifyBillingInstructionModel.getId(),
+                                    user, verifyBillingInstructionModel.getId(),
                                     verifyBillingInstructionModel.getCompanyid(),
                                     productid,
                                     verifyBillingInstructionModel.getInvoicenumber(),
