@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
     String role;
     String user;
+    String username;
 
     Map companymap = new HashMap();
     List companyList = new ArrayList();
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor = sharedPreferences.edit();
         user = sharedPreferences.getString("userid", null);
         role = sharedPreferences.getString("role", null);
+        username = sharedPreferences.getString("username", null);
         mHandler=new Handler();
 
 
@@ -188,14 +190,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cc_For_divisionLogin.setVisibility(View.GONE);
             tv_verifyCostTransfer.setVisibility(View.GONE);
             tv_verifyBillingInstruction.setVisibility(View.GONE);
-            tv_nav_username.setText("Jayaram DR");
+            tv_nav_username.setText(username);
         } else {
             cc_For_managerLogin.setVisibility(View.GONE);
             tv_ctnra.setVisibility(View.GONE);
             tv_irfm.setVisibility(View.GONE);
             irfc.setVisibility(View.GONE);
             sp_division_head_home.setVisibility(View.GONE);
-            tv_nav_username.setText("Basavaraj");
+            tv_nav_username.setText(username);
         }
 
 
