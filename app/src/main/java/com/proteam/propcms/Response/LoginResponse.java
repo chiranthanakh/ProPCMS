@@ -17,13 +17,9 @@ public class LoginResponse {
     @Expose
     private String role;
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    @SerializedName("username")
+    @Expose
+    private String username;
 
     public String getStatus() {
         return status;
@@ -33,7 +29,6 @@ public class LoginResponse {
         this.status = status;
     }
 
-
     public String getUser_id() {
         return user_id;
     }
@@ -42,4 +37,19 @@ public class LoginResponse {
         this.user_id = user_id;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
