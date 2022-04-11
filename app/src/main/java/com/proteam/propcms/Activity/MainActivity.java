@@ -555,7 +555,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
-
                 }
                 break;
 
@@ -585,12 +584,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     } else {
                         Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
-
                     }
 
                 } else {
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
-
                 }
 
                 break;
@@ -757,21 +754,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             float amount = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_revenue());
                             NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
                             String moneyString = formatter.format(amount);
-                            tv_filterDetails_revenue.setText(moneyString);
+                            tv_filterDetails_revenue.setText(formatNumber(Long.parseLong(dashboardFilterDetailsResponse.getTotal_revenue())));
                         }
 
                         if(dashboardFilterDetailsResponse.getTotal_outstanding()!=null){
                             float amount2 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_outstanding());
                             NumberFormat formatter2 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
                             String moneyString2 = formatter2.format(amount2);
-                            tv_filterDetails_outStanding.setText(moneyString2);
+                            tv_filterDetails_outStanding.setText(formatNumber(Long.parseLong(dashboardFilterDetailsResponse.getTotal_outstanding())));
                         }
 
                         if(dashboardFilterDetailsResponse.getTotal_collection()!=null){
                             float amount3 = Float.parseFloat(dashboardFilterDetailsResponse.getTotal_collection());
                             NumberFormat formatter3 = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
                             String moneyString3 = formatter3.format(amount3);
-                            tv_filterDetails_collection.setText(moneyString3);
+                           tv_filterDetails_collection.setText(formatNumber((long) amount3));
                         }
                         tv_filterDetails_PcCode.setText(dashboardFilterDetailsResponse.getNew_pc_code());
                         //callMonthlyrevenue();
