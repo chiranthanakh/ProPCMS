@@ -739,8 +739,8 @@ public class VerifyBillingInstructionsActivity extends AppCompatActivity impleme
 
             // String project_id = "365";
             String fsf= arrayList.get(i).getBIPcCode();
-           // if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && fsf.equalsIgnoreCase(mYear+"-"+mMonth) ){
-             if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && arrayList.get(i).getBIforMonth().equalsIgnoreCase(mYear+"-"+mMonth) ){
+            if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && fsf.equalsIgnoreCase(mYear+"-"+mMonth) ){
+             //if(fsf != null && fsf.equalsIgnoreCase(project_id) || arrayList.get(i).getBIforMonth() != null && arrayList.get(i).getBIforMonth().equalsIgnoreCase(mYear+"-"+mMonth) ){
 
                 filterarraylist.add(new VerifyBillingInstructionModel(
                         arrayList.get(i).getInvoicedate(),

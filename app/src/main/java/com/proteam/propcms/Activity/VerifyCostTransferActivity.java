@@ -210,6 +210,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                         ProjectListResponse projectListResponse = (ProjectListResponse) response;
 
                         list1 = projectListResponse.getProject_list();
+                        pccodelist.add("Select PC code");
 
                         for (int i = 0; i < list1.size(); i++) {
 
@@ -373,7 +374,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
                         List ex = new ArrayList();
                         ExpenseResponse expenseResponse = (ExpenseResponse) response;
                         ex = expenseResponse.getExpense_type_list();
-
+                        expenselist.add("Select expense type");
                         for (int i=0;i<ex.size();i++){
 
                             expenselist.add(expenseResponse.getExpense_type_list().get(i).getExpense_type_name());
@@ -609,7 +610,7 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                         edt_from_vct.setText(sdf.format(mcurrentDate.getTime()));
                         mDay = dayOfMonth;
-                        mMonth = month;
+                        mMonth = month+1;
                         mYear = year;
 
                     }
@@ -664,8 +665,9 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
         for (int i=0;i<arrayList.size();i++){
 
             // String project_id = "365";
-
-            if(arrayList.get(i).getVctfromPcCodeName().equalsIgnoreCase(project_id) || arrayList.get(i).getVcttoPcCodeName().equalsIgnoreCase(project_id)){
+                System.out.println("sdsdvc "+arrayList.get(i).getVctmonth()+"   "+mYear+"-"+"0"+mMonth);
+           // if(arrayList.get(i).getVctfromPcCodeName().equalsIgnoreCase(project_id) || arrayList.get(i).getVctmonth().equalsIgnoreCase(mYear+"-"+mMont)){
+            if( arrayList.get(i).getVctmonth().equalsIgnoreCase(mYear+"-"+"0"+mMonth)){
 
                 filterarraylist.add(new VerifyCostTransferModel(
                         arrayList.get(i).getVctCtn(),
@@ -681,21 +683,19 @@ public class VerifyCostTransferActivity extends AppCompatActivity implements Vie
 
                 ));
             }
+        }
 
-            if(filterarraylist.size()==0){
-                ll_no_data_VCT.setVisibility(View.VISIBLE);
-            }else {
-                ll_no_data_VCT.setVisibility(View.GONE);
-
-            }
-
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
-            VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(filterarraylist,this,false);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+        if(filterarraylist.size()==0){
+            ll_no_data_VCT.setVisibility(View.VISIBLE);
+        }else {
+            ll_no_data_VCT.setVisibility(View.GONE);
 
         }
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_vct_Data_list);
+        VerifyCostTransferAdapter adapter = new VerifyCostTransferAdapter(filterarraylist,this,false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
