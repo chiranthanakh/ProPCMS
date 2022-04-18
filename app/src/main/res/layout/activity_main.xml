@@ -7,7 +7,6 @@
     tools:context=".Activity.MainActivity"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-
     android:id="@+id/drawer_layout_main"
     app:sliderType="slide"
     tools:openDrawer="start">

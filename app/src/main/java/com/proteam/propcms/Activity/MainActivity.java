@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                CallTopTenRevenue("2022-03","","","","");
+                CallTopTenRevenue(mYear+"-"+mMonth,"","","","");
             }
         });
 

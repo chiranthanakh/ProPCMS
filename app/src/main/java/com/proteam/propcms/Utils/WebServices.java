@@ -64,7 +64,10 @@ public class WebServices<T> {
         ,updatevct,expense,pdfupload,mRevenue,mAverage,mAveragerevenu,mTopTenRevenue,mTopTenOutstanding,OutstandingAgeing
     }
 
-    String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
+   // String BaseUrl = "https://pcmsdemo.proteam.co.in/api/";
+
+    String BaseUrl = "http://95.168.187.202/demopcms/api/";
+
 
     public WebServices(OnResponseListener<T> onResponseListner) {
         this.onResponseListner = onResponseListner;
