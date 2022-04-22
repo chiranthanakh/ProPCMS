@@ -64,6 +64,7 @@ import com.proteam.propcms.Request.UserIdRequest;
 import com.proteam.propcms.Response.GenerealResponse;
 import com.proteam.propcms.Response.LoginResponse;
 import com.proteam.propcms.Response.ProjectListResponse;
+import com.proteam.propcms.Response.VctDeleteResponse;
 import com.proteam.propcms.Response.invoicereject.RejectList;
 import com.proteam.propcms.Utils.OnClick;
 import com.proteam.propcms.Utils.OnResponseListener;
@@ -166,7 +167,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 }else {
                     adaptorclass(false);
                 }
-
             }
         });
 
@@ -255,7 +255,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 }
             }
         }
-
     }
 
     private void callapproveindividualApi(String id) {
@@ -498,8 +497,8 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
                         for (int i = 0; i < list1.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForCancellationsActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -523,6 +522,31 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
             case countitem:
                 break;
             case client:
+                break;
+
+            case pdfupload:
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                if (isSucces) {
+                    if (response != null) {
+
+
+                        VctDeleteResponse generealResponse = (VctDeleteResponse) response;
+
+                        Toast.makeText(this, generealResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+
+                    } else {
+                        Toast.makeText(this, "Server busy", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
                 break;
         }
     }
@@ -549,7 +573,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 break;
 
             case R.id.btn_search_Irfc:
-                if(sp_all_project_irfc.getSelectedItem()!=null){
+
 
                     if(!edt_from_irfc.getText().toString().isEmpty()){
                         Searchlist();
@@ -559,12 +583,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                         snackbar.show();
                     }
 
-                }else {
-                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
-                    snackbar.show();
 
-                }
 
                 break;
         }
@@ -580,8 +599,6 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
                 }else{
                     return item1.getIrfcPcCode().compareToIgnoreCase(item2.getIrfcPcCode());
                 }
-
-
             }
         });
 
@@ -651,15 +668,20 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
 
     private void Searchlist() {
 
-        String vddj = sp_all_project_irfc.getSelectedItem().toString();
+        //String vddj = sp_all_project_irfc.getSelectedItem().toString();
 
-        String project_id = String.valueOf(projectmap.get(sp_all_project_irfc.getSelectedItem().toString()));
+        String project_id="";
+
+        if (sp_all_project_irfc.getSelectedItem()!=null){
+            project_id = String.valueOf(projectmap.get(sp_all_project_irfc.getSelectedItem().toString()));
+        }
+        //String project_id = String.valueOf(projectmap.get(sp_all_project_irfc.getSelectedItem().toString()));
 
         for (int i=0;i<arrayList.size();i++){
 
             // String project_id = "365";
 
-            if(arrayList.get(i).getIrfcPcCode().equalsIgnoreCase(project_id)){
+            if(arrayList.get(i).getIrfcPcCode().equalsIgnoreCase(project_id) || arrayList.get(i).getIrfcForMonth().equalsIgnoreCase(edt_from_irfc.getText().toString())){
 
                 filterarraylist.add( new IrfcDataModel(arrayList.get(i).getIrfcPcCode(),
                         arrayList.get(i).getIrfcInvoiceNo(),
@@ -757,6 +779,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         Button btn_d_irfc_ctn_approve = dialog.findViewById(R.id.btn_d_irfc_ctn_approve);
         Button btn_d_irfc_ctn_reject = dialog.findViewById(R.id.btn_d_irfc_ctn_reject);
 
+        billId = arrayList.get(position).getId();
         tv_d_irfc_group.setText(arrayList.get(position).getIrfcGroup());
         tv_d_irfc_pcCode.setText(arrayList.get(position).getIrfcPcCode());
         tv_d_irfc_InvoiceNo.setText(arrayList.get(position).getIrfcInvoiceNo());
@@ -768,6 +791,7 @@ public class InvoiceRequestForCancellationsActivity extends AppCompatActivity im
         tv_d_irfc_kindAttention.setText(arrayList.get(position).getIrfcKindAttention());
         tv_d_irfc_region.setText(arrayList.get(position).getIrfcRegion());
         tv_d_irfc_place.setText(arrayList.get(position).getIrfcPlace());
+       // arrayList.get(position).bill
 
         tv_d_irfc_gstNo.setText(arrayList.get(position).getIrfcGstinNo());
         tv_d_irfc_panOfCustomer.setText(arrayList.get(position).getIrfcPanOfCustomer());

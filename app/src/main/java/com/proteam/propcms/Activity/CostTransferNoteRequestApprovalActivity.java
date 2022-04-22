@@ -227,7 +227,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
             case R.id.btn_ctrn_search:
 
-                if(sp_all_project_ctnra.getSelectedItem()!=null){
+
 
                     if(!edt_from.getText().toString().equals("")){
                         Searchlist();
@@ -237,12 +237,7 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         snackbar.show();
                     }
 
-                }else {
-                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
-                    snackbar.show();
 
-                }
                 break;
 
             case R.id.iv_clear_ctrn:
@@ -546,8 +541,8 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
                         for (int i = 0; i < list.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
 
                    }
 
@@ -774,13 +769,19 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
     private void Searchlist() {
 
-        String project_id = (String) projectmap.get(sp_all_project_ctnra.getSelectedItem().toString());
+        String project_id ="";
+
+        if(sp_all_project_ctnra.getSelectedItem()!=null){
+
+            project_id = (String) projectmap.get(sp_all_project_ctnra.getSelectedItem().toString());
+
+        }
 
         for (int i=0;i<arrayList2.size();i++){
 
             // String project_id = "365";
 
-            if(arrayList2.get(i).getId().equalsIgnoreCase(project_id)){
+            if(arrayList2.get(i).getId().equalsIgnoreCase(project_id) || arrayList2.get(i).getCtnrMonth().equalsIgnoreCase(edt_from.getText().toString())){
 
                 filterarraylist.add(new CtrnDataModel(arrayList2.get(i).getCtnrCtn(),
                         arrayList2.get(i).getCtnrMonth(),

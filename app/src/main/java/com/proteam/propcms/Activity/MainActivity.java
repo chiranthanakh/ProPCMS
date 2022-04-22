@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                callMonthlyAverage(month,client,division,company,owner);
+                //callMonthlyAverage(month,client,division,company,owner);
             }
         });
         AsyncTask.execute(new Runnable() {
@@ -682,8 +682,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         for (int i = 0; i < listwe.size(); i++) {
 
-                            clientList1.add(clientList.getClient_list().get(i).getClient_code());
-                            clientmap.put(clientList.getClient_list().get(i).getClient_code(),clientList.getClient_list().get(i).getClient_id());
+                            clientList1.add(clientList.getClient_list().get(i).getClient_name());
+                            clientmap.put(clientList.getClient_list().get(i).getClient_name(),clientList.getClient_list().get(i).getClient_id());
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, clientList1);
@@ -1172,6 +1172,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setpiechart(){
 
+        tv_com1.setText("");
+        tv_com2.setText("");
+        tv_com3.setText("");
+        tv_com4.setText("");
+        tv_com5.setText("");
+        tv_com6.setText("");
+        tv_com7.setText("");
+        tv_com8.setText("");
+        tv_com9.setText("");
+        tv_com10.setText("");
+
+
         pieDataSet = new PieDataSet(pieEntries, "");
 
         pieChart.getDescription().setEnabled(false);
@@ -1197,7 +1209,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieDataSet.notifyDataSetChanged();
 
                     tv_com1.clearFocus();
-                if(revenueClientlist.size()==10){
+
+                if(revenueClientlist.size()==10) {
                     tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
                     tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
                     tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
@@ -1208,6 +1221,114 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
                     tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
                     tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else  if(revenueClientlist.size()==9) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                   // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else  if(revenueClientlist.size()==8) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==7) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==6) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                   // tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==5) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    //tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    //tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==4) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    //tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    //tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    //tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==3) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    //tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    //tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    //tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    //tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==2) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                   // tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    //tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    //tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    //tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    //tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
+
+                }else if(revenueClientlist.size()==1) {
+                    tv_com1.setText((CharSequence) revenueClientlist.get(0) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(0)))));
+                    // tv_com3.setText((CharSequence) revenueClientlist.get(2) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(2)))));
+                    //tv_com4.setText((CharSequence) revenueClientlist.get(3) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(3)))));
+                    //tv_com5.setText((CharSequence) revenueClientlist.get(4) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(4)))));
+                    //tv_com6.setText((CharSequence) revenueClientlist.get(5) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(5)))));
+                    //tv_com7.setText((CharSequence) revenueClientlist.get(6) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(6)))));
+                    //tv_com8.setText((CharSequence) revenueClientlist.get(7) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(7)))));
+                    //tv_com9.setText((CharSequence) revenueClientlist.get(8) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(8)))));
+                    // tv_com10.setText((CharSequence) revenueClientlist.get(9) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(9)))));
+                    //tv_com2.setText((CharSequence) revenueClientlist.get(1) + " - " + formatNumber(Long.parseLong(String.valueOf(revenueamountlist.get(1)))));
 
                 }
 

@@ -361,7 +361,7 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
             case R.id.btn_search_list:
 
-                if(sp_all_project_irfm.getSelectedItem()!=null){
+
 
                     if(!edt_from_irfm.getText().toString().isEmpty()){
                         Searchlist();
@@ -370,13 +370,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select month", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
-
-                }else {
-                    //Toast.makeText(this, "Please Select project", Toast.LENGTH_SHORT).show();
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Please Select project", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-
-                }
 
                 break;
         }
@@ -521,8 +514,8 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
                         for (int i = 0; i < list.size(); i++) {
 
-                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")",projectListResponse.getProject_list().get(i).getPc_code());
-                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ("+projectListResponse.getProject_list().get(i).getPc_code()+")");
+                            projectmap.put(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )",projectListResponse.getProject_list().get(i).getPc_code());
+                            projectList.add(projectListResponse.getProject_list().get(i).getProject_name()+" ( "+projectListResponse.getProject_list().get(i).getPc_code()+" )");
                         }
 
                         ArrayAdapter adapter = new ArrayAdapter(InvoiceRequestForModificationsActivity.this, android.R.layout.simple_list_item_1, projectList);
@@ -591,13 +584,18 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
 
     private void Searchlist() {
 
-        String project_id = (String) projectmap.get(sp_all_project_irfm.getSelectedItem().toString());
+        String project_id="";
+
+        if(sp_all_project_irfm.getSelectedItem()!=null){
+            project_id = (String) projectmap.get(sp_all_project_irfm.getSelectedItem().toString());
+
+        }
 
         for (int i=0;i<arrayList.size();i++){
 
            // String project_id = "365";
 
-            if(arrayList.get(i).getIrfmPcCode().equalsIgnoreCase(project_id)){
+            if(arrayList.get(i).getIrfmPcCode().equalsIgnoreCase(project_id) || arrayList.get(i).getIrfmForMonth().equalsIgnoreCase(edt_from_irfm.getText().toString())){
 
                 filterarraylist.add(new IrfmDataModel(arrayList.get(i).getIrfmPcCode(),
                         arrayList.get(i).getIrfmInvoiceNo(),
@@ -718,7 +716,6 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                     WebServices<LoginResponse> webServices = new WebServices<LoginResponse>(InvoiceRequestForModificationsActivity.this);
                     webServices.rejectcall(WebServices.ApiType.approve,invApproverequest);
                 }
-
             }
         }
     }

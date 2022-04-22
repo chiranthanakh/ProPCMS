@@ -886,7 +886,7 @@ public class WebServices<T> {
         RequestBody billing_id = RequestBody.create(MultipartBody.FORM, billid);
 
         apiTypeVariable = apiTypes;
-        Retrofit retrofit=getRetrofitClient("https://pcmsdemo.proteam.co.in/api/");
+        Retrofit retrofit=getRetrofitClient("http://95.168.187.202/demopcms/api/");
 
         ProPCms proPCms=retrofit.create(ProPCms.class);
 
