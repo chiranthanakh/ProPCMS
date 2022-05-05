@@ -197,10 +197,10 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
                         mcurrentDate.set(Calendar.YEAR, year) ;
                         mcurrentDate.set(Calendar.MONTH, month);
 
-                        edt_from.setText(sdf.format(mcurrentDate.getTime()));
                         mDay = dayOfMonth;
-                        mMonth = month;
+                        mMonth = month+1;
                         mYear = year;
+                        edt_from.setText(mYear+"-"+"0"+mMonth);
 
                     }
                 }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
@@ -781,7 +781,9 @@ public class CostTransferNoteRequestApprovalActivity extends AppCompatActivity i
 
             // String project_id = "365";
 
-            if(arrayList2.get(i).getId().equalsIgnoreCase(project_id) || arrayList2.get(i).getCtnrMonth().equalsIgnoreCase(edt_from.getText().toString())){
+            String daydate = edt_from.getText().toString().trim();
+
+            if(arrayList2.get(i).getId().equalsIgnoreCase(project_id) || arrayList2.get(i).getCtnrMonth().equalsIgnoreCase(daydate)){
 
                 filterarraylist.add(new CtrnDataModel(arrayList2.get(i).getCtnrCtn(),
                         arrayList2.get(i).getCtnrMonth(),

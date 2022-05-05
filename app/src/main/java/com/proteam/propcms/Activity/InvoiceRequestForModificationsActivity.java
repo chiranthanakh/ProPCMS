@@ -321,10 +321,11 @@ public class InvoiceRequestForModificationsActivity extends AppCompatActivity im
                         mcurrentDate.set(Calendar.YEAR, year) ;
                         mcurrentDate.set(Calendar.MONTH, month);
 
-                        edt_from_irfm.setText(sdf.format(mcurrentDate.getTime()));
+                        //edt_from_irfm.setText(sdf.format(mcurrentDate.getTime()));
                         mDay = dayOfMonth;
                         mMonth = month;
                         mYear = year;
+                        edt_from_irfm.setText(mYear+"-"+"0"+mMonth);
 
                     }
                 }, mcurrentDate.get(Calendar.YEAR), mcurrentDate.get(Calendar.MONTH), mcurrentDate.get(Calendar.DATE)){
