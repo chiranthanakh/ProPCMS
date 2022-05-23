@@ -94,7 +94,6 @@ public class WebServices<T> {
             //android.support.v4.app.Fragment fragment = (android.support.v4.app.Fragment) onResponseListner;
             //this.context = fragment.getActivity();
         }
-
         builder = getHttpClient();
     }
 

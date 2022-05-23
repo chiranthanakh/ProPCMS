@@ -625,7 +625,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
-
                 break;
 
             case divisionlist:
